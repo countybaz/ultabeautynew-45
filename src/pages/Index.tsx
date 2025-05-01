@@ -31,13 +31,13 @@ const Index = () => {
 
       <footer className="bg-white border-t mt-12">
         <div className="container mx-auto px-4 py-6 text-center">
-          {/* Legal Links Section */}
-          <div className="mb-6">
-            <h3 className="font-semibold mb-3 text-gray-700">Legal Links</h3>
+          {/* Legal Links Section - Updated to look like a header */}
+          <div className="mb-6 bg-gray-800 rounded-lg shadow-lg py-4">
+            <h3 className="font-semibold mb-3 text-white">Legal Links</h3>
             <div className="flex flex-wrap justify-center gap-6 text-base">
-              <Link to="/terms" className="text-blue-600 hover:underline font-medium px-4 py-2 bg-blue-50 rounded-md shadow-sm border border-blue-100 transition-colors hover:bg-blue-100">Terms and Conditions</Link>
-              <Link to="/privacy" className="text-blue-600 hover:underline font-medium px-4 py-2 bg-blue-50 rounded-md shadow-sm border border-blue-100 transition-colors hover:bg-blue-100">Privacy Policy</Link>
-              <Link to="/non-affiliation" className="text-blue-600 hover:underline font-medium px-4 py-2 bg-blue-50 rounded-md shadow-sm border border-blue-100 transition-colors hover:bg-blue-100">Non-Affiliation Disclaimer</Link>
+              <Link to="/terms" className="text-white hover:underline font-medium px-4 py-2 hover:bg-gray-700 rounded-md transition-colors">Terms and Conditions</Link>
+              <Link to="/privacy" className="text-white hover:underline font-medium px-4 py-2 hover:bg-gray-700 rounded-md transition-colors">Privacy Policy</Link>
+              <Link to="/non-affiliation" className="text-white hover:underline font-medium px-4 py-2 hover:bg-gray-700 rounded-md transition-colors">Non-Affiliation Disclaimer</Link>
             </div>
           </div>
           
