@@ -19,7 +19,6 @@ const Step2 = () => {
   return (
     <div className="max-w-md mx-auto">
       <SurveyHeader 
-        title="Laptop Survey" 
         subtitle="Just a few more questions to go!"
       />
       

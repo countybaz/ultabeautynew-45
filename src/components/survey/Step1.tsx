@@ -27,8 +27,7 @@ const Step1 = () => {
   return (
     <div className="max-w-md mx-auto">
       <SurveyHeader 
-        title="Laptop Survey" 
-        subtitle="Answer a few questions to see if you qualify for a special offer!"
+        subtitle="We need some information to get started."
       />
       
       <div className="mb-6">
