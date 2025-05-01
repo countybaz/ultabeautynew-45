@@ -12,7 +12,7 @@ import {
   DialogTitle,
   DialogTrigger
 } from "@/components/ui/dialog";
-import { HelpCircle } from "lucide-react";
+import { QuestionMark } from "lucide-react";
 import { Button } from "./ui/button";
 
 const FAQ = () => {
@@ -25,7 +25,7 @@ const FAQ = () => {
           className="rounded-full bg-blue-600 shadow-lg hover:bg-blue-700 transition-all"
           style={{ width: "3.5rem", height: "3.5rem" }}
         >
-          <HelpCircle className="h-10 w-10 text-white" />
+          <QuestionMark className="h-10 w-10 text-white" />
           <span className="sr-only">FAQ</span>
         </Button>
       </DialogTrigger>
