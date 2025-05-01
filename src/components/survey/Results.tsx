@@ -24,37 +24,21 @@ const Results = () => {
       {!showingOffer ? (
         <>
           <SurveyHeader 
-            title="Analyzing Your Responses" 
-            subtitle="Please wait while we process your survey results..."
+            title="Congratulations!" 
+            subtitle="Fantastic news! Your participation is confirmed. Continue to the next step to receive your iPhone 16 Pro:"
+            className="mb-6"
           />
           
-          <div className="mb-8">
-            <div className="h-2 w-full bg-gray-200 rounded-full overflow-hidden">
-              <div className="h-full bg-blue-600 w-full animate-pulse"></div>
-            </div>
-          </div>
-          
-          <div className="space-y-4 mb-8">
-            <div className="border border-gray-200 rounded p-4 animate-pulse">
-              <div className="h-6 bg-gray-200 rounded w-3/4 mb-2"></div>
-              <div className="h-4 bg-gray-200 rounded w-1/2"></div>
-            </div>
-            <div className="border border-gray-200 rounded p-4 animate-pulse">
-              <div className="h-6 bg-gray-200 rounded w-2/3 mb-2"></div>
-              <div className="h-4 bg-gray-200 rounded w-3/5"></div>
-            </div>
-          </div>
-
           <Button 
             onClick={() => setShowingOffer(true)} 
-            className="w-full bg-blue-600 hover:bg-blue-700"
-            disabled
+            className="w-full bg-blue-600 hover:bg-blue-700 py-6 text-lg"
           >
-            Analyzing...
+            Continue to Claim Reward
           </Button>
           
-          {/* Auto-progress to offer after 3 seconds */}
-          {setTimeout(() => setShowingOffer(true), 3000)}
+          <p className="text-sm text-center text-gray-500 mt-4">
+            Limited time offer. Your reward is reserved for the time shown in the timer.
+          </p>
         </>
       ) : (
         <ProductOffer onClaim={handleClaim} />

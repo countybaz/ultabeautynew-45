@@ -1,75 +1,80 @@
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
 import SurveyHeader from "@/components/SurveyHeader";
 import { useSurvey } from "@/contexts/SurveyContext";
-import { useToast } from "@/components/ui/use-toast";
+import { Check } from "lucide-react";
 
 const Step5 = () => {
-  const { goToStep, setAnswer } = useSurvey();
-  const { toast } = useToast();
-  
-  const [email, setEmail] = useState("");
-  const [isSubmitting, setIsSubmitting] = useState(false);
+  const { goToNextStep } = useSurvey();
+  const [checks, setChecks] = useState({
+    saved: false,
+    eligible: false,
+    rewards: false,
+    reserved: false
+  });
 
-  const handleSubmit = () => {
-    if (!email || !email.includes('@')) {
-      toast({
-        title: "Invalid Email",
-        description: "Please enter a valid email address.",
-        variant: "destructive",
-      });
-      return;
-    }
+  useEffect(() => {
+    const timers = [
+      setTimeout(() => setChecks(prev => ({ ...prev, saved: true })), 1000),
+      setTimeout(() => setChecks(prev => ({ ...prev, eligible: true })), 2000),
+      setTimeout(() => setChecks(prev => ({ ...prev, rewards: true })), 3000),
+      setTimeout(() => setChecks(prev => ({ ...prev, reserved: true })), 4000)
+    ];
 
-    setIsSubmitting(true);
-    setAnswer("email", email);
+    // Auto-progress after all checks complete
+    const autoProgress = setTimeout(() => {
+      goToNextStep();
+    }, 5000);
 
-    // Simulate submission delay
-    setTimeout(() => {
-      setIsSubmitting(false);
-      goToStep(6); // Go to results/offer page
-    }, 1500);
-  };
+    return () => {
+      timers.forEach(timer => clearTimeout(timer));
+      clearTimeout(autoProgress);
+    };
+  }, [goToNextStep]);
 
   return (
     <div className="max-w-md mx-auto">
       <SurveyHeader 
-        title="One Last Step!" 
-        subtitle="Enter your email to see if you qualify for our exclusive offer"
+        title="Thanks for your time!" 
+        subtitle="Please wait a few seconds while we process your responses."
       />
       
-      <div className="mb-6">
-        <h2 className="text-lg font-medium mb-4">Where should we send your results?</h2>
-        <div className="space-y-4">
-          <div>
-            <label htmlFor="email" className="block text-sm font-medium text-gray-700 mb-1">
-              Email Address
-            </label>
-            <Input
-              id="email"
-              type="email"
-              value={email}
-              onChange={(e) => setEmail(e.target.value)}
-              placeholder="your.email@example.com"
-              className="w-full"
-              required
-            />
-            <p className="mt-1 text-xs text-gray-500">
-              We respect your privacy. Your information will not be shared.
-            </p>
+      <div className="space-y-4 mb-8">
+        <div className="flex items-center">
+          <div className={`w-6 h-6 rounded-full mr-3 flex items-center justify-center ${checks.saved ? 'bg-green-500 text-white' : 'bg-gray-200'}`}>
+            {checks.saved && <Check className="w-4 h-4" />}
           </div>
+          <p className="text-lg">Survey responses are saved</p>
+        </div>
+        
+        <div className="flex items-center">
+          <div className={`w-6 h-6 rounded-full mr-3 flex items-center justify-center ${checks.eligible ? 'bg-green-500 text-white' : 'bg-gray-200'}`}>
+            {checks.eligible && <Check className="w-4 h-4" />}
+          </div>
+          <p className="text-lg">You are an eligible participant</p>
+        </div>
+        
+        <div className="flex items-center">
+          <div className={`w-6 h-6 rounded-full mr-3 flex items-center justify-center ${checks.rewards ? 'bg-green-500 text-white' : 'bg-gray-200'}`}>
+            {checks.rewards && <Check className="w-4 h-4" />}
+          </div>
+          <p className="text-lg">Only 15 Rewards left</p>
+        </div>
+        
+        <div className="flex items-center">
+          <div className={`w-6 h-6 rounded-full mr-3 flex items-center justify-center ${checks.reserved ? 'bg-green-500 text-white' : 'bg-gray-200'}`}>
+            {checks.reserved && <Check className="w-4 h-4" />}
+          </div>
+          <p className="text-lg">Your place is reserved until the timer runs out</p>
         </div>
       </div>
 
-      <Button 
-        onClick={handleSubmit} 
-        disabled={isSubmitting}
-        className="w-full bg-blue-600 hover:bg-blue-700"
-      >
-        {isSubmitting ? "Processing..." : "See My Results"}
-      </Button>
+      <div className="w-full bg-gray-100 rounded-md h-2 mt-6">
+        <div className="bg-blue-600 h-2 rounded-md animate-pulse"></div>
+      </div>
+      
+      <p className="text-center text-sm text-gray-500 mt-2">Processing your information...</p>
     </div>
   );
 };
