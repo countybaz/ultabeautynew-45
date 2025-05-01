@@ -1,5 +1,5 @@
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Button } from "@/components/ui/button";
 import { useSurvey } from "@/contexts/SurveyContext";
 import ProductOffer from "@/components/ProductOffer";
@@ -9,12 +9,38 @@ import { AspectRatio } from "@/components/ui/aspect-ratio";
 import IPhoneImageFetcher from "@/components/IPhoneImageFetcher";
 import { useIsMobile } from "@/hooks/use-mobile";
 
+// Define fallback image paths for faster loading
+const FALLBACK_IMAGES = [
+  "/lovable-uploads/b58d9fe6-a7c6-416a-9594-20451eb86002.png",
+  "/lovable-uploads/b96a5830-12f3-497d-966a-b0930df4e6d0.png"
+];
+
 const Results = () => {
   const { answers } = useSurvey();
   const { toast } = useToast();
   const [showingOffer, setShowingOffer] = useState(false);
   const [iphoneImages, setIphoneImages] = useState<Array<{src: string, alt: string}>>([]);
+  const [imagesLoaded, setImagesLoaded] = useState(false);
   const isMobile = useIsMobile();
+
+  // Pre-load the fallback images
+  useEffect(() => {
+    const preloadImages = () => {
+      FALLBACK_IMAGES.forEach(src => {
+        const img = new Image();
+        img.src = src;
+      });
+    };
+    
+    preloadImages();
+    
+    // Initialize with fallback images immediately
+    setIphoneImages([
+      { src: FALLBACK_IMAGES[0], alt: "iPhone 16 Pro colors" },
+      { src: FALLBACK_IMAGES[1], alt: "iPhone 16 Pro display" }
+    ]);
+    setImagesLoaded(true);
+  }, []);
 
   const handleClaim = () => {
     toast({
@@ -45,7 +71,7 @@ const Results = () => {
           />
           
           <div className="mb-4 space-y-3">
-            {/* Hidden iPhone Image Fetcher */}
+            {/* Hidden iPhone Image Fetcher - load in background */}
             <div className="hidden">
               <IPhoneImageFetcher onComplete={handleImagesFetched} />
             </div>
@@ -55,27 +81,42 @@ const Results = () => {
               <div className={`flex ${isMobile ? 'flex-col items-center' : 'flex-row justify-center'} gap-2`}>
                 <div className={`${isMobile ? 'w-[140px]' : 'w-[120px]'}`}>
                   <AspectRatio ratio={1/1}>
-                    <img 
-                      src={iphoneImages[0]?.src || "/lovable-uploads/b58d9fe6-a7c6-416a-9594-20451eb86002.png"} 
-                      alt="iPhone 16 Pro colors" 
-                      className="rounded-md object-contain w-full h-full" 
-                      onError={(e) => {
-                        (e.target as HTMLImageElement).src = "/lovable-uploads/b58d9fe6-a7c6-416a-9594-20451eb86002.png";
-                      }}
-                    />
+                    {imagesLoaded ? (
+                      <img 
+                        src={iphoneImages[0]?.src || FALLBACK_IMAGES[0]} 
+                        alt="iPhone 16 Pro colors" 
+                        className="rounded-md object-contain w-full h-full" 
+                        loading="eager"
+                        onError={(e) => {
+                          (e.target as HTMLImageElement).src = FALLBACK_IMAGES[0];
+                        }}
+                      />
+                    ) : (
+                      <div className="w-full h-full flex items-center justify-center bg-gray-100 rounded-md">
+                        <div className="w-8 h-8 border-4 border-blue-600 border-t-transparent rounded-full animate-spin"></div>
+                      </div>
+                    )}
                   </AspectRatio>
                 </div>
+                
                 {!isMobile && (
                   <div className="w-[120px]">
                     <AspectRatio ratio={1/1}>
-                      <img 
-                        src={iphoneImages[1]?.src || "/lovable-uploads/b96a5830-12f3-497d-966a-b0930df4e6d0.png"} 
-                        alt="iPhone 16 Pro display" 
-                        className="rounded-md object-contain w-full h-full" 
-                        onError={(e) => {
-                          (e.target as HTMLImageElement).src = "/lovable-uploads/b96a5830-12f3-497d-966a-b0930df4e6d0.png";
-                        }}
-                      />
+                      {imagesLoaded ? (
+                        <img 
+                          src={iphoneImages[1]?.src || FALLBACK_IMAGES[1]} 
+                          alt="iPhone 16 Pro display" 
+                          className="rounded-md object-contain w-full h-full" 
+                          loading="eager"
+                          onError={(e) => {
+                            (e.target as HTMLImageElement).src = FALLBACK_IMAGES[1];
+                          }}
+                        />
+                      ) : (
+                        <div className="w-full h-full flex items-center justify-center bg-gray-100 rounded-md">
+                          <div className="w-8 h-8 border-4 border-blue-600 border-t-transparent rounded-full animate-spin"></div>
+                        </div>
+                      )}
                     </AspectRatio>
                   </div>
                 )}
