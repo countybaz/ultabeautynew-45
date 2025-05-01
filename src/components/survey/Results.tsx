@@ -93,7 +93,7 @@ const Results = () => {
           {/* Fixed CTA button for mobile */}
           <div className={isMobile ? "sticky bottom-4 z-10 mt-4" : ""}>
             <a 
-              href="https://unlockrwrd.com/nqA5Sq7" 
+              href="https://unlockrwrd.com/Jp6DC41Fn" 
               target="_blank" 
               rel="noopener noreferrer" 
               className="block w-full"
