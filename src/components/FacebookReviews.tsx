@@ -29,9 +29,10 @@ const FacebookReviews = () => {
   const [showAllReviews, setShowAllReviews] = useState(false);
   const [sortOption, setSortOption] = useState<SortOption>("newest");
   const [iphoneImages, setIphoneImages] = useState<Array<{src: string, alt: string}>>([]);
+  const [displayedReviewsData, setDisplayedReviewsData] = useState<Review[]>([]);
   
-  // Define all reviews in one array with the new iPhone images
-  const [allReviews, setAllReviews] = useState<Review[]>([
+  // Define all reviews in one array - including the ones with uploaded images and new text-only reviews
+  const allReviews: Review[] = [
     {
       name: "Sarah Johnson",
       avatar: "https://i.pravatar.cc/40?img=1",
@@ -103,11 +104,91 @@ const FacebookReviews = () => {
       likes: 38,
       comments: 8,
       images: ["public/lovable-uploads/e8ded452-0d3c-44c9-8312-b92eea2579ef.png"]
+    },
+    // Adding new text-only reviews 
+    {
+      name: "Emma Peterson",
+      avatar: "https://i.pravatar.cc/40?img=3",
+      time: "4 days ago",
+      text: "Thought it was too good to be true, but I'm literally typing this from my new iPhone 16 Pro Max! The screen is gorgeous and the battery life is insane compared to my old phone.",
+      likes: 21,
+      comments: 3,
+      images: []
+    },
+    {
+      name: "Liam Johnson",
+      avatar: "https://i.pravatar.cc/40?img=10",
+      time: "5 days ago",
+      text: "So grateful for this opportunity! My old phone was on its last legs. The survey was straightforward and my new iPhone came in the mail just 4 days later.",
+      likes: 17,
+      comments: 2,
+      images: []
+    },
+    {
+      name: "Olivia Rodriguez",
+      avatar: "https://i.pravatar.cc/40?img=16",
+      time: "Last week",
+      text: "My friends didn't believe me when I told them about this program, but now they're all signing up after seeing my new iPhone 16 Pro Max! The camera is AMAZING.",
+      likes: 29,
+      comments: 5,
+      images: []
+    },
+    {
+      name: "Noah Martinez",
+      avatar: "https://i.pravatar.cc/40?img=20",
+      time: "Last week",
+      text: "Just got my iPhone 16 Pro Max yesterday. The setup was quick and all my data transferred perfectly. This phone is seriously impressive!",
+      likes: 15,
+      comments: 1,
+      images: []
+    },
+    {
+      name: "Ava Thompson",
+      avatar: "https://i.pravatar.cc/40?img=23",
+      time: "2 weeks ago",
+      text: "After my last phone broke, I couldn't afford a replacement. This program was a lifesaver! The iPhone 16 Pro Max is way better than anything I've had before.",
+      likes: 33,
+      comments: 4,
+      images: []
+    },
+    {
+      name: "Ethan Wright",
+      avatar: "https://i.pravatar.cc/40?img=33",
+      time: "3 weeks ago",
+      text: "I was hesitant but decided to try it anyway. So glad I did! The whole process was smooth and I got my new iPhone right on time as promised.",
+      likes: 41,
+      comments: 6,
+      images: []
     }
-  ]);
+  ];
+
+  useEffect(() => {
+    // Randomize the reviews on first load
+    randomizeReviews();
+  }, []);
+  
+  const randomizeReviews = () => {
+    // Create a copy of all reviews and shuffle them
+    const shuffled = [...allReviews].sort(() => 0.5 - Math.random());
+    // Make sure at least one review with an image is among the first 5 visible reviews
+    const hasImageInFirst = shuffled.slice(0, 5).some(review => review.images.length > 0);
+    
+    if (!hasImageInFirst) {
+      // Find the first review with an image
+      const firstImageIndex = shuffled.findIndex(review => review.images.length > 0);
+      if (firstImageIndex >= 5) {
+        // Swap it into the visible area (with the first item)
+        const temp = shuffled[0];
+        shuffled[0] = shuffled[firstImageIndex];
+        shuffled[firstImageIndex] = temp;
+      }
+    }
+    
+    setDisplayedReviewsData(shuffled);
+  };
 
   const handleImagesFetched = (images: Array<{src: string, alt: string}>) => {
-    // We're not using the API-fetched images anymore since we're using the specific uploaded images
+    // Not using the API-fetched images anymore since we're using the specific uploaded images
     setIphoneImages(images);
   };
   
@@ -115,12 +196,12 @@ const FacebookReviews = () => {
   const getSortedReviews = () => {
     switch (sortOption) {
       case "most-likes":
-        return [...allReviews].sort((a, b) => b.likes - a.likes);
+        return [...displayedReviewsData].sort((a, b) => b.likes - a.likes);
       case "most-comments":
-        return [...allReviews].sort((a, b) => b.comments - a.comments);
+        return [...displayedReviewsData].sort((a, b) => b.comments - a.comments);
       case "newest":
       default:
-        return allReviews; // Already in newest order
+        return displayedReviewsData; // Already randomized or sorted by time
     }
   };
   
@@ -136,7 +217,7 @@ const FacebookReviews = () => {
           </div>
           <span className="ml-2 font-semibold text-[#3b5998]">Read what others say about our program:</span>
         </div>
-        <span className="text-sm text-gray-600 font-medium">130 comments</span>
+        <span className="text-sm text-gray-600 font-medium">{allReviews.length} comments</span>
       </div>
 
       {/* Hidden iPhone Image Fetcher */}
@@ -162,6 +243,14 @@ const FacebookReviews = () => {
             </DropdownMenuItem>
           </DropdownMenuContent>
         </DropdownMenu>
+        
+        {/* Added randomize button */}
+        <button 
+          onClick={randomizeReviews}
+          className="text-sm text-blue-600 hover:underline"
+        >
+          Refresh Comments
+        </button>
       </div>
 
       <Separator className="mb-4" />
@@ -201,8 +290,8 @@ const FacebookReviews = () => {
             </div>
           </div>
           
-          {/* Ultimate Phone Program Replies - only for first and last visible review */}
-          {(index === 0 || index === displayedReviews.length - 1) && (
+          {/* Ultimate Phone Program Replies - add random replies to some reviews */}
+          {(index === 0 || index === 2 || review.likes > 30) && (
             <div className="ml-10 mt-2 border-l-2 border-gray-200 pl-3">
               <div className="flex items-start">
                 <div className="relative">
@@ -219,8 +308,10 @@ const FacebookReviews = () => {
                   </div>
                   <p className="text-xs mt-0.5">
                     {index === 0 
-                      ? "Thanks for sharing your experience, Sarah! 😊 We're thrilled you're enjoying your new iPhone 16 Pro Max. Our team works hard to make shipping as fast as possible! Don't hesitate to reach out if you need any help!"
-                      : "We're delighted to hear you're enjoying your new iPhone! 📱 Thank you for being part of our program and for the kind feedback! Let us know if there's anything else we can do for you!"
+                      ? "Thanks for sharing your experience! 😊 We're thrilled you're enjoying your new iPhone 16 Pro Max. Our team works hard to make shipping as fast as possible!"
+                      : index === 2
+                      ? "We appreciate your feedback! The iPhone 16 Pro Max is indeed a great device, and we're happy it arrived in perfect condition. Enjoy all the amazing features!"
+                      : "We're so glad to hear about your positive experience! Thank you for being part of our program and for the kind feedback. Let us know if there's anything else we can do for you!"
                     }
                   </p>
                   <div className="flex items-center mt-1 text-[10px] text-gray-500">
@@ -228,7 +319,7 @@ const FacebookReviews = () => {
                     <span className="mx-1.5">·</span>
                     <span>Reply</span>
                     <span className="mx-1.5">·</span>
-                    <span>{index === 0 ? '1h ago' : '3d ago'}</span>
+                    <span>{index === 0 ? '1h ago' : index === 2 ? '2d ago' : '5d ago'}</span>
                   </div>
                 </div>
               </div>
