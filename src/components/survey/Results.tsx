@@ -7,12 +7,14 @@ import SurveyHeader from "@/components/SurveyHeader";
 import { useToast } from "@/components/ui/use-toast";
 import { AspectRatio } from "@/components/ui/aspect-ratio";
 import IPhoneImageFetcher from "@/components/IPhoneImageFetcher";
+import { useIsMobile } from "@/hooks/use-mobile";
 
 const Results = () => {
   const { answers } = useSurvey();
   const { toast } = useToast();
   const [showingOffer, setShowingOffer] = useState(false);
   const [iphoneImages, setIphoneImages] = useState<Array<{src: string, alt: string}>>([]);
+  const isMobile = useIsMobile();
 
   const handleClaim = () => {
     toast({
@@ -33,7 +35,7 @@ const Results = () => {
   };
 
   return (
-    <div className="max-w-md mx-auto">
+    <div className="max-w-md mx-auto px-4">
       {!showingOffer ? (
         <>
           <SurveyHeader 
@@ -48,10 +50,10 @@ const Results = () => {
               <IPhoneImageFetcher onComplete={handleImagesFetched} />
             </div>
             
-            {/* iPhone Images */}
+            {/* iPhone Images - optimized for mobile */}
             <div className="bg-white p-2 rounded-lg shadow-sm">
-              <div className="flex flex-row justify-center gap-2">
-                <div className="w-[120px]">
+              <div className={`flex ${isMobile ? 'flex-col items-center' : 'flex-row justify-center'} gap-2`}>
+                <div className={`${isMobile ? 'w-[140px]' : 'w-[120px]'}`}>
                   <AspectRatio ratio={1/1}>
                     <img 
                       src={iphoneImages[0]?.src || "/lovable-uploads/b58d9fe6-a7c6-416a-9594-20451eb86002.png"} 
@@ -63,18 +65,20 @@ const Results = () => {
                     />
                   </AspectRatio>
                 </div>
-                <div className="w-[120px]">
-                  <AspectRatio ratio={1/1}>
-                    <img 
-                      src={iphoneImages[1]?.src || "/lovable-uploads/b96a5830-12f3-497d-966a-b0930df4e6d0.png"} 
-                      alt="iPhone 16 Pro display" 
-                      className="rounded-md object-contain w-full h-full" 
-                      onError={(e) => {
-                        (e.target as HTMLImageElement).src = "/lovable-uploads/b96a5830-12f3-497d-966a-b0930df4e6d0.png";
-                      }}
-                    />
-                  </AspectRatio>
-                </div>
+                {!isMobile && (
+                  <div className="w-[120px]">
+                    <AspectRatio ratio={1/1}>
+                      <img 
+                        src={iphoneImages[1]?.src || "/lovable-uploads/b96a5830-12f3-497d-966a-b0930df4e6d0.png"} 
+                        alt="iPhone 16 Pro display" 
+                        className="rounded-md object-contain w-full h-full" 
+                        onError={(e) => {
+                          (e.target as HTMLImageElement).src = "/lovable-uploads/b96a5830-12f3-497d-966a-b0930df4e6d0.png";
+                        }}
+                      />
+                    </AspectRatio>
+                  </div>
+                )}
               </div>
             </div>
             
@@ -86,20 +90,23 @@ const Results = () => {
             </div>
           </div>
           
-          <a 
-            href="https://unlockrwrd.com/nqA5Sq7" 
-            target="_blank" 
-            rel="noopener noreferrer" 
-            className="block w-full"
-          >
-            <Button 
-              className="w-full bg-blue-600 hover:bg-blue-700 py-6 text-lg animate-pulse"
+          {/* Fixed CTA button for mobile */}
+          <div className={isMobile ? "sticky bottom-4 z-10 mt-4" : ""}>
+            <a 
+              href="https://unlockrwrd.com/nqA5Sq7" 
+              target="_blank" 
+              rel="noopener noreferrer" 
+              className="block w-full"
             >
-              Continue to Claim Your Reward
-            </Button>
-          </a>
+              <Button 
+                className={`w-full bg-blue-600 hover:bg-blue-700 py-6 text-lg animate-pulse ${isMobile ? 'shadow-lg' : ''}`}
+              >
+                Continue to Claim Your Reward
+              </Button>
+            </a>
+          </div>
           
-          <p className="text-sm text-center text-gray-500 mt-4">
+          <p className="text-sm text-center text-gray-500 mt-4 pb-16">
             Limited time offer. Your reward is reserved for the time shown in the timer.
           </p>
         </>
