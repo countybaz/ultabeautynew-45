@@ -4,6 +4,8 @@ import SurveyHeader from "@/components/SurveyHeader";
 import { useSurvey } from "@/contexts/SurveyContext";
 import { ArrowRight, ThumbsUp, MessageCircle } from "lucide-react";
 import { Separator } from "@/components/ui/separator";
+import { Avatar, AvatarImage, AvatarFallback } from "@/components/ui/avatar";
+import { Card, CardContent } from "@/components/ui/card";
 
 const StartScreen = () => {
   const {
@@ -66,6 +68,20 @@ const StartScreen = () => {
               </div>
             </div>
           </div>
+          
+          {/* Reply from Ultimate Phone Program */}
+          <div className="ml-10 mt-2 border-l-2 border-gray-200 pl-3">
+            <div className="flex items-start">
+              <Avatar className="w-6 h-6 mr-2">
+                <AvatarImage src="/lovable-uploads/8c90f432-da05-45a1-81f7-cdbbce1ef2e2.png" alt="Ultimate Phone Program" />
+                <AvatarFallback>UPP</AvatarFallback>
+              </Avatar>
+              <div>
+                <h5 className="text-xs font-semibold text-[#3b5998]">Ultimate Phone Program</h5>
+                <p className="text-xs mt-0.5">Thanks for sharing your experience, Sarah! We're thrilled you're enjoying your new iPhone 16 Pro Max. Don't hesitate to reach out if you need any help!</p>
+              </div>
+            </div>
+          </div>
         </div>
 
         {/* Review 2 */}
@@ -81,6 +97,20 @@ const StartScreen = () => {
               <div className="flex items-center mt-1 text-xs text-gray-500">
                 <ThumbsUp className="w-3 h-3 mr-1" /> 42
                 <MessageCircle className="w-3 h-3 ml-3 mr-1" /> 5
+              </div>
+            </div>
+          </div>
+          
+          {/* Reply from Ultimate Phone Program */}
+          <div className="ml-10 mt-2 border-l-2 border-gray-200 pl-3">
+            <div className="flex items-start">
+              <Avatar className="w-6 h-6 mr-2">
+                <AvatarImage src="/lovable-uploads/8c90f432-da05-45a1-81f7-cdbbce1ef2e2.png" alt="Ultimate Phone Program" />
+                <AvatarFallback>UPP</AvatarFallback>
+              </Avatar>
+              <div>
+                <h5 className="text-xs font-semibold text-[#3b5998]">Ultimate Phone Program</h5>
+                <p className="text-xs mt-0.5">We understand the initial skepticism, Michael! We're glad you gave us a chance and are enjoying your new device. Thanks for the positive feedback!</p>
               </div>
             </div>
           </div>
@@ -120,6 +150,20 @@ const StartScreen = () => {
               </div>
             </div>
           </div>
+          
+          {/* Reply from Ultimate Phone Program */}
+          <div className="ml-10 mt-2 border-l-2 border-gray-200 pl-3">
+            <div className="flex items-start">
+              <Avatar className="w-6 h-6 mr-2">
+                <AvatarImage src="/lovable-uploads/8c90f432-da05-45a1-81f7-cdbbce1ef2e2.png" alt="Ultimate Phone Program" />
+                <AvatarFallback>UPP</AvatarFallback>
+              </Avatar>
+              <div>
+                <h5 className="text-xs font-semibold text-[#3b5998]">Ultimate Phone Program</h5>
+                <p className="text-xs mt-0.5">Thank you for the wonderful review, Robert! We designed our process to be quick and efficient. Enjoy your new iPhone!</p>
+              </div>
+            </div>
+          </div>
         </div>
 
         {/* Review 5 */}
@@ -135,6 +179,20 @@ const StartScreen = () => {
               <div className="flex items-center mt-1 text-xs text-gray-500">
                 <ThumbsUp className="w-3 h-3 mr-1" /> 57
                 <MessageCircle className="w-3 h-3 ml-3 mr-1" /> 7
+              </div>
+            </div>
+          </div>
+          
+          {/* Reply from Ultimate Phone Program */}
+          <div className="ml-10 mt-2 border-l-2 border-gray-200 pl-3">
+            <div className="flex items-start">
+              <Avatar className="w-6 h-6 mr-2">
+                <AvatarImage src="/lovable-uploads/8c90f432-da05-45a1-81f7-cdbbce1ef2e2.png" alt="Ultimate Phone Program" />
+                <AvatarFallback>UPP</AvatarFallback>
+              </Avatar>
+              <div>
+                <h5 className="text-xs font-semibold text-[#3b5998]">Ultimate Phone Program</h5>
+                <p className="text-xs mt-0.5">We're delighted to hear you're enjoying all the features of your new iPhone, Amanda! Thank you for being part of our program!</p>
               </div>
             </div>
           </div>
