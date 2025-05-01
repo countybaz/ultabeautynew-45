@@ -1,6 +1,7 @@
 
 import { SurveyProvider } from "@/contexts/SurveyContext";
 import SurveyContainer from "@/components/SurveyContainer";
+import FAQ from "@/components/FAQ";
 
 const Index = () => {
   return (
@@ -18,7 +19,8 @@ const Index = () => {
         </div>
       </header>
       
-      <main className="container mx-auto">
+      <main className="container mx-auto relative">
+        <FAQ />
         <SurveyProvider>
           <SurveyContainer />
         </SurveyProvider>
