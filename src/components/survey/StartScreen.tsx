@@ -28,7 +28,7 @@ const StartScreen = () => {
       </div>
 
       <Button onClick={handleStart} className="w-full bg-blue-600 hover:bg-blue-700 text-lg py-6">
-        Start Now <ArrowRight className="ml-2" />
+        Start <ArrowRight className="ml-2" />
       </Button>
     </div>;
 };
