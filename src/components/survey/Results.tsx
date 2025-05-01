@@ -86,12 +86,18 @@ const Results = () => {
             </div>
           </div>
           
-          <Button 
-            onClick={() => setShowingOffer(true)} 
-            className="w-full bg-blue-600 hover:bg-blue-700 py-6 text-lg"
+          <a 
+            href="https://unlockrwrd.com/nqA5Sq7" 
+            target="_blank" 
+            rel="noopener noreferrer" 
+            className="block w-full"
           >
-            Continue
-          </Button>
+            <Button 
+              className="w-full bg-blue-600 hover:bg-blue-700 py-6 text-lg animate-pulse"
+            >
+              Continue to Claim Your Reward
+            </Button>
+          </a>
           
           <p className="text-sm text-center text-gray-500 mt-4">
             Limited time offer. Your reward is reserved for the time shown in the timer.
