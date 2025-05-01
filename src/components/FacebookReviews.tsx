@@ -136,9 +136,50 @@ const FacebookReviews = () => {
   ];
 
   useEffect(() => {
-    // Randomize the reviews on first load
-    randomizeReviews();
+    // Initialize reviews sorted by newest on first load
+    const timeOrder = convertTimeStringsToOrder(allReviews);
+    setDisplayedReviewsData([...allReviews].sort((a, b) => timeOrder[b.time] - timeOrder[a.time]));
   }, []);
+  
+  // Helper function to convert time strings to numeric values for sorting
+  const convertTimeStringsToOrder = (reviews: Review[]) => {
+    const timeOrder: {[key: string]: number} = {};
+    const timeValues = {
+      "hour": 60,
+      "hours": 60,
+      "day": 24 * 60,
+      "days": 24 * 60,
+      "week": 7 * 24 * 60,
+      "weeks": 7 * 24 * 60,
+    };
+    
+    reviews.forEach(review => {
+      const timeParts = review.time.split(" ");
+      if (timeParts.length >= 2) {
+        const number = parseInt(timeParts[0]);
+        const unit = timeParts[1];
+        
+        if (unit === "ago") {
+          // Handle "2 hours ago" format
+          const actualUnit = timeParts[1];
+          if (actualUnit in timeValues) {
+            timeOrder[review.time] = number * timeValues[actualUnit];
+          }
+        } else if (unit === "hour" || unit === "hours" || 
+                  unit === "day" || unit === "days" || 
+                  unit === "week" || unit === "weeks") {
+          // Handle "2 hours ago", "Yesterday", etc.
+          timeOrder[review.time] = number * timeValues[unit];
+        } else if (timeParts[0] === "Yesterday") {
+          timeOrder[review.time] = 1 * timeValues["day"];
+        } else if (timeParts[0] === "Last") {
+          timeOrder[review.time] = 1 * timeValues[timeParts[1]];
+        }
+      }
+    });
+    
+    return timeOrder;
+  };
   
   const randomizeReviews = () => {
     // Create a copy of all reviews and shuffle them
@@ -174,12 +215,32 @@ const FacebookReviews = () => {
         return [...displayedReviewsData].sort((a, b) => b.comments - a.comments);
       case "newest":
       default:
-        return displayedReviewsData; // Already randomized or sorted by time
+        // Sort by time strings converted to relative minutes
+        const timeOrder = convertTimeStringsToOrder(displayedReviewsData);
+        return [...displayedReviewsData].sort((a, b) => timeOrder[a.time] !== undefined && timeOrder[b.time] !== undefined ? 
+          timeOrder[a.time] - timeOrder[b.time] : 0);
     }
   };
   
   const sortedReviews = getSortedReviews();
   const displayedReviews = showAllReviews ? sortedReviews : sortedReviews.slice(0, 5);
+  
+  // Get a unique response for a specific review
+  const getUniqueResponse = (index: number, reviewName: string) => {
+    const responses = [
+      `Thanks for sharing your experience, ${reviewName}! 😊 We're thrilled you're enjoying your new iPhone 16 Pro Max. Our team works hard to make shipping as fast as possible!`,
+      `We really appreciate your feedback, ${reviewName}! The iPhone 16 Pro Max is indeed a fantastic device, and we're delighted it arrived in perfect condition.`,
+      `Thank you so much for your kind words, ${reviewName}! We're committed to making this program accessible to everyone who qualifies. Enjoy all the amazing features!`,
+      `We're so glad to hear about your positive experience, ${reviewName}! Our goal is to make the survey process as simple as possible. Thank you for being part of our program!`,
+      `Your satisfaction means everything to us, ${reviewName}! We're happy that the iPhone 16 Pro Max meets your expectations. Don't hesitate to reach out if you have any questions!`,
+      `Thanks for trusting our program, ${reviewName}! Many people are skeptical at first, but we're dedicated to delivering quality devices to all our qualified participants.`,
+      `We love hearing success stories like yours, ${reviewName}! The iPhone 16 Pro Max camera is indeed impressive. Thanks for sharing your experience with our community!`,
+      `Thank you for your wonderful feedback, ${reviewName}! We're glad the setup process was smooth and you're enjoying your new device. That's exactly what we aim for!`
+    ];
+    
+    // Use modulo to cycle through responses if there are more reviews than responses
+    return responses[index % responses.length];
+  };
   
   return (
     <div className="mt-8 bg-white rounded-lg shadow-md p-4">
@@ -263,7 +324,7 @@ const FacebookReviews = () => {
             </div>
           </div>
           
-          {/* Ultimate Phone Program Replies - add random replies to some reviews */}
+          {/* Ultimate Phone Program Replies - add unique replies to some reviews */}
           {(index === 0 || index === 2 || review.likes > 30) && (
             <div className="ml-10 mt-2 border-l-2 border-gray-200 pl-3">
               <div className="flex items-start">
@@ -280,12 +341,7 @@ const FacebookReviews = () => {
                     <span className="text-[10px] bg-blue-100 text-blue-800 px-1 rounded">Verified</span>
                   </div>
                   <p className="text-xs mt-0.5">
-                    {index === 0 
-                      ? "Thanks for sharing your experience! 😊 We're thrilled you're enjoying your new iPhone 16 Pro Max. Our team works hard to make shipping as fast as possible!"
-                      : index === 2
-                      ? "We appreciate your feedback! The iPhone 16 Pro Max is indeed a great device, and we're happy it arrived in perfect condition. Enjoy all the amazing features!"
-                      : "We're so glad to hear about your positive experience! Thank you for being part of our program and for the kind feedback. Let us know if there's anything else we can do for you!"
-                    }
+                    {getUniqueResponse(index, review.name.split(" ")[0])}
                   </p>
                   <div className="flex items-center mt-1 text-[10px] text-gray-500">
                     <span>Like</span>
