@@ -28,7 +28,16 @@ const Results = () => {
   // Pre-load the fallback images
   useEffect(() => {
     const preloadImages = () => {
-      const imagePromises = FALLBACK_IMAGES.map((src, index) => {
+      // Use the uploaded images directly - these are guaranteed to work
+      const fallbackSources = [
+        {src: "/lovable-uploads/b58d9fe6-a7c6-416a-9594-20451eb86002.png", alt: "iPhone 16 Pro colors"},
+        {src: "/lovable-uploads/b96a5830-12f3-497d-966a-b0930df4e6d0.png", alt: "iPhone 16 Pro display"}
+      ];
+      
+      setIphoneImages(fallbackSources);
+      
+      // Preload images
+      const imagePromises = fallbackSources.map((item, index) => {
         return new Promise((resolve) => {
           const img = new Image();
           img.onload = () => {
@@ -40,7 +49,7 @@ const Results = () => {
             resolve(true);
           };
           img.onerror = () => resolve(false);
-          img.src = src;
+          img.src = item.src;
         });
       });
       
@@ -50,12 +59,6 @@ const Results = () => {
     };
     
     preloadImages();
-    
-    // Initialize with fallback images immediately
-    setIphoneImages([
-      { src: FALLBACK_IMAGES[0], alt: "iPhone 16 Pro colors" },
-      { src: FALLBACK_IMAGES[1], alt: "iPhone 16 Pro display" }
-    ]);
   }, []);
 
   const handleClaim = () => {
@@ -67,12 +70,11 @@ const Results = () => {
   };
   
   const handleImagesFetched = (images: Array<{src: string, alt: string}>) => {
-    if (images.length >= 2) {
+    // Only update if we received valid images
+    if (images && images.length >= 2 && images[0].src && images[1].src) {
       // Get two random images for the display
       const shuffled = [...images].sort(() => 0.5 - Math.random());
       setIphoneImages(shuffled.slice(0, 2));
-    } else {
-      setIphoneImages(images);
     }
   };
 
@@ -114,10 +116,17 @@ const Results = () => {
                         className="rounded-md object-contain w-full h-full" 
                         loading="eager"
                         fetchPriority="high"
+                        crossOrigin="anonymous"
                         onLoad={() => handleImageLoad(0)}
-                        onError={(e) => {
-                          (e.target as HTMLImageElement).src = FALLBACK_IMAGES[0];
-                          handleImageLoad(0);
+                        onError={() => {
+                          // If error, use the first fallback image
+                          const img = document.createElement('img');
+                          img.onload = () => handleImageLoad(0);
+                          img.src = FALLBACK_IMAGES[0];
+                          setIphoneImages(prev => [
+                            {src: FALLBACK_IMAGES[0], alt: "iPhone 16 Pro colors"},
+                            prev[1] || {src: FALLBACK_IMAGES[1], alt: "iPhone 16 Pro display"}
+                          ]);
                         }}
                       />
                     )}
@@ -136,10 +145,17 @@ const Results = () => {
                           className="rounded-md object-contain w-full h-full" 
                           loading="eager"
                           fetchPriority="high"
+                          crossOrigin="anonymous"
                           onLoad={() => handleImageLoad(1)}
-                          onError={(e) => {
-                            (e.target as HTMLImageElement).src = FALLBACK_IMAGES[1];
-                            handleImageLoad(1);
+                          onError={() => {
+                            // If error, use the second fallback image
+                            const img = document.createElement('img');
+                            img.onload = () => handleImageLoad(1);
+                            img.src = FALLBACK_IMAGES[1];
+                            setIphoneImages(prev => [
+                              prev[0] || {src: FALLBACK_IMAGES[0], alt: "iPhone 16 Pro colors"},
+                              {src: FALLBACK_IMAGES[1], alt: "iPhone 16 Pro display"}
+                            ]);
                           }}
                         />
                       )}

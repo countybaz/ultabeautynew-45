@@ -4,6 +4,7 @@ import Timer from "@/components/Timer";
 import { Check } from "lucide-react";
 import { useEffect, useState } from "react";
 import IPhoneImageFetcher from "@/components/IPhoneImageFetcher";
+import { Skeleton } from "@/components/ui/skeleton";
 
 interface ProductOfferProps {
   onClaim: () => void;
@@ -14,8 +15,19 @@ interface IPhoneImage {
   alt: string;
 }
 
+// Define guaranteed working fallback image
+const FALLBACK_IMAGE = "/lovable-uploads/e8ded452-0d3c-44c9-8312-b92eea2579ef.png";
+
 const ProductOffer = ({ onClaim }: ProductOfferProps) => {
-  const [selectedImage, setSelectedImage] = useState<string>("https://images.unsplash.com/photo-1488590528505-98d2b5aba04b");
+  const [selectedImage, setSelectedImage] = useState<string>(FALLBACK_IMAGE);
+  const [imageLoaded, setImageLoaded] = useState(false);
+  
+  // Preload the fallback image
+  useEffect(() => {
+    const img = new Image();
+    img.onload = () => setImageLoaded(true);
+    img.src = FALLBACK_IMAGE;
+  }, []);
   
   const handleImagesFetched = (images: IPhoneImage[]) => {
     if (images.length > 0) {
@@ -39,15 +51,21 @@ const ProductOffer = ({ onClaim }: ProductOfferProps) => {
         </div>
         
         {/* Display the selected image */}
-        <img 
-          src={selectedImage} 
-          alt="iPhone 16 Pro Max" 
-          className="w-full h-48 object-cover rounded-md" 
-          onError={(e) => {
-            // Fallback image if the selected one fails to load
-            (e.target as HTMLImageElement).src = "https://images.unsplash.com/photo-1488590528505-98d2b5aba04b";
-          }}
-        />
+        {!imageLoaded ? (
+          <Skeleton className="w-full h-48 rounded-md" />
+        ) : (
+          <img 
+            src={selectedImage} 
+            alt="iPhone 16 Pro Max" 
+            className="w-full h-48 object-cover rounded-md" 
+            loading="eager"
+            fetchPriority="high"
+            crossOrigin="anonymous"
+            onError={() => {
+              setSelectedImage(FALLBACK_IMAGE);
+            }}
+          />
+        )}
       </div>
 
       <div className="mb-6">
