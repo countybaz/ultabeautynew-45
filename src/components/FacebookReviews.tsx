@@ -1,4 +1,3 @@
-
 import { useState, useEffect } from "react";
 import { ThumbsUp, MessageCircle, ChevronDown } from "lucide-react";
 import { Separator } from "@/components/ui/separator";
@@ -266,7 +265,7 @@ const FacebookReviews = () => {
           </div>
           <span className="ml-2 font-semibold text-[#3b5998]">Read what others say about our program:</span>
         </div>
-        <span className="text-sm text-gray-600 font-medium">{allReviews.length} comments</span>
+        <span className="text-sm text-gray-600 font-medium">134 comments</span>
       </div>
 
       {/* Hidden iPhone Image Fetcher */}
