@@ -17,7 +17,7 @@ const StartScreen = () => {
   return (
     <div className="max-w-md mx-auto">
       <SurveyHeader 
-        title="Great news! You are among the first to join our Ultimate MacBook Program!"
+        title="Great news! You are among the first to join our Ultimate iPhone Program!"
       />
       
       <div className="bg-white p-6 rounded-lg shadow-md mb-6">
