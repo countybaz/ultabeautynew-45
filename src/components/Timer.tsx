@@ -12,7 +12,13 @@ const Timer = ({ minutes }: TimerProps) => {
     if (timeLeft <= 0) return;
 
     const timerId = setInterval(() => {
-      setTimeLeft(prev => prev - 1);
+      setTimeLeft(prev => {
+        // Don't go below 0
+        if (prev <= 1) {
+          return 0;
+        }
+        return prev - 1;
+      });
     }, 1000);
 
     return () => clearInterval(timerId);
