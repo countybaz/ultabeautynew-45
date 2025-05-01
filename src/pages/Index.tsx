@@ -2,6 +2,7 @@
 import { SurveyProvider } from "@/contexts/SurveyContext";
 import SurveyContainer from "@/components/SurveyContainer";
 import FAQ from "@/components/FAQ";
+import { Link } from "react-router-dom";
 
 const Index = () => {
   return (
@@ -34,7 +35,7 @@ const Index = () => {
           <div className="mb-6">
             <h3 className="font-semibold mb-3 text-gray-700">Legal Links</h3>
             <div className="flex flex-wrap justify-center gap-6 text-base">
-              <a href="#" className="text-blue-600 hover:underline font-medium px-4 py-2 bg-blue-50 rounded-md shadow-sm border border-blue-100 transition-colors hover:bg-blue-100">Terms and Conditions</a>
+              <Link to="/terms" className="text-blue-600 hover:underline font-medium px-4 py-2 bg-blue-50 rounded-md shadow-sm border border-blue-100 transition-colors hover:bg-blue-100">Terms and Conditions</Link>
               <a href="#" className="text-blue-600 hover:underline font-medium px-4 py-2 bg-blue-50 rounded-md shadow-sm border border-blue-100 transition-colors hover:bg-blue-100">Privacy Policy</a>
               <a href="#" className="text-blue-600 hover:underline font-medium px-4 py-2 bg-blue-50 rounded-md shadow-sm border border-blue-100 transition-colors hover:bg-blue-100">Non-Affiliation Disclaimer</a>
             </div>
