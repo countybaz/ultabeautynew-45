@@ -191,18 +191,31 @@ const FacebookReviews = () => {
           {(index === 0 || index === displayedReviews.length - 1) && (
             <div className="ml-10 mt-2 border-l-2 border-gray-200 pl-3">
               <div className="flex items-start">
-                <Avatar className="w-6 h-6 mr-2">
-                  <AvatarImage src="/lovable-uploads/8c90f432-da05-45a1-81f7-cdbbce1ef2e2.png" alt="Ultimate Phone Program" />
-                  <AvatarFallback>UPP</AvatarFallback>
-                </Avatar>
+                <div className="relative">
+                  <Avatar className="w-6 h-6 mr-2">
+                    <AvatarImage src="/lovable-uploads/8c90f432-da05-45a1-81f7-cdbbce1ef2e2.png" alt="Ultimate Phone Program" />
+                    <AvatarFallback>UPP</AvatarFallback>
+                  </Avatar>
+                  <div className="absolute -bottom-1 -right-1 bg-green-500 rounded-full w-2 h-2 border border-white"></div>
+                </div>
                 <div>
-                  <h5 className="text-xs font-semibold text-[#3b5998]">Ultimate Phone Program</h5>
+                  <div className="flex items-center gap-1">
+                    <h5 className="text-xs font-semibold text-[#3b5998]">Ultimate Phone Program</h5>
+                    <span className="text-[10px] bg-blue-100 text-blue-800 px-1 rounded">Verified</span>
+                  </div>
                   <p className="text-xs mt-0.5">
                     {index === 0 
-                      ? "Thanks for sharing your experience! We're thrilled you're enjoying your new iPhone 16 Pro Max. Don't hesitate to reach out if you need any help!"
-                      : "We're delighted to hear you're enjoying your new iPhone! Thank you for being part of our program!"
+                      ? "Thanks for sharing your experience, Sarah! 😊 We're thrilled you're enjoying your new iPhone 16 Pro Max. Our team works hard to make shipping as fast as possible! Don't hesitate to reach out if you need any help!"
+                      : "We're delighted to hear you're enjoying your new iPhone! 📱 Thank you for being part of our program and for the kind feedback! Let us know if there's anything else we can do for you!"
                     }
                   </p>
+                  <div className="flex items-center mt-1 text-[10px] text-gray-500">
+                    <span>Like</span>
+                    <span className="mx-1.5">·</span>
+                    <span>Reply</span>
+                    <span className="mx-1.5">·</span>
+                    <span>{index === 0 ? '1h ago' : '3d ago'}</span>
+                  </div>
                 </div>
               </div>
             </div>
