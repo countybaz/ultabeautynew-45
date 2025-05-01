@@ -6,7 +6,6 @@ import StartScreen from "@/components/survey/StartScreen";
 import Step1 from "@/components/survey/Step1";
 import Step2 from "@/components/survey/Step2";
 import Step3 from "@/components/survey/Step3";
-import Step4 from "@/components/survey/Step4";
 import Step5 from "@/components/survey/Step5";
 import Results from "@/components/survey/Results";
 import Timer from "@/components/Timer";
@@ -34,9 +33,8 @@ const SurveyContainer = () => {
       {currentStep === 1 && <Step1 />}
       {currentStep === 2 && <Step2 />}
       {currentStep === 3 && <Step3 />}
-      {currentStep === 4 && <Step4 />}
-      {currentStep === 5 && <Step5 />}
-      {currentStep === 6 && <Results />}
+      {currentStep === 4 && <Step5 />}
+      {currentStep === 5 && <Results />}
     </div>
   );
 };
