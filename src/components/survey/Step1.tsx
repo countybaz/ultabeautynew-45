@@ -4,18 +4,20 @@ import { Button } from "@/components/ui/button";
 import SurveyHeader from "@/components/SurveyHeader";
 import SurveyOption from "@/components/SurveyOption";
 import { useSurvey } from "@/contexts/SurveyContext";
+import { useNavigate } from "react-router-dom";
 
 const Step1 = () => {
-  const { goToNextStep, setAnswer, goToStep } = useSurvey();
+  const { goToNextStep, setAnswer } = useSurvey();
   const [selected, setSelected] = useState<string | null>(null);
+  const navigate = useNavigate();
 
   const handleNext = () => {
     if (selected) {
       setAnswer("us_resident", selected);
       
       if (selected === "no") {
-        // Redirect to rejection page
-        goToStep(6); // step 6 is the rejection page
+        // Redirect to the standalone rejection page
+        navigate("/rejection");
       } else {
         goToNextStep();
       }

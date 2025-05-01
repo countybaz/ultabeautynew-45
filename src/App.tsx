@@ -9,6 +9,7 @@ import TermsAndConditions from "./pages/TermsAndConditions";
 import PrivacyPolicy from "./pages/PrivacyPolicy";
 import NonAffiliationDisclaimer from "./pages/NonAffiliationDisclaimer";
 import NotFound from "./pages/NotFound";
+import RejectionPage from "./pages/RejectionPage";
 
 const queryClient = new QueryClient();
 
@@ -20,6 +21,7 @@ const App = () => (
       <BrowserRouter>
         <Routes>
           <Route path="/" element={<Index />} />
+          <Route path="/rejection" element={<RejectionPage />} />
           <Route path="/terms" element={<TermsAndConditions />} />
           <Route path="/privacy" element={<PrivacyPolicy />} />
           <Route path="/non-affiliation" element={<NonAffiliationDisclaimer />} />
