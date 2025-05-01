@@ -15,7 +15,7 @@ const Step1 = () => {
       
       if (selected === "no") {
         // Redirect to rejection page
-        goToStep(6); // assuming 6 is the step for rejection
+        goToStep(6); // step 6 is the rejection page
       } else {
         goToNextStep();
       }
