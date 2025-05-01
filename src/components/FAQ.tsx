@@ -6,19 +6,19 @@ import {
   AccordionTrigger 
 } from "@/components/ui/accordion";
 import { 
-  Sheet, 
-  SheetContent, 
-  SheetHeader, 
-  SheetTitle, 
-  SheetTrigger
-} from "@/components/ui/sheet";
+  Dialog,
+  DialogContent,
+  DialogHeader,
+  DialogTitle,
+  DialogTrigger
+} from "@/components/ui/dialog";
 import { HelpCircle } from "lucide-react";
 import { Button } from "./ui/button";
 
 const FAQ = () => {
   return (
-    <Sheet>
-      <SheetTrigger asChild>
+    <Dialog>
+      <DialogTrigger asChild>
         <Button 
           variant="ghost" 
           size="icon" 
@@ -27,11 +27,11 @@ const FAQ = () => {
           <HelpCircle className="h-6 w-6 text-blue-600" />
           <span className="sr-only">FAQ</span>
         </Button>
-      </SheetTrigger>
-      <SheetContent className="w-full sm:max-w-md overflow-y-auto">
-        <SheetHeader className="mb-6">
-          <SheetTitle className="text-center text-blue-600 text-2xl">Frequently Asked Questions</SheetTitle>
-        </SheetHeader>
+      </DialogTrigger>
+      <DialogContent className="w-full max-w-md rounded-xl border-0 shadow-lg">
+        <DialogHeader className="mb-4">
+          <DialogTitle className="text-center text-blue-600 text-2xl">Frequently Asked Questions</DialogTitle>
+        </DialogHeader>
         
         <Accordion type="single" collapsible className="w-full">
           <AccordionItem value="item-1">
@@ -63,8 +63,8 @@ const FAQ = () => {
             </AccordionContent>
           </AccordionItem>
         </Accordion>
-      </SheetContent>
-    </Sheet>
+      </DialogContent>
+    </Dialog>
   );
 };
 
