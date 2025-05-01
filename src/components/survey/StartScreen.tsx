@@ -2,7 +2,9 @@
 import { Button } from "@/components/ui/button";
 import SurveyHeader from "@/components/SurveyHeader";
 import { useSurvey } from "@/contexts/SurveyContext";
-import { ArrowRight } from "lucide-react";
+import { ArrowRight, ThumbsUp, MessageCircle } from "lucide-react";
+import { Separator } from "@/components/ui/separator";
+
 const StartScreen = () => {
   const {
     goToNextStep
@@ -30,6 +32,122 @@ const StartScreen = () => {
       <Button onClick={handleStart} className="w-full bg-blue-600 hover:bg-blue-700 text-lg py-6">
         Start <ArrowRight className="ml-2" />
       </Button>
+
+      {/* Facebook Review Section */}
+      <div className="mt-8 bg-white rounded-lg shadow-md p-4">
+        <div className="flex items-center justify-between mb-4">
+          <div className="flex items-center">
+            <div className="w-8 h-8 bg-[#3b5998] rounded-full flex items-center justify-center">
+              <span className="text-white font-bold">f</span>
+            </div>
+            <span className="ml-2 font-semibold text-[#3b5998]">Facebook Reviews</span>
+          </div>
+          <div className="flex items-center">
+            <span className="text-yellow-500 text-sm mr-1">★★★★★</span>
+            <span className="text-sm font-semibold">4.9/5</span>
+          </div>
+        </div>
+
+        <Separator className="mb-4" />
+
+        {/* Review 1 */}
+        <div className="mb-4">
+          <div className="flex items-start">
+            <img src="https://i.pravatar.cc/40?img=1" alt="User" className="w-8 h-8 rounded-full mr-2" />
+            <div className="flex-1">
+              <div className="flex justify-between">
+                <h4 className="font-semibold text-sm">Sarah Johnson</h4>
+                <span className="text-xs text-gray-500">2 hours ago</span>
+              </div>
+              <p className="text-sm mt-1">I just received my iPhone 16 Pro Max! The survey was super easy and shipping was fast. So happy with this program!</p>
+              <div className="flex items-center mt-1 text-xs text-gray-500">
+                <ThumbsUp className="w-3 h-3 mr-1" /> 24
+                <MessageCircle className="w-3 h-3 ml-3 mr-1" /> 2
+              </div>
+            </div>
+          </div>
+        </div>
+
+        {/* Review 2 */}
+        <div className="mb-4">
+          <div className="flex items-start">
+            <img src="https://i.pravatar.cc/40?img=5" alt="User" className="w-8 h-8 rounded-full mr-2" />
+            <div className="flex-1">
+              <div className="flex justify-between">
+                <h4 className="font-semibold text-sm">Michael Thomas</h4>
+                <span className="text-xs text-gray-500">Yesterday</span>
+              </div>
+              <p className="text-sm mt-1">This is legit! Was skeptical at first but decided to try anyway. Got my new iPhone in just 3 days after completing the survey. Amazing service!</p>
+              <div className="flex items-center mt-1 text-xs text-gray-500">
+                <ThumbsUp className="w-3 h-3 mr-1" /> 42
+                <MessageCircle className="w-3 h-3 ml-3 mr-1" /> 5
+              </div>
+            </div>
+          </div>
+        </div>
+
+        {/* Review 3 */}
+        <div className="mb-4">
+          <div className="flex items-start">
+            <img src="https://i.pravatar.cc/40?img=8" alt="User" className="w-8 h-8 rounded-full mr-2" />
+            <div className="flex-1">
+              <div className="flex justify-between">
+                <h4 className="font-semibold text-sm">Jessica Williams</h4>
+                <span className="text-xs text-gray-500">2 days ago</span>
+              </div>
+              <p className="text-sm mt-1">Just wow! Survey took less than 5 minutes and the iPhone arrived perfectly packaged. My old phone was dying so this came at the perfect time!</p>
+              <div className="flex items-center mt-1 text-xs text-gray-500">
+                <ThumbsUp className="w-3 h-3 mr-1" /> 19
+                <MessageCircle className="w-3 h-3 ml-3 mr-1" /> 1
+              </div>
+            </div>
+          </div>
+        </div>
+
+        {/* Review 4 */}
+        <div className="mb-4">
+          <div className="flex items-start">
+            <img src="https://i.pravatar.cc/40?img=12" alt="User" className="w-8 h-8 rounded-full mr-2" />
+            <div className="flex-1">
+              <div className="flex justify-between">
+                <h4 className="font-semibold text-sm">Robert Chen</h4>
+                <span className="text-xs text-gray-500">3 days ago</span>
+              </div>
+              <p className="text-sm mt-1">The whole process was surprisingly simple. I completed the survey during lunch break and received confirmation immediately. Phone arrived few days later. 10/10 would recommend!</p>
+              <div className="flex items-center mt-1 text-xs text-gray-500">
+                <ThumbsUp className="w-3 h-3 mr-1" /> 38
+                <MessageCircle className="w-3 h-3 ml-3 mr-1" /> 3
+              </div>
+            </div>
+          </div>
+        </div>
+
+        {/* Review 5 */}
+        <div className="mb-4">
+          <div className="flex items-start">
+            <img src="https://i.pravatar.cc/40?img=22" alt="User" className="w-8 h-8 rounded-full mr-2" />
+            <div className="flex-1">
+              <div className="flex justify-between">
+                <h4 className="font-semibold text-sm">Amanda Rodriguez</h4>
+                <span className="text-xs text-gray-500">Last week</span>
+              </div>
+              <p className="text-sm mt-1">Best decision ever! My iPhone arrived in perfect condition and I love all the new features. The Ultimate Phone Program is amazing - thank you so much!</p>
+              <div className="flex items-center mt-1 text-xs text-gray-500">
+                <ThumbsUp className="w-3 h-3 mr-1" /> 57
+                <MessageCircle className="w-3 h-3 ml-3 mr-1" /> 7
+              </div>
+            </div>
+          </div>
+        </div>
+
+        {/* Show more link */}
+        <div className="text-center mt-2">
+          <button className="text-blue-600 text-sm font-semibold">Show more reviews</button>
+        </div>
+      </div>
+
+      {/* Add some space at the bottom */}
+      <div className="h-10"></div>
     </div>;
 };
 export default StartScreen;
