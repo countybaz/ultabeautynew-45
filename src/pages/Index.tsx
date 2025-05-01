@@ -11,7 +11,7 @@ const Index = () => {
             <img 
               src="/lovable-uploads/8c90f432-da05-45a1-81f7-cdbbce1ef2e2.png" 
               alt="Ultimate Phone Program Logo" 
-              className="h-10 mr-3"
+              className="h-16 md:h-20 mr-4"
             />
             <h1 className="text-xl font-bold text-blue-600">Ultimate Phone Program</h1>
           </div>
