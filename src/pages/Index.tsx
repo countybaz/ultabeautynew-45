@@ -31,13 +31,13 @@ const Index = () => {
 
       <footer className="bg-white border-t mt-12">
         <div className="container mx-auto px-4 py-6 text-center">
-          {/* Legal Links Section - Updated to look like a header */}
-          <div className="mb-6 bg-gray-800 rounded-lg shadow-lg py-4">
-            <h3 className="font-semibold mb-3 text-white">Legal Links</h3>
-            <div className="flex flex-wrap justify-center gap-6 text-base">
-              <Link to="/terms" className="text-white hover:underline font-medium px-4 py-2 hover:bg-gray-700 rounded-md transition-colors">Terms and Conditions</Link>
-              <Link to="/privacy" className="text-white hover:underline font-medium px-4 py-2 hover:bg-gray-700 rounded-md transition-colors">Privacy Policy</Link>
-              <Link to="/non-affiliation" className="text-white hover:underline font-medium px-4 py-2 hover:bg-gray-700 rounded-md transition-colors">Non-Affiliation Disclaimer</Link>
+          {/* Legal Links Section - Header stands out, links are Apple-style */}
+          <div className="mb-6">
+            <h3 className="font-semibold mb-3 text-gray-800 bg-gray-100 inline-block px-4 py-2 rounded-md">Legal Links</h3>
+            <div className="flex flex-wrap justify-center gap-4 text-sm">
+              <Link to="/terms" className="text-blue-600 hover:underline">Terms and Conditions</Link>
+              <Link to="/privacy" className="text-blue-600 hover:underline">Privacy Policy</Link>
+              <Link to="/non-affiliation" className="text-blue-600 hover:underline">Non-Affiliation Disclaimer</Link>
             </div>
           </div>
           
