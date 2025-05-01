@@ -3,8 +3,25 @@ import { SurveyProvider } from "@/contexts/SurveyContext";
 import SurveyContainer from "@/components/SurveyContainer";
 import FAQ from "@/components/FAQ";
 import { Link } from "react-router-dom";
+import { useEffect } from "react";
 
 const Index = () => {
+  // Add custom CSS to fix the spacing issue with text
+  useEffect(() => {
+    const style = document.createElement('style');
+    style.innerHTML = `
+      h5.text-xs.font-semibold.text-\\[\\#3b5998\\] {
+        letter-spacing: -0.2px;
+        white-space: nowrap;
+      }
+    `;
+    document.head.appendChild(style);
+    
+    return () => {
+      document.head.removeChild(style);
+    };
+  }, []);
+
   return (
     <div className="min-h-screen bg-gradient-to-b from-gray-50 to-gray-100 text-center">
       <header className="shadow-sm py-2 bg-white h-24 flex items-center">
