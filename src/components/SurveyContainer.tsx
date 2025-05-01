@@ -20,8 +20,8 @@ const SurveyContainer = () => {
 
   return (
     <div className="w-full max-w-lg mx-auto px-4 py-8">
-      {/* Timer always visible */}
-      <Timer minutes={3} />
+      {/* Timer only visible during active survey steps (not on start screen) */}
+      {currentStep > 0 && <Timer minutes={3} />}
       
       {/* Progress bar only shown during active survey steps */}
       {currentStep > 0 && currentStep <= totalSteps && (
