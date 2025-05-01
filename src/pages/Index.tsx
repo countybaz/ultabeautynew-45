@@ -1,5 +1,5 @@
 
-import { SurveyProvider } from "@/contexts/SurveyContext";
+import { SurveyProvider, useSurvey } from "@/contexts/SurveyContext";
 import SurveyContainer from "@/components/SurveyContainer";
 import FAQ from "@/components/FAQ";
 import { Link } from "react-router-dom";
