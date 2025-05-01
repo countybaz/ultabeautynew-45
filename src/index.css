@@ -99,12 +99,6 @@
   body {
     @apply bg-background text-foreground;
   }
-  
-  /* Fix spacing issue in Facebook reviews header */
-  .text-xs.font-semibold.text-\[\#3b5998\]:contains("Ultimate Phone Program") {
-    letter-spacing: normal;
-    word-spacing: normal;
-  }
 }
 
 .animate-pulse {
