@@ -1,27 +1,19 @@
-
 import { Button } from "@/components/ui/button";
 import SurveyHeader from "@/components/SurveyHeader";
 import { useSurvey } from "@/contexts/SurveyContext";
 import { ArrowRight } from "lucide-react";
-
 const StartScreen = () => {
-  const { goToNextStep } = useSurvey();
-
+  const {
+    goToNextStep
+  } = useSurvey();
   const handleStart = () => {
     goToNextStep();
   };
-
-  return (
-    <div className="max-w-md mx-auto">
-      <SurveyHeader 
-        title="Ultimate Phone Program" 
-        subtitle="Get a new iPhone today!"
-      />
+  return <div className="max-w-md mx-auto">
+      <SurveyHeader title="Ultimate Phone Program" subtitle="Get a new iPhone today!" />
       
       <div className="bg-white p-6 rounded-lg shadow-md mb-6">
-        <p className="text-center text-lg mb-4">
-          Get a new iPhone with the Ultimate Phone Program. Simply answer 3 short questions about your digital habits and this fantastic chance is yours!
-        </p>
+        <p className="text-center text-lg mb-4">Get a new iPhone 16 Pro Max with the Ultimate Phone Program. Simply answer 3 short questions about your digital habits and this fantastic chance is yours!</p>
         
         <p className="text-center mb-6">
           Ready to take your tech to the next level? Click on the Start button below.
@@ -32,14 +24,9 @@ const StartScreen = () => {
         </p>
       </div>
 
-      <Button 
-        onClick={handleStart} 
-        className="w-full bg-blue-600 hover:bg-blue-700 text-lg py-6"
-      >
+      <Button onClick={handleStart} className="w-full bg-blue-600 hover:bg-blue-700 text-lg py-6">
         Start Now <ArrowRight className="ml-2" />
       </Button>
-    </div>
-  );
+    </div>;
 };
-
 export default StartScreen;
