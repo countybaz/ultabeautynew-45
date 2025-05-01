@@ -15,12 +15,14 @@ const Index = () => {
               className="h-20 md:h-24 mr-4"
             />
             <h1 className="text-xl font-bold text-blue-600">Ultimate Phone Program</h1>
+            <div className="ml-4">
+              <FAQ />
+            </div>
           </div>
         </div>
       </header>
       
       <main className="container mx-auto relative">
-        <FAQ />
         <SurveyProvider>
           <SurveyContainer />
         </SurveyProvider>

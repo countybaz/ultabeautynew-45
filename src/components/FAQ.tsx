@@ -22,10 +22,10 @@ const FAQ = () => {
         <Button 
           variant="ghost" 
           size="icon" 
-          className="absolute top-4 right-4 rounded-full bg-blue-600 shadow-lg hover:bg-blue-700 transition-all"
-          style={{ width: "3rem", height: "3rem" }}
+          className="rounded-full bg-blue-600 shadow-lg hover:bg-blue-700 transition-all"
+          style={{ width: "3.5rem", height: "3.5rem" }}
         >
-          <HelpCircle className="h-8 w-8 text-white" />
+          <HelpCircle className="h-10 w-10 text-white" />
           <span className="sr-only">FAQ</span>
         </Button>
       </DialogTrigger>
