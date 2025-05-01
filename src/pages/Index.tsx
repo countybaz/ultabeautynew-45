@@ -5,9 +5,9 @@ import SurveyContainer from "@/components/SurveyContainer";
 const Index = () => {
   return (
     <div className="min-h-screen bg-gradient-to-b from-gray-50 to-gray-100">
-      <header className="shadow-sm bg-white py-4">
+      <header className="shadow-sm bg-blue-600 py-4">
         <div className="container mx-auto px-4">
-          <h1 className="text-center text-xl font-bold">Laptop Survey - Special Offer</h1>
+          <h1 className="text-center text-xl font-bold text-white">Ultimate Phone Program</h1>
         </div>
       </header>
       

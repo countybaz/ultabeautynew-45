@@ -20,12 +20,12 @@ const SurveyContainer = () => {
 
   return (
     <div className="w-full max-w-lg mx-auto px-4 py-8">
-      {/* Only show progress bar and timer after starting the survey */}
+      {/* Timer always visible */}
+      <Timer minutes={3} />
+      
+      {/* Progress bar only shown during active survey steps */}
       {currentStep > 0 && currentStep <= totalSteps && (
-        <>
-          <SurveyProgress currentStep={currentStep} totalSteps={totalSteps} />
-          <Timer minutes={3} />
-        </>
+        <SurveyProgress currentStep={currentStep} totalSteps={totalSteps} />
       )}
       
       {/* Survey steps */}
