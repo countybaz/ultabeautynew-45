@@ -45,8 +45,8 @@ const FAQ = () => {
               "text-white transition-all duration-300",
               isHovered ? "scale-110" : "scale-100"
             )} 
-            size={30}
-            strokeWidth={2}
+            size={38}
+            strokeWidth={2.2}
           />
           <span className="sr-only">FAQ</span>
         </Button>
