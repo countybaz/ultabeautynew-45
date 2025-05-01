@@ -33,7 +33,7 @@ const Results = () => {
             onClick={() => setShowingOffer(true)} 
             className="w-full bg-blue-600 hover:bg-blue-700 py-6 text-lg"
           >
-            Continue to Claim Reward
+            Continue
           </Button>
           
           <p className="text-sm text-center text-gray-500 mt-4">
