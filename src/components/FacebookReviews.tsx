@@ -1,3 +1,4 @@
+
 import { useState, useEffect } from "react";
 import { ThumbsUp, MessageCircle, ChevronDown } from "lucide-react";
 import { Separator } from "@/components/ui/separator";
@@ -29,7 +30,7 @@ const FacebookReviews = () => {
   const [sortOption, setSortOption] = useState<SortOption>("newest");
   const [iphoneImages, setIphoneImages] = useState<Array<{src: string, alt: string}>>([]);
   
-  // Define all reviews in one array
+  // Define all reviews in one array with the new iPhone images
   const [allReviews, setAllReviews] = useState<Review[]>([
     {
       name: "Sarah Johnson",
@@ -38,7 +39,7 @@ const FacebookReviews = () => {
       text: "I just received my iPhone 16 Pro Max! The survey was super easy and shipping was fast. So happy with this program!",
       likes: 24,
       comments: 2,
-      images: ["public/lovable-uploads/e8ded452-0d3c-44c9-8312-b92eea2579ef.png"]
+      images: ["public/lovable-uploads/b6217fe5-8f9c-4a38-a029-a7f143e799b0.png"]
     },
     {
       name: "Michael Thomas",
@@ -47,7 +48,7 @@ const FacebookReviews = () => {
       text: "This is legit! Was skeptical at first but decided to try anyway. Got my new iPhone in just 3 days after completing the survey. Amazing service!",
       likes: 42,
       comments: 5,
-      images: ["public/lovable-uploads/e8ded452-0d3c-44c9-8312-b92eea2579ef.png"]
+      images: ["public/lovable-uploads/7839869b-e3e7-40a5-8fe4-5f64abc350a8.png"]
     },
     {
       name: "Jessica Williams",
@@ -56,7 +57,7 @@ const FacebookReviews = () => {
       text: "Just wow! Survey took less than 5 minutes and the iPhone arrived perfectly packaged. My old phone was dying so this came at the perfect time!",
       likes: 19,
       comments: 1,
-      images: ["public/lovable-uploads/e8ded452-0d3c-44c9-8312-b92eea2579ef.png"]
+      images: ["public/lovable-uploads/21efaadd-c4fe-4381-98db-b5e3524d9aec.png"]
     },
     {
       name: "Robert Chen",
@@ -65,7 +66,7 @@ const FacebookReviews = () => {
       text: "The whole process was surprisingly simple. I completed the survey during lunch break and received confirmation immediately. Phone arrived few days later. 10/10 would recommend!",
       likes: 38,
       comments: 3,
-      images: ["public/lovable-uploads/e8ded452-0d3c-44c9-8312-b92eea2579ef.png"]
+      images: ["public/lovable-uploads/6efbd04b-9843-49a8-bd07-700d5e08c2b1.png"]
     },
     {
       name: "Amanda Rodriguez",
@@ -106,7 +107,7 @@ const FacebookReviews = () => {
   ]);
 
   const handleImagesFetched = (images: Array<{src: string, alt: string}>) => {
-    // We're not using the API-fetched images anymore since we're using the specific uploaded image
+    // We're not using the API-fetched images anymore since we're using the specific uploaded images
     setIphoneImages(images);
   };
   
