@@ -76,12 +76,13 @@ const StartScreen = () => {
             <div className="w-8 h-8 bg-[#3b5998] rounded-full flex items-center justify-center">
               <span className="text-white font-bold">f</span>
             </div>
-            <span className="ml-2 font-semibold text-[#3b5998]">Facebook Reviews</span>
+            <span className="ml-2 font-semibold text-[#3b5998]">Read what others say about our program:</span>
           </div>
-          <div className="flex items-center">
-            <span className="text-yellow-500 text-sm mr-1">★★★★★</span>
-            <span className="text-sm font-semibold">4.9/5</span>
-          </div>
+          <span className="text-sm text-gray-600 font-medium">130 comments</span>
+        </div>
+
+        <div className="flex items-center justify-between mb-2">
+          <span className="text-sm text-gray-500">Sort by Newest</span>
         </div>
 
         <Separator className="mb-4" />
