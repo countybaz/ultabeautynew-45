@@ -6,11 +6,13 @@ import ProductOffer from "@/components/ProductOffer";
 import SurveyHeader from "@/components/SurveyHeader";
 import { useToast } from "@/components/ui/use-toast";
 import { AspectRatio } from "@/components/ui/aspect-ratio";
+import IPhoneImageFetcher from "@/components/IPhoneImageFetcher";
 
 const Results = () => {
   const { answers } = useSurvey();
   const { toast } = useToast();
   const [showingOffer, setShowingOffer] = useState(false);
+  const [iphoneImages, setIphoneImages] = useState<Array<{src: string, alt: string}>>([]);
 
   const handleClaim = () => {
     toast({
@@ -18,6 +20,16 @@ const Results = () => {
       description: "Thank you! Check your email for next steps.",
       duration: 5000,
     });
+  };
+  
+  const handleImagesFetched = (images: Array<{src: string, alt: string}>) => {
+    if (images.length >= 2) {
+      // Get two random images for the display
+      const shuffled = [...images].sort(() => 0.5 - Math.random());
+      setIphoneImages(shuffled.slice(0, 2));
+    } else {
+      setIphoneImages(images);
+    }
   };
 
   return (
@@ -31,24 +43,35 @@ const Results = () => {
           />
           
           <div className="mb-4 space-y-3">
-            {/* Smaller iPhone Images */}
+            {/* Hidden iPhone Image Fetcher */}
+            <div className="hidden">
+              <IPhoneImageFetcher onComplete={handleImagesFetched} />
+            </div>
+            
+            {/* iPhone Images */}
             <div className="bg-white p-2 rounded-lg shadow-sm">
               <div className="flex flex-row justify-center gap-2">
                 <div className="w-[120px]">
                   <AspectRatio ratio={1/1}>
                     <img 
-                      src="/lovable-uploads/b58d9fe6-a7c6-416a-9594-20451eb86002.png" 
+                      src={iphoneImages[0]?.src || "/lovable-uploads/b58d9fe6-a7c6-416a-9594-20451eb86002.png"} 
                       alt="iPhone 16 Pro colors" 
                       className="rounded-md object-contain w-full h-full" 
+                      onError={(e) => {
+                        (e.target as HTMLImageElement).src = "/lovable-uploads/b58d9fe6-a7c6-416a-9594-20451eb86002.png";
+                      }}
                     />
                   </AspectRatio>
                 </div>
                 <div className="w-[120px]">
                   <AspectRatio ratio={1/1}>
                     <img 
-                      src="/lovable-uploads/b96a5830-12f3-497d-966a-b0930df4e6d0.png" 
+                      src={iphoneImages[1]?.src || "/lovable-uploads/b96a5830-12f3-497d-966a-b0930df4e6d0.png"} 
                       alt="iPhone 16 Pro display" 
                       className="rounded-md object-contain w-full h-full" 
+                      onError={(e) => {
+                        (e.target as HTMLImageElement).src = "/lovable-uploads/b96a5830-12f3-497d-966a-b0930df4e6d0.png";
+                      }}
                     />
                   </AspectRatio>
                 </div>

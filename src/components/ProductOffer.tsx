@@ -2,12 +2,29 @@
 import { Button } from "@/components/ui/button";
 import Timer from "@/components/Timer";
 import { Check } from "lucide-react";
+import { useEffect, useState } from "react";
+import IPhoneImageFetcher from "@/components/IPhoneImageFetcher";
 
 interface ProductOfferProps {
   onClaim: () => void;
 }
 
+interface IPhoneImage {
+  src: string;
+  alt: string;
+}
+
 const ProductOffer = ({ onClaim }: ProductOfferProps) => {
+  const [selectedImage, setSelectedImage] = useState<string>("https://images.unsplash.com/photo-1488590528505-98d2b5aba04b");
+  
+  const handleImagesFetched = (images: IPhoneImage[]) => {
+    if (images.length > 0) {
+      // Randomly select one image
+      const randomIndex = Math.floor(Math.random() * images.length);
+      setSelectedImage(images[randomIndex].src);
+    }
+  };
+  
   return (
     <div className="border border-gray-200 rounded-lg shadow-lg p-6 max-w-md mx-auto bg-white">
       <div className="text-center mb-4">
@@ -16,26 +33,36 @@ const ProductOffer = ({ onClaim }: ProductOfferProps) => {
       </div>
 
       <div className="mb-6">
+        {/* Hidden image fetcher that provides images */}
+        <div className="hidden">
+          <IPhoneImageFetcher onComplete={handleImagesFetched} />
+        </div>
+        
+        {/* Display the selected image */}
         <img 
-          src="https://images.unsplash.com/photo-1488590528505-98d2b5aba04b" 
-          alt="Laptop" 
+          src={selectedImage} 
+          alt="iPhone 16 Pro Max" 
           className="w-full h-48 object-cover rounded-md" 
+          onError={(e) => {
+            // Fallback image if the selected one fails to load
+            (e.target as HTMLImageElement).src = "https://images.unsplash.com/photo-1488590528505-98d2b5aba04b";
+          }}
         />
       </div>
 
       <div className="mb-6">
-        <h4 className="font-bold text-lg mb-2">Brand New Laptop</h4>
+        <h4 className="font-bold text-lg mb-2">iPhone 16 Pro Max</h4>
         <div className="flex items-center mb-1">
           <Check className="h-4 w-4 text-green-500 mr-2" />
-          <span className="text-gray-700">High performance specs</span>
+          <span className="text-gray-700">Latest A18 Pro chip</span>
         </div>
         <div className="flex items-center mb-1">
           <Check className="h-4 w-4 text-green-500 mr-2" />
-          <span className="text-gray-700">Latest operating system</span>
+          <span className="text-gray-700">48MP camera system</span>
         </div>
         <div className="flex items-center mb-1">
           <Check className="h-4 w-4 text-green-500 mr-2" />
-          <span className="text-gray-700">1-year warranty included</span>
+          <span className="text-gray-700">All-day battery life</span>
         </div>
       </div>
 
