@@ -37,7 +37,7 @@ const Index = () => {
             <div className="flex flex-wrap justify-center gap-6 text-base">
               <Link to="/terms" className="text-blue-600 hover:underline font-medium px-4 py-2 bg-blue-50 rounded-md shadow-sm border border-blue-100 transition-colors hover:bg-blue-100">Terms and Conditions</Link>
               <Link to="/privacy" className="text-blue-600 hover:underline font-medium px-4 py-2 bg-blue-50 rounded-md shadow-sm border border-blue-100 transition-colors hover:bg-blue-100">Privacy Policy</Link>
-              <a href="#" className="text-blue-600 hover:underline font-medium px-4 py-2 bg-blue-50 rounded-md shadow-sm border border-blue-100 transition-colors hover:bg-blue-100">Non-Affiliation Disclaimer</a>
+              <Link to="/non-affiliation" className="text-blue-600 hover:underline font-medium px-4 py-2 bg-blue-50 rounded-md shadow-sm border border-blue-100 transition-colors hover:bg-blue-100">Non-Affiliation Disclaimer</Link>
             </div>
           </div>
           
