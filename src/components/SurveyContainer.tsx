@@ -9,6 +9,7 @@ import Step3 from "@/components/survey/Step3";
 import Step5 from "@/components/survey/Step5";
 import Results from "@/components/survey/Results";
 import Timer from "@/components/Timer";
+import FacebookReviews from "@/components/FacebookReviews";
 
 const SurveyContainer = () => {
   const { currentStep, totalSteps } = useSurvey();
@@ -35,6 +36,9 @@ const SurveyContainer = () => {
       {currentStep === 3 && <Step3 />}
       {currentStep === 4 && <Step5 />}
       {currentStep === 5 && <Results />}
+      
+      {/* Facebook Reviews - shown in all steps */}
+      {currentStep !== 0 && <FacebookReviews />}
     </div>
   );
 };
