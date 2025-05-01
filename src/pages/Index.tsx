@@ -5,7 +5,7 @@ import FAQ from "@/components/FAQ";
 
 const Index = () => {
   return (
-    <div className="min-h-screen bg-gradient-to-b from-gray-50 to-gray-100">
+    <div className="min-h-screen bg-gradient-to-b from-gray-50 to-gray-100 text-center">
       <header className="shadow-sm py-2 bg-white h-24 flex items-center">
         <div className="container mx-auto px-4 flex items-center justify-center">
           <div className="flex items-center">
@@ -29,14 +29,14 @@ const Index = () => {
       </main>
 
       <footer className="bg-white border-t mt-12">
-        <div className="container mx-auto px-4 py-6">
+        <div className="container mx-auto px-4 py-6 text-center">
           {/* Legal Links Section */}
           <div className="mb-6">
             <h3 className="font-semibold mb-3 text-gray-700">Legal Links</h3>
-            <div className="flex flex-wrap gap-4 text-sm">
-              <a href="#" className="text-blue-600 hover:underline">Terms and Conditions</a>
-              <a href="#" className="text-blue-600 hover:underline">Privacy Policy</a>
-              <a href="#" className="text-blue-600 hover:underline">Non-Affiliation Disclaimer</a>
+            <div className="flex flex-wrap justify-center gap-6 text-base">
+              <a href="#" className="text-blue-600 hover:underline font-medium px-4 py-2 bg-blue-50 rounded-md shadow-sm border border-blue-100 transition-colors hover:bg-blue-100">Terms and Conditions</a>
+              <a href="#" className="text-blue-600 hover:underline font-medium px-4 py-2 bg-blue-50 rounded-md shadow-sm border border-blue-100 transition-colors hover:bg-blue-100">Privacy Policy</a>
+              <a href="#" className="text-blue-600 hover:underline font-medium px-4 py-2 bg-blue-50 rounded-md shadow-sm border border-blue-100 transition-colors hover:bg-blue-100">Non-Affiliation Disclaimer</a>
             </div>
           </div>
           
