@@ -30,11 +30,11 @@ const Results = () => {
             className="mb-6"
           />
           
-          <div className="mb-8 space-y-6">
-            {/* iPhone Images */}
-            <div className="bg-white p-4 rounded-lg shadow-sm">
-              <div className="mb-3">
-                <AspectRatio ratio={16/9}>
+          <div className="mb-6 space-y-4">
+            {/* iPhone Images - Smaller size */}
+            <div className="bg-white p-3 rounded-lg shadow-sm">
+              <div className="mb-2">
+                <AspectRatio ratio={16/9} className="max-w-[240px] mx-auto">
                   <img 
                     src="/lovable-uploads/b58d9fe6-a7c6-416a-9594-20451eb86002.png" 
                     alt="iPhone 16 Pro colors" 
@@ -42,8 +42,8 @@ const Results = () => {
                   />
                 </AspectRatio>
               </div>
-              <div className="mb-2">
-                <AspectRatio ratio={16/9}>
+              <div>
+                <AspectRatio ratio={16/9} className="max-w-[240px] mx-auto">
                   <img 
                     src="/lovable-uploads/b96a5830-12f3-497d-966a-b0930df4e6d0.png" 
                     alt="iPhone 16 Pro display" 
@@ -51,8 +51,12 @@ const Results = () => {
                   />
                 </AspectRatio>
               </div>
-              <p className="text-center text-sm text-gray-700 font-medium mt-2">
-                iPhone 16 Pro - Latest Model
+            </div>
+            
+            {/* Blue promotional text */}
+            <div className="text-center px-4 py-3 bg-blue-50 rounded-lg border border-blue-100">
+              <p className="text-blue-600 font-medium">
+                Upgrade your tech and Cash In! Claim $1000 Towards a iPhone 16 Pro Max Elevate your productivity and your wallet!
               </p>
             </div>
           </div>
