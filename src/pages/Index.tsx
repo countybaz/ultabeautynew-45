@@ -28,9 +28,27 @@ const Index = () => {
         </SurveyProvider>
       </main>
 
-      <footer className="mt-12 py-4 border-t bg-white">
-        <div className="container mx-auto px-4">
-          <p className="text-xs text-center text-gray-500">
+      <footer className="bg-white border-t mt-12">
+        <div className="container mx-auto px-4 py-6">
+          {/* Legal Links Section */}
+          <div className="mb-6">
+            <h3 className="font-semibold mb-3 text-gray-700">Legal Links</h3>
+            <div className="flex flex-wrap gap-4 text-sm">
+              <a href="#" className="text-blue-600 hover:underline">Terms and Conditions</a>
+              <a href="#" className="text-blue-600 hover:underline">Privacy Policy</a>
+              <a href="#" className="text-blue-600 hover:underline">Non-Affiliation Disclaimer</a>
+            </div>
+          </div>
+          
+          {/* Legal Disclaimers */}
+          <div className="text-xs text-gray-600 space-y-2">
+            <p>Trade names or rights associated with all trademarks on this website are the property of their respective owners and are not associated with this promotion. This offer ends at the end of 2025.</p>
+            <p>This website is not part of the Facebook website or of Facebook Inc.</p>
+            <p>Furthermore, this website is not endorsed in any way by Facebook. Facebook is a trademark of Facebook, Inc.</p>
+          </div>
+          
+          {/* Copyright */}
+          <p className="text-xs text-center text-gray-500 mt-6">
             © {new Date().getFullYear()} Ultimate Phone Program. All rights reserved.
             <br />
             This is a limited time promotional offer. Terms and conditions apply.
