@@ -78,34 +78,7 @@ const FacebookReviews = () => {
       comments: 7,
       images: ["public/lovable-uploads/e8ded452-0d3c-44c9-8312-b92eea2579ef.png"]
     },
-    {
-      name: "David Wilson",
-      avatar: "https://i.pravatar.cc/40?img=30",
-      time: "Last week",
-      text: "I've been wanting the new iPhone 16 Pro Max for months but couldn't afford it. This program made it possible! Shipping was quick and the phone is absolutely perfect.",
-      likes: 32,
-      comments: 4,
-      images: ["public/lovable-uploads/e8ded452-0d3c-44c9-8312-b92eea2579ef.png"]
-    },
-    {
-      name: "Sophia Garcia",
-      avatar: "https://i.pravatar.cc/40?img=25",
-      time: "2 weeks ago",
-      text: "Got my iPhone 16 Pro Max through the Ultimate Phone Program and I couldn't be happier! The camera quality is incredible and the battery lasts all day. Thank you UPP!",
-      likes: 45,
-      comments: 6,
-      images: ["public/lovable-uploads/e8ded452-0d3c-44c9-8312-b92eea2579ef.png"]
-    },
-    {
-      name: "Jason Moore",
-      avatar: "https://i.pravatar.cc/40?img=15",
-      time: "2 weeks ago",
-      text: "No way this was real, but I was wrong! Completed the survey and got my iPhone 16 Pro Max last week. Everything works perfectly and it came with all accessories. Best decision ever!",
-      likes: 38,
-      comments: 8,
-      images: ["public/lovable-uploads/e8ded452-0d3c-44c9-8312-b92eea2579ef.png"]
-    },
-    // Adding new text-only reviews 
+    // Adding text-only reviews 
     {
       name: "Emma Peterson",
       avatar: "https://i.pravatar.cc/40?img=3",
