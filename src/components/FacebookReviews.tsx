@@ -1,4 +1,3 @@
-
 import { useState, useEffect } from "react";
 import { ThumbsUp, MessageCircle, ChevronDown } from "lucide-react";
 import { Separator } from "@/components/ui/separator";
@@ -39,7 +38,7 @@ const FacebookReviews = () => {
       text: "I just received my iPhone 16 Pro Max! The survey was super easy and shipping was fast. So happy with this program!",
       likes: 24,
       comments: 2,
-      images: ["https://images.unsplash.com/photo-1461749280684-dccba630e2f6?w=300&h=300&fit=crop"]
+      images: ["public/lovable-uploads/e8ded452-0d3c-44c9-8312-b92eea2579ef.png"]
     },
     {
       name: "Michael Thomas",
@@ -48,9 +47,7 @@ const FacebookReviews = () => {
       text: "This is legit! Was skeptical at first but decided to try anyway. Got my new iPhone in just 3 days after completing the survey. Amazing service!",
       likes: 42,
       comments: 5,
-      images: [
-        "https://images.unsplash.com/photo-1649972904349-6e44c42644a7?w=300&h=200&fit=crop"
-      ]
+      images: ["public/lovable-uploads/e8ded452-0d3c-44c9-8312-b92eea2579ef.png"]
     },
     {
       name: "Jessica Williams",
@@ -59,7 +56,7 @@ const FacebookReviews = () => {
       text: "Just wow! Survey took less than 5 minutes and the iPhone arrived perfectly packaged. My old phone was dying so this came at the perfect time!",
       likes: 19,
       comments: 1,
-      images: []
+      images: ["public/lovable-uploads/e8ded452-0d3c-44c9-8312-b92eea2579ef.png"]
     },
     {
       name: "Robert Chen",
@@ -68,7 +65,7 @@ const FacebookReviews = () => {
       text: "The whole process was surprisingly simple. I completed the survey during lunch break and received confirmation immediately. Phone arrived few days later. 10/10 would recommend!",
       likes: 38,
       comments: 3,
-      images: []
+      images: ["public/lovable-uploads/e8ded452-0d3c-44c9-8312-b92eea2579ef.png"]
     },
     {
       name: "Amanda Rodriguez",
@@ -77,7 +74,7 @@ const FacebookReviews = () => {
       text: "Best decision ever! My iPhone arrived in perfect condition and I love all the new features. The Ultimate Phone Program is amazing - thank you so much!",
       likes: 57,
       comments: 7,
-      images: ["https://images.unsplash.com/photo-1518770660439-4636190af475?w=600&h=400&fit=crop"]
+      images: ["public/lovable-uploads/e8ded452-0d3c-44c9-8312-b92eea2579ef.png"]
     },
     {
       name: "David Wilson",
@@ -86,7 +83,7 @@ const FacebookReviews = () => {
       text: "I've been wanting the new iPhone 16 Pro Max for months but couldn't afford it. This program made it possible! Shipping was quick and the phone is absolutely perfect.",
       likes: 32,
       comments: 4,
-      images: ["https://images.unsplash.com/photo-1488590528505-98d2b5aba04b?w=300&h=200&fit=crop"]
+      images: ["public/lovable-uploads/e8ded452-0d3c-44c9-8312-b92eea2579ef.png"]
     },
     {
       name: "Sophia Garcia",
@@ -95,7 +92,7 @@ const FacebookReviews = () => {
       text: "Got my iPhone 16 Pro Max through the Ultimate Phone Program and I couldn't be happier! The camera quality is incredible and the battery lasts all day. Thank you UPP!",
       likes: 45,
       comments: 6,
-      images: ["https://images.unsplash.com/photo-1649972904349-6e44c42644a7?w=300&h=200&fit=crop"]
+      images: ["public/lovable-uploads/e8ded452-0d3c-44c9-8312-b92eea2579ef.png"]
     },
     {
       name: "Jason Moore",
@@ -104,40 +101,13 @@ const FacebookReviews = () => {
       text: "No way this was real, but I was wrong! Completed the survey and got my iPhone 16 Pro Max last week. Everything works perfectly and it came with all accessories. Best decision ever!",
       likes: 38,
       comments: 8,
-      images: []
+      images: ["public/lovable-uploads/e8ded452-0d3c-44c9-8312-b92eea2579ef.png"]
     }
   ]);
 
   const handleImagesFetched = (images: Array<{src: string, alt: string}>) => {
+    // We're not using the API-fetched images anymore since we're using the specific uploaded image
     setIphoneImages(images);
-    if (images.length > 0) {
-      // Update reviews with the new iPhone images
-      const updatedReviews = [...allReviews];
-      
-      // Assign one image per review that has an images array
-      let imageIndex = 0;
-      for (let i = 0; i < updatedReviews.length; i++) {
-        if (updatedReviews[i].images.length > 0 && imageIndex < images.length) {
-          updatedReviews[i].images = [images[imageIndex].src];
-          imageIndex++;
-        }
-        
-        // If we need more images and there are reviews without images, add them there too
-        if (imageIndex >= images.length) {
-          break; // We've assigned all images
-        }
-      }
-      
-      // If we still have images left, assign them to reviews without images
-      for (let i = 0; i < updatedReviews.length && imageIndex < images.length; i++) {
-        if (updatedReviews[i].images.length === 0) {
-          updatedReviews[i].images = [images[imageIndex].src];
-          imageIndex++;
-        }
-      }
-      
-      setAllReviews(updatedReviews);
-    }
   };
   
   // Sort the reviews based on the selected option
@@ -216,7 +186,7 @@ const FacebookReviews = () => {
                       alt="iPhone 16 Pro Max" 
                       className="object-cover w-full h-full" 
                       onError={(e) => {
-                        (e.target as HTMLImageElement).src = "https://images.unsplash.com/photo-1488590528505-98d2b5aba04b?w=300&h=200&fit=crop";
+                        (e.target as HTMLImageElement).src = "public/lovable-uploads/e8ded452-0d3c-44c9-8312-b92eea2579ef.png";
                       }}
                     />
                   </div>
