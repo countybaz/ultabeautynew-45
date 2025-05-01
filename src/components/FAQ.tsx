@@ -25,7 +25,7 @@ const FAQ = () => {
           className="rounded-full bg-blue-600 shadow-lg hover:bg-blue-700 transition-all"
           style={{ width: "3.5rem", height: "3.5rem" }}
         >
-          <HelpCircle className="h-10 w-10 text-white" />
+          <HelpCircle className="h-12 w-12 text-white" strokeWidth={2.5} />
           <span className="sr-only">FAQ</span>
         </Button>
       </DialogTrigger>
