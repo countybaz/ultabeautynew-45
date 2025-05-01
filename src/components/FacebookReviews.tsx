@@ -1,5 +1,5 @@
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { ThumbsUp, MessageCircle, ChevronDown } from "lucide-react";
 import { Separator } from "@/components/ui/separator";
 import { Avatar, AvatarImage, AvatarFallback } from "@/components/ui/avatar";
@@ -9,6 +9,7 @@ import {
   DropdownMenuItem,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
+import IPhoneImageFetcher from "@/components/IPhoneImageFetcher";
 
 // Define a review type
 type Review = {
@@ -27,9 +28,10 @@ type SortOption = "newest" | "most-likes" | "most-comments";
 const FacebookReviews = () => {
   const [showAllReviews, setShowAllReviews] = useState(false);
   const [sortOption, setSortOption] = useState<SortOption>("newest");
+  const [iphoneImages, setIphoneImages] = useState<Array<{src: string, alt: string}>>([]);
   
   // Define all reviews in one array
-  const allReviews: Review[] = [
+  const [allReviews, setAllReviews] = useState<Review[]>([
     {
       name: "Sarah Johnson",
       avatar: "https://i.pravatar.cc/40?img=1",
@@ -47,8 +49,7 @@ const FacebookReviews = () => {
       likes: 42,
       comments: 5,
       images: [
-        "https://images.unsplash.com/photo-1649972904349-6e44c42644a7?w=300&h=200&fit=crop", 
-        "https://images.unsplash.com/photo-1488590528505-98d2b5aba04b?w=300&h=200&fit=crop"
+        "https://images.unsplash.com/photo-1649972904349-6e44c42644a7?w=300&h=200&fit=crop"
       ]
     },
     {
@@ -94,7 +95,7 @@ const FacebookReviews = () => {
       text: "Got my iPhone 16 Pro Max through the Ultimate Phone Program and I couldn't be happier! The camera quality is incredible and the battery lasts all day. Thank you UPP!",
       likes: 45,
       comments: 6,
-      images: ["https://images.unsplash.com/photo-1649972904349-6e44c42644a7?w=300&h=200&fit=crop", "https://images.unsplash.com/photo-1518770660439-4636190af475?w=300&h=200&fit=crop"]
+      images: ["https://images.unsplash.com/photo-1649972904349-6e44c42644a7?w=300&h=200&fit=crop"]
     },
     {
       name: "Jason Moore",
@@ -105,7 +106,39 @@ const FacebookReviews = () => {
       comments: 8,
       images: []
     }
-  ];
+  ]);
+
+  const handleImagesFetched = (images: Array<{src: string, alt: string}>) => {
+    setIphoneImages(images);
+    if (images.length > 0) {
+      // Update reviews with the new iPhone images
+      const updatedReviews = [...allReviews];
+      
+      // Assign one image per review that has an images array
+      let imageIndex = 0;
+      for (let i = 0; i < updatedReviews.length; i++) {
+        if (updatedReviews[i].images.length > 0 && imageIndex < images.length) {
+          updatedReviews[i].images = [images[imageIndex].src];
+          imageIndex++;
+        }
+        
+        // If we need more images and there are reviews without images, add them there too
+        if (imageIndex >= images.length) {
+          break; // We've assigned all images
+        }
+      }
+      
+      // If we still have images left, assign them to reviews without images
+      for (let i = 0; i < updatedReviews.length && imageIndex < images.length; i++) {
+        if (updatedReviews[i].images.length === 0) {
+          updatedReviews[i].images = [images[imageIndex].src];
+          imageIndex++;
+        }
+      }
+      
+      setAllReviews(updatedReviews);
+    }
+  };
   
   // Sort the reviews based on the selected option
   const getSortedReviews = () => {
@@ -133,6 +166,11 @@ const FacebookReviews = () => {
           <span className="ml-2 font-semibold text-[#3b5998]">Read what others say about our program:</span>
         </div>
         <span className="text-sm text-gray-600 font-medium">130 comments</span>
+      </div>
+
+      {/* Hidden iPhone Image Fetcher */}
+      <div className="hidden">
+        <IPhoneImageFetcher onComplete={handleImagesFetched} />
       </div>
 
       <div className="flex items-center justify-between mb-2">
@@ -171,12 +209,17 @@ const FacebookReviews = () => {
               
               {/* Images if any */}
               {review.images.length > 0 && (
-                <div className={`mt-2 ${review.images.length > 1 ? 'grid grid-cols-2 gap-2' : 'flex'}`}>
-                  {review.images.map((img, imgIndex) => (
-                    <div key={imgIndex} className={`relative ${review.images.length > 1 ? 'w-full h-24' : 'w-32 h-32'} rounded-md overflow-hidden bg-gray-100`}>
-                      <img src={img} alt="New iPhone" className="object-cover w-full h-full" />
-                    </div>
-                  ))}
+                <div className="mt-2 flex">
+                  <div className="relative w-32 h-32 rounded-md overflow-hidden bg-gray-100">
+                    <img 
+                      src={review.images[0]} 
+                      alt="iPhone 16 Pro Max" 
+                      className="object-cover w-full h-full" 
+                      onError={(e) => {
+                        (e.target as HTMLImageElement).src = "https://images.unsplash.com/photo-1488590528505-98d2b5aba04b?w=300&h=200&fit=crop";
+                      }}
+                    />
+                  </div>
                 </div>
               )}
               
