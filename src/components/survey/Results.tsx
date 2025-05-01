@@ -8,6 +8,7 @@ import { useToast } from "@/components/ui/use-toast";
 import { AspectRatio } from "@/components/ui/aspect-ratio";
 import IPhoneImageFetcher from "@/components/IPhoneImageFetcher";
 import { useIsMobile } from "@/hooks/use-mobile";
+import { Skeleton } from "@/components/ui/skeleton";
 
 // Define fallback image paths for faster loading
 const FALLBACK_IMAGES = [
@@ -21,14 +22,30 @@ const Results = () => {
   const [showingOffer, setShowingOffer] = useState(false);
   const [iphoneImages, setIphoneImages] = useState<Array<{src: string, alt: string}>>([]);
   const [imagesLoaded, setImagesLoaded] = useState(false);
+  const [imageLoadStatus, setImageLoadStatus] = useState<boolean[]>([false, false]);
   const isMobile = useIsMobile();
 
   // Pre-load the fallback images
   useEffect(() => {
     const preloadImages = () => {
-      FALLBACK_IMAGES.forEach(src => {
-        const img = new Image();
-        img.src = src;
+      const imagePromises = FALLBACK_IMAGES.map((src, index) => {
+        return new Promise((resolve) => {
+          const img = new Image();
+          img.onload = () => {
+            setImageLoadStatus(prev => {
+              const newStatus = [...prev];
+              newStatus[index] = true;
+              return newStatus;
+            });
+            resolve(true);
+          };
+          img.onerror = () => resolve(false);
+          img.src = src;
+        });
+      });
+      
+      Promise.all(imagePromises).then(() => {
+        setImagesLoaded(true);
       });
     };
     
@@ -39,7 +56,6 @@ const Results = () => {
       { src: FALLBACK_IMAGES[0], alt: "iPhone 16 Pro colors" },
       { src: FALLBACK_IMAGES[1], alt: "iPhone 16 Pro display" }
     ]);
-    setImagesLoaded(true);
   }, []);
 
   const handleClaim = () => {
@@ -58,6 +74,14 @@ const Results = () => {
     } else {
       setIphoneImages(images);
     }
+  };
+
+  const handleImageLoad = (index: number) => {
+    setImageLoadStatus(prev => {
+      const newStatus = [...prev];
+      newStatus[index] = true;
+      return newStatus;
+    });
   };
 
   return (
@@ -81,20 +105,21 @@ const Results = () => {
               <div className={`flex ${isMobile ? 'flex-col items-center' : 'flex-row justify-center'} gap-2`}>
                 <div className={`${isMobile ? 'w-[140px]' : 'w-[120px]'}`}>
                   <AspectRatio ratio={1/1}>
-                    {imagesLoaded ? (
+                    {!imageLoadStatus[0] ? (
+                      <Skeleton className="w-full h-full rounded-md" />
+                    ) : (
                       <img 
                         src={iphoneImages[0]?.src || FALLBACK_IMAGES[0]} 
                         alt="iPhone 16 Pro colors" 
                         className="rounded-md object-contain w-full h-full" 
                         loading="eager"
+                        fetchPriority="high"
+                        onLoad={() => handleImageLoad(0)}
                         onError={(e) => {
                           (e.target as HTMLImageElement).src = FALLBACK_IMAGES[0];
+                          handleImageLoad(0);
                         }}
                       />
-                    ) : (
-                      <div className="w-full h-full flex items-center justify-center bg-gray-100 rounded-md">
-                        <div className="w-8 h-8 border-4 border-blue-600 border-t-transparent rounded-full animate-spin"></div>
-                      </div>
                     )}
                   </AspectRatio>
                 </div>
@@ -102,20 +127,21 @@ const Results = () => {
                 {!isMobile && (
                   <div className="w-[120px]">
                     <AspectRatio ratio={1/1}>
-                      {imagesLoaded ? (
+                      {!imageLoadStatus[1] ? (
+                        <Skeleton className="w-full h-full rounded-md" />
+                      ) : (
                         <img 
                           src={iphoneImages[1]?.src || FALLBACK_IMAGES[1]} 
                           alt="iPhone 16 Pro display" 
                           className="rounded-md object-contain w-full h-full" 
                           loading="eager"
+                          fetchPriority="high"
+                          onLoad={() => handleImageLoad(1)}
                           onError={(e) => {
                             (e.target as HTMLImageElement).src = FALLBACK_IMAGES[1];
+                            handleImageLoad(1);
                           }}
                         />
-                      ) : (
-                        <div className="w-full h-full flex items-center justify-center bg-gray-100 rounded-md">
-                          <div className="w-8 h-8 border-4 border-blue-600 border-t-transparent rounded-full animate-spin"></div>
-                        </div>
                       )}
                     </AspectRatio>
                   </div>
