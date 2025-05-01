@@ -1,4 +1,3 @@
-
 import { useState, useEffect } from "react";
 import { ThumbsUp, MessageCircle, ChevronDown } from "lucide-react";
 import { Separator } from "@/components/ui/separator";
@@ -181,24 +180,11 @@ const FacebookReviews = () => {
     return timeOrder;
   };
   
-  const randomizeReviews = () => {
-    // Create a copy of all reviews and shuffle them
-    const shuffled = [...allReviews].sort(() => 0.5 - Math.random());
-    // Make sure at least one review with an image is among the first 5 visible reviews
-    const hasImageInFirst = shuffled.slice(0, 5).some(review => review.images.length > 0);
-    
-    if (!hasImageInFirst) {
-      // Find the first review with an image
-      const firstImageIndex = shuffled.findIndex(review => review.images.length > 0);
-      if (firstImageIndex >= 5) {
-        // Swap it into the visible area (with the first item)
-        const temp = shuffled[0];
-        shuffled[0] = shuffled[firstImageIndex];
-        shuffled[firstImageIndex] = temp;
-      }
-    }
-    
-    setDisplayedReviewsData(shuffled);
+  const refreshComments = () => {
+    // Set sort option to newest and sort reviews by newest
+    setSortOption("newest");
+    const timeOrder = convertTimeStringsToOrder(allReviews);
+    setDisplayedReviewsData([...allReviews].sort((a, b) => timeOrder[b.time] - timeOrder[a.time]));
   };
 
   const handleImagesFetched = (images: Array<{src: string, alt: string}>) => {
@@ -278,12 +264,12 @@ const FacebookReviews = () => {
           </DropdownMenuContent>
         </DropdownMenu>
         
-        {/* Added randomize button */}
+        {/* Changed to refresh and sort by newest */}
         <button 
-          onClick={randomizeReviews}
+          onClick={refreshComments}
           className="text-sm text-blue-600 hover:underline"
         >
-          Refresh Comments
+          Show Newest Comments
         </button>
       </div>
 
