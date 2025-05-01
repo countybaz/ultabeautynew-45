@@ -6,13 +6,19 @@ import SurveyOption from "@/components/SurveyOption";
 import { useSurvey } from "@/contexts/SurveyContext";
 
 const Step1 = () => {
-  const { goToNextStep, setAnswer } = useSurvey();
+  const { goToNextStep, setAnswer, goToStep } = useSurvey();
   const [selected, setSelected] = useState<string | null>(null);
 
   const handleNext = () => {
     if (selected) {
       setAnswer("us_resident", selected);
-      goToNextStep();
+      
+      if (selected === "no") {
+        // Redirect to rejection page
+        goToStep(6); // assuming 6 is the step for rejection
+      } else {
+        goToNextStep();
+      }
     }
   };
 

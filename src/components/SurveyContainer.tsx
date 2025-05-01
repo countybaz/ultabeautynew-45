@@ -8,6 +8,7 @@ import Step2 from "@/components/survey/Step2";
 import Step3 from "@/components/survey/Step3";
 import Step5 from "@/components/survey/Step5";
 import Results from "@/components/survey/Results";
+import RejectionPage from "@/components/survey/RejectionPage";
 import Timer from "@/components/Timer";
 import FacebookReviews from "@/components/FacebookReviews";
 
@@ -22,7 +23,7 @@ const SurveyContainer = () => {
   return (
     <div className="w-full max-w-lg mx-auto px-4 py-8">
       {/* Timer only visible during active survey steps (not on start screen) */}
-      {currentStep > 0 && <Timer minutes={3} />}
+      {currentStep > 0 && currentStep <= totalSteps && <Timer minutes={3} />}
       
       {/* Progress bar only shown during active survey steps */}
       {currentStep > 0 && currentStep <= totalSteps && (
@@ -36,9 +37,10 @@ const SurveyContainer = () => {
       {currentStep === 3 && <Step3 />}
       {currentStep === 4 && <Step5 />}
       {currentStep === 5 && <Results />}
+      {currentStep === 6 && <RejectionPage />}
       
       {/* Facebook Reviews - shown in all steps */}
-      {currentStep !== 0 && <FacebookReviews />}
+      {currentStep !== 0 && currentStep !== 6 && <FacebookReviews />}
     </div>
   );
 };

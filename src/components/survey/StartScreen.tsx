@@ -14,8 +14,11 @@ const StartScreen = () => {
     goToNextStep();
   };
   
-  return <div className="max-w-md mx-auto">
-      <SurveyHeader title="Ultimate Phone Program" subtitle="Get a new iPhone today!" />
+  return (
+    <div className="max-w-md mx-auto">
+      <SurveyHeader 
+        title="Great news! You are among the first to join our Ultimate MacBook Program!"
+      />
       
       <div className="bg-white p-6 rounded-lg shadow-md mb-6">
         <p className="text-center text-lg mb-4">
@@ -40,7 +43,8 @@ const StartScreen = () => {
 
       {/* Add some space at the bottom */}
       <div className="h-10"></div>
-    </div>;
+    </div>
+  );
 };
 
 export default StartScreen;
