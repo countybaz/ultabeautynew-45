@@ -1,3 +1,4 @@
+
 import { useState, useEffect } from "react";
 import { ThumbsUp, MessageCircle, ChevronDown } from "lucide-react";
 import { Separator } from "@/components/ui/separator";
@@ -29,6 +30,8 @@ const FacebookReviews = () => {
   const [sortOption, setSortOption] = useState<SortOption>("newest");
   const [iphoneImages, setIphoneImages] = useState<Array<{src: string, alt: string}>>([]);
   const [displayedReviewsData, setDisplayedReviewsData] = useState<Review[]>([]);
+  // Store which reviews will have replies (3 random ones instead of 5)
+  const [reviewsWithReplies, setReviewsWithReplies] = useState<number[]>([]);
   
   // Define all reviews in one array - including the ones with uploaded images and new text-only reviews
   const allReviews: Review[] = [
@@ -138,7 +141,23 @@ const FacebookReviews = () => {
     // Initialize reviews sorted by newest on first load
     const timeOrder = convertTimeStringsToOrder(allReviews);
     setDisplayedReviewsData([...allReviews].sort((a, b) => timeOrder[b.time] - timeOrder[a.time]));
+    
+    // Randomly select 3 reviews to have replies
+    const randomReviews = getRandomIndices(allReviews.length, 3);
+    setReviewsWithReplies(randomReviews);
   }, []);
+  
+  // Helper function to get random indices
+  const getRandomIndices = (max: number, count: number): number[] => {
+    const indices: number[] = [];
+    while (indices.length < count) {
+      const randomIndex = Math.floor(Math.random() * max);
+      if (!indices.includes(randomIndex)) {
+        indices.push(randomIndex);
+      }
+    }
+    return indices;
+  };
   
   // Helper function to convert time strings to numeric values for sorting
   const convertTimeStringsToOrder = (reviews: Review[]) => {
@@ -185,6 +204,10 @@ const FacebookReviews = () => {
     setSortOption("newest");
     const timeOrder = convertTimeStringsToOrder(allReviews);
     setDisplayedReviewsData([...allReviews].sort((a, b) => timeOrder[b.time] - timeOrder[a.time]));
+    
+    // Get new random reviews with replies when refreshing
+    const randomReviews = getRandomIndices(allReviews.length, 3);
+    setReviewsWithReplies(randomReviews);
   };
 
   const handleImagesFetched = (images: Array<{src: string, alt: string}>) => {
@@ -226,6 +249,12 @@ const FacebookReviews = () => {
     
     // Use modulo to cycle through responses if there are more reviews than responses
     return responses[index % responses.length];
+  };
+  
+  // Get a random time string for replies
+  const getRandomTime = (index: number): string => {
+    const times = ['1h ago', '3h ago', '5h ago', '1d ago', '2d ago', '3d ago'];
+    return times[index % times.length];
   };
   
   return (
@@ -310,8 +339,8 @@ const FacebookReviews = () => {
             </div>
           </div>
           
-          {/* Ultimate Phone Program Replies - add unique replies to some reviews */}
-          {(index === 0 || index === 2 || review.likes > 30) && (
+          {/* Ultimate Phone Program Replies - only show for randomly selected reviews */}
+          {reviewsWithReplies.includes(index) && (
             <div className="ml-10 mt-2 border-l-2 border-gray-200 pl-3">
               <div className="flex items-start">
                 <div className="relative">
@@ -334,7 +363,7 @@ const FacebookReviews = () => {
                     <span className="mx-1.5">·</span>
                     <span>Reply</span>
                     <span className="mx-1.5">·</span>
-                    <span>{index === 0 ? '1h ago' : index === 2 ? '2d ago' : '5d ago'}</span>
+                    <span>{getRandomTime(index)}</span>
                   </div>
                 </div>
               </div>
