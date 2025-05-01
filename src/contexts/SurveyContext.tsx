@@ -26,20 +26,20 @@ interface SurveyProviderProps {
 }
 
 export const SurveyProvider = ({ children }: SurveyProviderProps) => {
-  const [currentStep, setCurrentStep] = useState(1);
+  const [currentStep, setCurrentStep] = useState(0);
   const [answers, setAnswers] = useState<Record<string, string>>({});
   const totalSteps = 5;
 
   const goToNextStep = () => {
-    setCurrentStep((prev) => Math.min(prev + 1, totalSteps));
+    setCurrentStep((prev) => Math.min(prev + 1, totalSteps + 1));
   };
 
   const goToPreviousStep = () => {
-    setCurrentStep((prev) => Math.max(prev - 1, 1));
+    setCurrentStep((prev) => Math.max(prev - 1, 0));
   };
 
   const goToStep = (step: number) => {
-    setCurrentStep(Math.max(1, Math.min(step, totalSteps)));
+    setCurrentStep(Math.max(0, Math.min(step, totalSteps + 1)));
   };
 
   const setAnswer = (questionId: string, answer: string) => {
