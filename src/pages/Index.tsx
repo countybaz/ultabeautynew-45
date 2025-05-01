@@ -5,9 +5,16 @@ import SurveyContainer from "@/components/SurveyContainer";
 const Index = () => {
   return (
     <div className="min-h-screen bg-gradient-to-b from-gray-50 to-gray-100">
-      <header className="shadow-sm bg-blue-600 py-4">
-        <div className="container mx-auto px-4">
-          <h1 className="text-center text-xl font-bold text-white">Ultimate Phone Program</h1>
+      <header className="shadow-sm py-4 bg-white">
+        <div className="container mx-auto px-4 flex items-center justify-center">
+          <div className="flex items-center">
+            <img 
+              src="/lovable-uploads/8c90f432-da05-45a1-81f7-cdbbce1ef2e2.png" 
+              alt="Ultimate Phone Program Logo" 
+              className="h-10 mr-3"
+            />
+            <h1 className="text-xl font-bold text-blue-600">Ultimate Phone Program</h1>
+          </div>
         </div>
       </header>
       
