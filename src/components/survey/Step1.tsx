@@ -11,7 +11,7 @@ const Step1 = () => {
 
   const handleNext = () => {
     if (selected) {
-      setAnswer("device_type", selected);
+      setAnswer("us_resident", selected);
       goToNextStep();
     }
   };
@@ -24,27 +24,18 @@ const Step1 = () => {
       />
       
       <div className="mb-6">
-        <h2 className="text-lg font-medium mb-4">What type of device do you primarily use?</h2>
+        <h2 className="text-lg font-medium mb-4">Do you live in the United States?</h2>
+        <p className="text-sm text-gray-600 mb-4">We are looking for participants from the US only</p>
         <div className="space-y-3">
           <SurveyOption 
-            label="Laptop" 
-            selected={selected === "laptop"} 
-            onClick={() => setSelected("laptop")}
+            label="Yes" 
+            selected={selected === "yes"} 
+            onClick={() => setSelected("yes")}
           />
           <SurveyOption 
-            label="Desktop" 
-            selected={selected === "desktop"} 
-            onClick={() => setSelected("desktop")}
-          />
-          <SurveyOption 
-            label="Tablet" 
-            selected={selected === "tablet"} 
-            onClick={() => setSelected("tablet")}
-          />
-          <SurveyOption 
-            label="Smartphone" 
-            selected={selected === "smartphone"} 
-            onClick={() => setSelected("smartphone")}
+            label="No" 
+            selected={selected === "no"} 
+            onClick={() => setSelected("no")}
           />
         </div>
       </div>

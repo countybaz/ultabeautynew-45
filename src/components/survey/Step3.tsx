@@ -11,7 +11,7 @@ const Step3 = () => {
 
   const handleNext = () => {
     if (selected) {
-      setAnswer("usage_purpose", selected);
+      setAnswer("upgrade_frequency", selected);
       goToNextStep();
     }
   };
@@ -24,27 +24,22 @@ const Step3 = () => {
       />
       
       <div className="mb-6">
-        <h2 className="text-lg font-medium mb-4">What do you primarily use your device for?</h2>
+        <h2 className="text-lg font-medium mb-4">How often do you upgrade your tech devices?</h2>
         <div className="space-y-3">
           <SurveyOption 
-            label="Work/Professional" 
-            selected={selected === "work"} 
-            onClick={() => setSelected("work")}
+            label="Every year" 
+            selected={selected === "every_year"} 
+            onClick={() => setSelected("every_year")}
           />
           <SurveyOption 
-            label="Personal/Everyday Use" 
-            selected={selected === "personal"} 
-            onClick={() => setSelected("personal")}
+            label="Every few years" 
+            selected={selected === "every_few_years"} 
+            onClick={() => setSelected("every_few_years")}
           />
           <SurveyOption 
-            label="Gaming" 
-            selected={selected === "gaming"} 
-            onClick={() => setSelected("gaming")}
-          />
-          <SurveyOption 
-            label="Creative Work (Design, Video, etc.)" 
-            selected={selected === "creative"} 
-            onClick={() => setSelected("creative")}
+            label="Never upgrade" 
+            selected={selected === "never"} 
+            onClick={() => setSelected("never")}
           />
         </div>
       </div>

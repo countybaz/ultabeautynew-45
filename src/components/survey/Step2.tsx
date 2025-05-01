@@ -11,7 +11,7 @@ const Step2 = () => {
 
   const handleNext = () => {
     if (selected) {
-      setAnswer("device_age", selected);
+      setAnswer("tech_importance", selected);
       goToNextStep();
     }
   };
@@ -24,27 +24,22 @@ const Step2 = () => {
       />
       
       <div className="mb-6">
-        <h2 className="text-lg font-medium mb-4">How old is your current device?</h2>
+        <h2 className="text-lg font-medium mb-4">How important is it for you to keep your gadgets up to date?</h2>
         <div className="space-y-3">
           <SurveyOption 
-            label="Less than 1 year" 
-            selected={selected === "less_than_1"} 
-            onClick={() => setSelected("less_than_1")}
+            label="Very important" 
+            selected={selected === "very_important"} 
+            onClick={() => setSelected("very_important")}
           />
           <SurveyOption 
-            label="1-2 years" 
-            selected={selected === "1_to_2"} 
-            onClick={() => setSelected("1_to_2")}
+            label="Somewhat important" 
+            selected={selected === "somewhat_important"} 
+            onClick={() => setSelected("somewhat_important")}
           />
           <SurveyOption 
-            label="3-4 years" 
-            selected={selected === "3_to_4"} 
-            onClick={() => setSelected("3_to_4")}
-          />
-          <SurveyOption 
-            label="5+ years" 
-            selected={selected === "5_plus"} 
-            onClick={() => setSelected("5_plus")}
+            label="Not important at all" 
+            selected={selected === "not_important"} 
+            onClick={() => setSelected("not_important")}
           />
         </div>
       </div>
