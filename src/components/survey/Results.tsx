@@ -27,35 +27,37 @@ const Results = () => {
           <SurveyHeader 
             title="Congratulations!" 
             subtitle="Fantastic news! Your participation is confirmed. Continue to the next step to receive your iPhone 16 Pro:"
-            className="mb-6"
+            className="mb-4"
           />
           
-          <div className="mb-6 space-y-4">
-            {/* iPhone Images - Smaller size */}
-            <div className="bg-white p-3 rounded-lg shadow-sm">
-              <div className="mb-2">
-                <AspectRatio ratio={16/9} className="max-w-[240px] mx-auto">
-                  <img 
-                    src="/lovable-uploads/b58d9fe6-a7c6-416a-9594-20451eb86002.png" 
-                    alt="iPhone 16 Pro colors" 
-                    className="rounded-md object-contain w-full h-full" 
-                  />
-                </AspectRatio>
-              </div>
-              <div>
-                <AspectRatio ratio={16/9} className="max-w-[240px] mx-auto">
-                  <img 
-                    src="/lovable-uploads/b96a5830-12f3-497d-966a-b0930df4e6d0.png" 
-                    alt="iPhone 16 Pro display" 
-                    className="rounded-md object-contain w-full h-full" 
-                  />
-                </AspectRatio>
+          <div className="mb-4 space-y-3">
+            {/* Smaller iPhone Images */}
+            <div className="bg-white p-2 rounded-lg shadow-sm">
+              <div className="flex flex-row justify-center gap-2">
+                <div className="w-[120px]">
+                  <AspectRatio ratio={1/1}>
+                    <img 
+                      src="/lovable-uploads/b58d9fe6-a7c6-416a-9594-20451eb86002.png" 
+                      alt="iPhone 16 Pro colors" 
+                      className="rounded-md object-contain w-full h-full" 
+                    />
+                  </AspectRatio>
+                </div>
+                <div className="w-[120px]">
+                  <AspectRatio ratio={1/1}>
+                    <img 
+                      src="/lovable-uploads/b96a5830-12f3-497d-966a-b0930df4e6d0.png" 
+                      alt="iPhone 16 Pro display" 
+                      className="rounded-md object-contain w-full h-full" 
+                    />
+                  </AspectRatio>
+                </div>
               </div>
             </div>
             
             {/* Blue promotional text */}
-            <div className="text-center px-4 py-3 bg-blue-50 rounded-lg border border-blue-100">
-              <p className="text-blue-600 font-medium">
+            <div className="text-center px-3 py-2 bg-blue-50 rounded-lg border border-blue-100">
+              <p className="text-blue-600 font-medium text-sm">
                 Upgrade your tech and Cash In! Claim $1000 Towards a iPhone 16 Pro Max Elevate your productivity and your wallet!
               </p>
             </div>
