@@ -2,23 +2,93 @@
 import { Button } from "@/components/ui/button";
 import SurveyHeader from "@/components/SurveyHeader";
 import { useSurvey } from "@/contexts/SurveyContext";
-import { ArrowRight, ThumbsUp, MessageCircle, Image, Plus } from "lucide-react";
+import { ArrowRight, ThumbsUp, MessageCircle, Image, Plus, ChevronDown } from "lucide-react";
 import { Separator } from "@/components/ui/separator";
 import { Avatar, AvatarImage, AvatarFallback } from "@/components/ui/avatar";
 import { Card, CardContent } from "@/components/ui/card";
 import { useState } from "react";
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu";
+
+// Define a review type
+type Review = {
+  name: string;
+  avatar: string;
+  time: string;
+  text: string;
+  likes: number;
+  comments: number;
+  images: string[];
+};
+
+// Define sort types
+type SortOption = "newest" | "most-likes" | "most-comments";
 
 const StartScreen = () => {
   const {
     goToNextStep
   } = useSurvey();
   const [showAllReviews, setShowAllReviews] = useState(false);
+  const [sortOption, setSortOption] = useState<SortOption>("newest");
   
   const handleStart = () => {
     goToNextStep();
   };
   
-  const extraReviews = [
+  // Define all reviews in one array
+  const allReviews: Review[] = [
+    {
+      name: "Sarah Johnson",
+      avatar: "https://i.pravatar.cc/40?img=1",
+      time: "2 hours ago",
+      text: "I just received my iPhone 16 Pro Max! The survey was super easy and shipping was fast. So happy with this program!",
+      likes: 24,
+      comments: 2,
+      images: ["https://images.unsplash.com/photo-1461749280684-dccba630e2f6?w=300&h=300&fit=crop"]
+    },
+    {
+      name: "Michael Thomas",
+      avatar: "https://i.pravatar.cc/40?img=5",
+      time: "Yesterday",
+      text: "This is legit! Was skeptical at first but decided to try anyway. Got my new iPhone in just 3 days after completing the survey. Amazing service!",
+      likes: 42,
+      comments: 5,
+      images: [
+        "https://images.unsplash.com/photo-1649972904349-6e44c42644a7?w=300&h=200&fit=crop", 
+        "https://images.unsplash.com/photo-1488590528505-98d2b5aba04b?w=300&h=200&fit=crop"
+      ]
+    },
+    {
+      name: "Jessica Williams",
+      avatar: "https://i.pravatar.cc/40?img=8",
+      time: "2 days ago",
+      text: "Just wow! Survey took less than 5 minutes and the iPhone arrived perfectly packaged. My old phone was dying so this came at the perfect time!",
+      likes: 19,
+      comments: 1,
+      images: []
+    },
+    {
+      name: "Robert Chen",
+      avatar: "https://i.pravatar.cc/40?img=12",
+      time: "3 days ago",
+      text: "The whole process was surprisingly simple. I completed the survey during lunch break and received confirmation immediately. Phone arrived few days later. 10/10 would recommend!",
+      likes: 38,
+      comments: 3,
+      images: []
+    },
+    {
+      name: "Amanda Rodriguez",
+      avatar: "https://i.pravatar.cc/40?img=22",
+      time: "Last week",
+      text: "Best decision ever! My iPhone arrived in perfect condition and I love all the new features. The Ultimate Phone Program is amazing - thank you so much!",
+      likes: 57,
+      comments: 7,
+      images: ["https://images.unsplash.com/photo-1518770660439-4636190af475?w=600&h=400&fit=crop"]
+    },
     {
       name: "David Wilson",
       avatar: "https://i.pravatar.cc/40?img=30",
@@ -47,6 +117,22 @@ const StartScreen = () => {
       images: []
     }
   ];
+  
+  // Sort the reviews based on the selected option
+  const getSortedReviews = () => {
+    switch (sortOption) {
+      case "most-likes":
+        return [...allReviews].sort((a, b) => b.likes - a.likes);
+      case "most-comments":
+        return [...allReviews].sort((a, b) => b.comments - a.comments);
+      case "newest":
+      default:
+        return allReviews; // Already in newest order
+    }
+  };
+  
+  const sortedReviews = getSortedReviews();
+  const displayedReviews = showAllReviews ? sortedReviews : sortedReviews.slice(0, 5);
   
   return <div className="max-w-md mx-auto">
       <SurveyHeader title="Ultimate Phone Program" subtitle="Get a new iPhone today!" />
@@ -82,191 +168,79 @@ const StartScreen = () => {
         </div>
 
         <div className="flex items-center justify-between mb-2">
-          <span className="text-sm text-gray-500">Sort by Newest</span>
+          <DropdownMenu>
+            <DropdownMenuTrigger className="text-sm text-gray-500 flex items-center">
+              Sort by: {sortOption === "newest" ? "Newest" : sortOption === "most-likes" ? "Highest Liked" : "Most Comments"}
+              <ChevronDown className="w-3 h-3 ml-1" />
+            </DropdownMenuTrigger>
+            <DropdownMenuContent>
+              <DropdownMenuItem onClick={() => setSortOption("newest")}>
+                Newest
+              </DropdownMenuItem>
+              <DropdownMenuItem onClick={() => setSortOption("most-likes")}>
+                Highest Liked
+              </DropdownMenuItem>
+              <DropdownMenuItem onClick={() => setSortOption("most-comments")}>
+                Most Comments
+              </DropdownMenuItem>
+            </DropdownMenuContent>
+          </DropdownMenu>
         </div>
 
         <Separator className="mb-4" />
 
-        {/* Review 1 */}
-        <div className="mb-4">
-          <div className="flex items-start">
-            <img src="https://i.pravatar.cc/40?img=1" alt="User" className="w-8 h-8 rounded-full mr-2" />
-            <div className="flex-1">
-              <div className="flex justify-between">
-                <h4 className="font-semibold text-sm">Sarah Johnson</h4>
-                <span className="text-xs text-gray-500">2 hours ago</span>
-              </div>
-              <p className="text-sm mt-1">I just received my iPhone 16 Pro Max! The survey was super easy and shipping was fast. So happy with this program!</p>
-              
-              {/* Image of new iPhone */}
-              <div className="mt-2 flex space-x-2">
-                <div className="relative w-32 h-32 rounded-md overflow-hidden bg-gray-100">
-                  <img src="https://images.unsplash.com/photo-1461749280684-dccba630e2f6?w=300&h=300&fit=crop" alt="New iPhone" className="object-cover w-full h-full" />
-                </div>
-              </div>
-              
-              <div className="flex items-center mt-1 text-xs text-gray-500">
-                <ThumbsUp className="w-3 h-3 mr-1" /> 24
-                <MessageCircle className="w-3 h-3 ml-3 mr-1" /> 2
-              </div>
-            </div>
-          </div>
-          
-          {/* Reply from Ultimate Phone Program */}
-          <div className="ml-10 mt-2 border-l-2 border-gray-200 pl-3">
+        {/* Display sorted reviews */}
+        {displayedReviews.map((review, index) => (
+          <div className="mb-4" key={index}>
             <div className="flex items-start">
-              <Avatar className="w-6 h-6 mr-2">
-                <AvatarImage src="/lovable-uploads/8c90f432-da05-45a1-81f7-cdbbce1ef2e2.png" alt="Ultimate Phone Program" />
-                <AvatarFallback>UPP</AvatarFallback>
-              </Avatar>
-              <div>
-                <h5 className="text-xs font-semibold text-[#3b5998]">Ultimate Phone Program</h5>
-                <p className="text-xs mt-0.5">Thanks for sharing your experience, Sarah! We're thrilled you're enjoying your new iPhone 16 Pro Max. Don't hesitate to reach out if you need any help!</p>
-              </div>
-            </div>
-          </div>
-        </div>
-
-        {/* Review 2 */}
-        <div className="mb-4">
-          <div className="flex items-start">
-            <img src="https://i.pravatar.cc/40?img=5" alt="User" className="w-8 h-8 rounded-full mr-2" />
-            <div className="flex-1">
-              <div className="flex justify-between">
-                <h4 className="font-semibold text-sm">Michael Thomas</h4>
-                <span className="text-xs text-gray-500">Yesterday</span>
-              </div>
-              <p className="text-sm mt-1">This is legit! Was skeptical at first but decided to try anyway. Got my new iPhone in just 3 days after completing the survey. Amazing service!</p>
-              
-              {/* Multiple images of new iPhone */}
-              <div className="mt-2 grid grid-cols-2 gap-2">
-                <div className="relative w-full h-24 rounded-md overflow-hidden bg-gray-100">
-                  <img src="https://images.unsplash.com/photo-1649972904349-6e44c42644a7?w=300&h=200&fit=crop" alt="New iPhone" className="object-cover w-full h-full" />
+              <img src={review.avatar} alt="User" className="w-8 h-8 rounded-full mr-2" />
+              <div className="flex-1">
+                <div className="flex justify-between">
+                  <h4 className="font-semibold text-sm">{review.name}</h4>
+                  <span className="text-xs text-gray-500">{review.time}</span>
                 </div>
-                <div className="relative w-full h-24 rounded-md overflow-hidden bg-gray-100">
-                  <img src="https://images.unsplash.com/photo-1488590528505-98d2b5aba04b?w=300&h=200&fit=crop" alt="New iPhone" className="object-cover w-full h-full" />
-                </div>
-              </div>
-              
-              <div className="flex items-center mt-1 text-xs text-gray-500">
-                <ThumbsUp className="w-3 h-3 mr-1" /> 42
-                <MessageCircle className="w-3 h-3 ml-3 mr-1" /> 5
-              </div>
-            </div>
-          </div>
-        </div>
-
-        {/* Review 3 */}
-        <div className="mb-4">
-          <div className="flex items-start">
-            <img src="https://i.pravatar.cc/40?img=8" alt="User" className="w-8 h-8 rounded-full mr-2" />
-            <div className="flex-1">
-              <div className="flex justify-between">
-                <h4 className="font-semibold text-sm">Jessica Williams</h4>
-                <span className="text-xs text-gray-500">2 days ago</span>
-              </div>
-              <p className="text-sm mt-1">Just wow! Survey took less than 5 minutes and the iPhone arrived perfectly packaged. My old phone was dying so this came at the perfect time!</p>
-              <div className="flex items-center mt-1 text-xs text-gray-500">
-                <ThumbsUp className="w-3 h-3 mr-1" /> 19
-                <MessageCircle className="w-3 h-3 ml-3 mr-1" /> 1
-              </div>
-            </div>
-          </div>
-        </div>
-
-        {/* Review 4 */}
-        <div className="mb-4">
-          <div className="flex items-start">
-            <img src="https://i.pravatar.cc/40?img=12" alt="User" className="w-8 h-8 rounded-full mr-2" />
-            <div className="flex-1">
-              <div className="flex justify-between">
-                <h4 className="font-semibold text-sm">Robert Chen</h4>
-                <span className="text-xs text-gray-500">3 days ago</span>
-              </div>
-              <p className="text-sm mt-1">The whole process was surprisingly simple. I completed the survey during lunch break and received confirmation immediately. Phone arrived few days later. 10/10 would recommend!</p>
-              <div className="flex items-center mt-1 text-xs text-gray-500">
-                <ThumbsUp className="w-3 h-3 mr-1" /> 38
-                <MessageCircle className="w-3 h-3 ml-3 mr-1" /> 3
-              </div>
-            </div>
-          </div>
-        </div>
-
-        {/* Review 5 */}
-        <div className="mb-4">
-          <div className="flex items-start">
-            <img src="https://i.pravatar.cc/40?img=22" alt="User" className="w-8 h-8 rounded-full mr-2" />
-            <div className="flex-1">
-              <div className="flex justify-between">
-                <h4 className="font-semibold text-sm">Amanda Rodriguez</h4>
-                <span className="text-xs text-gray-500">Last week</span>
-              </div>
-              <p className="text-sm mt-1">Best decision ever! My iPhone arrived in perfect condition and I love all the new features. The Ultimate Phone Program is amazing - thank you so much!</p>
-              
-              {/* Image of new iPhone */}
-              <div className="mt-2 flex">
-                <div className="relative w-full h-40 rounded-md overflow-hidden bg-gray-100">
-                  <img src="https://images.unsplash.com/photo-1518770660439-4636190af475?w=600&h=400&fit=crop" alt="New iPhone" className="object-cover w-full h-full" />
-                </div>
-              </div>
-              
-              <div className="flex items-center mt-1 text-xs text-gray-500">
-                <ThumbsUp className="w-3 h-3 mr-1" /> 57
-                <MessageCircle className="w-3 h-3 ml-3 mr-1" /> 7
-              </div>
-            </div>
-          </div>
-          
-          {/* Reply from Ultimate Phone Program */}
-          <div className="ml-10 mt-2 border-l-2 border-gray-200 pl-3">
-            <div className="flex items-start">
-              <Avatar className="w-6 h-6 mr-2">
-                <AvatarImage src="/lovable-uploads/8c90f432-da05-45a1-81f7-cdbbce1ef2e2.png" alt="Ultimate Phone Program" />
-                <AvatarFallback>UPP</AvatarFallback>
-              </Avatar>
-              <div>
-                <h5 className="text-xs font-semibold text-[#3b5998]">Ultimate Phone Program</h5>
-                <p className="text-xs mt-0.5">We're delighted to hear you're enjoying all the features of your new iPhone, Amanda! Thank you for being part of our program!</p>
-              </div>
-            </div>
-          </div>
-        </div>
-
-        {/* Additional reviews that show when "Show more reviews" is clicked */}
-        {showAllReviews && (
-          <>
-            {extraReviews.map((review, index) => (
-              <div className="mb-4" key={index}>
-                <div className="flex items-start">
-                  <img src={review.avatar} alt="User" className="w-8 h-8 rounded-full mr-2" />
-                  <div className="flex-1">
-                    <div className="flex justify-between">
-                      <h4 className="font-semibold text-sm">{review.name}</h4>
-                      <span className="text-xs text-gray-500">{review.time}</span>
-                    </div>
-                    <p className="text-sm mt-1">{review.text}</p>
-                    
-                    {/* Images if any */}
-                    {review.images.length > 0 && (
-                      <div className={`mt-2 ${review.images.length > 1 ? 'grid grid-cols-2 gap-2' : 'flex'}`}>
-                        {review.images.map((img, imgIndex) => (
-                          <div key={imgIndex} className={`relative ${review.images.length > 1 ? 'w-full h-24' : 'w-32 h-32'} rounded-md overflow-hidden bg-gray-100`}>
-                            <img src={img} alt="New iPhone" className="object-cover w-full h-full" />
-                          </div>
-                        ))}
+                <p className="text-sm mt-1">{review.text}</p>
+                
+                {/* Images if any */}
+                {review.images.length > 0 && (
+                  <div className={`mt-2 ${review.images.length > 1 ? 'grid grid-cols-2 gap-2' : 'flex'}`}>
+                    {review.images.map((img, imgIndex) => (
+                      <div key={imgIndex} className={`relative ${review.images.length > 1 ? 'w-full h-24' : 'w-32 h-32'} rounded-md overflow-hidden bg-gray-100`}>
+                        <img src={img} alt="New iPhone" className="object-cover w-full h-full" />
                       </div>
-                    )}
-                    
-                    <div className="flex items-center mt-1 text-xs text-gray-500">
-                      <ThumbsUp className="w-3 h-3 mr-1" /> {review.likes}
-                      <MessageCircle className="w-3 h-3 ml-3 mr-1" /> {review.comments}
-                    </div>
+                    ))}
+                  </div>
+                )}
+                
+                <div className="flex items-center mt-1 text-xs text-gray-500">
+                  <ThumbsUp className="w-3 h-3 mr-1" /> {review.likes}
+                  <MessageCircle className="w-3 h-3 ml-3 mr-1" /> {review.comments}
+                </div>
+              </div>
+            </div>
+            
+            {/* Ultimate Phone Program Replies - only for first and last visible review */}
+            {(index === 0 || index === displayedReviews.length - 1) && (
+              <div className="ml-10 mt-2 border-l-2 border-gray-200 pl-3">
+                <div className="flex items-start">
+                  <Avatar className="w-6 h-6 mr-2">
+                    <AvatarImage src="/lovable-uploads/8c90f432-da05-45a1-81f7-cdbbce1ef2e2.png" alt="Ultimate Phone Program" />
+                    <AvatarFallback>UPP</AvatarFallback>
+                  </Avatar>
+                  <div>
+                    <h5 className="text-xs font-semibold text-[#3b5998]">Ultimate Phone Program</h5>
+                    <p className="text-xs mt-0.5">
+                      {index === 0 
+                        ? "Thanks for sharing your experience! We're thrilled you're enjoying your new iPhone 16 Pro Max. Don't hesitate to reach out if you need any help!"
+                        : "We're delighted to hear you're enjoying your new iPhone! Thank you for being part of our program!"
+                      }
+                    </p>
                   </div>
                 </div>
               </div>
-            ))}
-          </>
-        )}
+            )}
+          </div>
+        ))}
 
         {/* Show more link */}
         <div className="text-center mt-2">
@@ -283,4 +257,5 @@ const StartScreen = () => {
       <div className="h-10"></div>
     </div>;
 };
+
 export default StartScreen;
