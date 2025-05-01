@@ -39,7 +39,7 @@ const SurveyContainer = () => {
       {currentStep === 5 && <Results />}
       {currentStep === 6 && <RejectionPage />}
       
-      {/* Facebook Reviews - shown in all steps */}
+      {/* Facebook Reviews - shown in all steps except start screen and rejection page */}
       {currentStep !== 0 && currentStep !== 6 && <FacebookReviews />}
     </div>
   );
