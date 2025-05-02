@@ -10,16 +10,16 @@ import IPhoneImageFetcher from "@/components/IPhoneImageFetcher";
 import { useIsMobile } from "@/hooks/use-mobile";
 import { Skeleton } from "@/components/ui/skeleton";
 
-// Define fallback image paths with low quality parameters
+// Define fallback image paths with aggressive quality reduction
 const FALLBACK_IMAGES = [
-  "/lovable-uploads/b58d9fe6-a7c6-416a-9594-20451eb86002.png?q=50&w=300", // Added quality and width parameters
-  "/lovable-uploads/b96a5830-12f3-497d-966a-b0930df4e6d0.png?q=50&w=300"  // Added quality and width parameters
+  "/lovable-uploads/b58d9fe6-a7c6-416a-9594-20451eb86002.png?q=25&w=180", // Very low quality
+  "/lovable-uploads/b96a5830-12f3-497d-966a-b0930df4e6d0.png?q=25&w=180"  // Very low quality
 ];
 
-// External placeholder images with low quality
+// External placeholder images with very low quality
 const PLACEHOLDER_IMAGES = [
-  "https://images.unsplash.com/photo-1460925895917-afdab827c52f?auto=format&q=50&w=240", // Low quality, smaller size
-  "https://images.unsplash.com/photo-1581090464777-f3220bbe1b8b?auto=format&q=50&w=240"  // Low quality, smaller size
+  "https://images.unsplash.com/photo-1460925895917-afdab827c52f?auto=format&q=25&w=180", // Ultra-low quality
+  "https://images.unsplash.com/photo-1581090464777-f3220bbe1b8b?auto=format&q=25&w=180"  // Ultra-low quality
 ];
 
 const Results = () => {
@@ -34,35 +34,47 @@ const Results = () => {
   const [imageLoadStatus, setImageLoadStatus] = useState<boolean[]>([false, false]);
   const isMobile = useIsMobile();
 
-  // Pre-load the fallback images immediately when component mounts
+  // Immediately start loading all fallback images in parallel
   useEffect(() => {
-    // Also try loading placeholder images from Unsplash as additional fallbacks
-    const placeholderImg1 = new Image();
-    const placeholderImg2 = new Image();
-    
-    placeholderImg1.src = PLACEHOLDER_IMAGES[0];
-    placeholderImg2.src = PLACEHOLDER_IMAGES[1];
-    
-    // Start loading both original fallback images in parallel
-    const img1 = new Image();
-    const img2 = new Image();
-    
-    img1.onload = () => {
-      setImageLoadStatus(prev => [true, prev[1]]);
+    // Load all images in parallel for maximum speed
+    const loadAllImages = () => {
+      const placeholderPromises = PLACEHOLDER_IMAGES.map((src, index) => {
+        return new Promise<void>((resolve) => {
+          const img = new Image();
+          img.onload = () => resolve();
+          img.onerror = () => resolve();
+          img.src = src;
+        });
+      });
+
+      const fallbackPromises = FALLBACK_IMAGES.map((src, index) => {
+        return new Promise<void>((resolve) => {
+          const img = new Image();
+          img.onload = () => {
+            setImageLoadStatus(prev => {
+              const newStatus = [...prev];
+              newStatus[index] = true;
+              return newStatus;
+            });
+            resolve();
+          };
+          img.onerror = () => resolve();
+          img.src = src;
+        });
+      });
+
+      // Execute all image loading in parallel
+      Promise.all([...placeholderPromises, ...fallbackPromises]).then(() => {
+        setImagesLoaded(true);
+      });
     };
+
+    loadAllImages();
     
-    img2.onload = () => {
-      setImageLoadStatus(prev => [prev[0], true]);
-    };
-    
-    // Set src after attaching onload handlers
-    img1.src = FALLBACK_IMAGES[0];
-    img2.src = FALLBACK_IMAGES[1];
-    
-    // Mark as loaded after a short timeout to avoid waiting too long
+    // Ultra-fast timeout for immediate display even if images are still loading
     const timeout = setTimeout(() => {
       setImagesLoaded(true);
-    }, 1000); // Reduced from 2000ms to 1000ms for faster display
+    }, 300); // Super fast timeout
     
     return () => clearTimeout(timeout);
   }, []);
@@ -76,15 +88,13 @@ const Results = () => {
   };
   
   const handleImagesFetched = (images: Array<{src: string, alt: string}>) => {
-    // Add quality and size parameters to fetched images
+    // Add aggressive quality reduction for better performance
     if (images && images.length >= 2 && images[0].src && images[1].src) {
-      // Use two preselected images with lower quality parameters
       const processImageUrl = (url: string) => {
-        // If it's an external URL that supports query parameters
         if (url.includes('unsplash.com') || url.includes('images.')) {
           return url.includes('?') ? 
-            `${url}&q=50&w=240` : // Add quality and width params 
-            `${url}?q=50&w=240`; // Add quality and width params
+            `${url}&q=25&w=180` : // Very low quality, small size
+            `${url}?q=25&w=180`; // Very low quality, small size
         }
         return url;
       };
@@ -125,7 +135,7 @@ const Results = () => {
               <IPhoneImageFetcher onComplete={handleImagesFetched} />
             </div>
             
-            {/* iPhone Images - optimized for mobile with lower quality */}
+            {/* iPhone Images - optimized for mobile with ultra-low quality */}
             <div className="bg-white p-2 rounded-lg shadow-sm">
               <div className={`flex ${isMobile ? 'flex-col items-center' : 'flex-row justify-center'} gap-2`}>
                 <div className={`${isMobile ? 'w-[140px]' : 'w-[120px]'}`}>
@@ -145,23 +155,11 @@ const Results = () => {
                         decoding="async"
                         onLoad={() => handleImageLoad(0)}
                         onError={() => {
-                          // If error, try placeholder image first, then fallback
-                          const imgPlaceholder = document.createElement('img');
-                          imgPlaceholder.onload = () => handleImageLoad(0);
-                          imgPlaceholder.onerror = () => {
-                            const imgFallback = document.createElement('img');
-                            imgFallback.onload = () => handleImageLoad(0);
-                            imgFallback.src = FALLBACK_IMAGES[0];
-                            setIphoneImages(prev => [
-                              {src: FALLBACK_IMAGES[0], alt: "iPhone 16 Pro colors"},
-                              prev[1]
-                            ]);
-                          };
-                          imgPlaceholder.src = PLACEHOLDER_IMAGES[0];
                           setIphoneImages(prev => [
-                            {src: PLACEHOLDER_IMAGES[0], alt: "iPhone 16 Pro colors"},
+                            {src: FALLBACK_IMAGES[0], alt: "iPhone 16 Pro colors"},
                             prev[1]
                           ]);
+                          handleImageLoad(0);
                         }}
                       />
                     )}
@@ -186,23 +184,11 @@ const Results = () => {
                           decoding="async"
                           onLoad={() => handleImageLoad(1)}
                           onError={() => {
-                            // If error, try placeholder image first, then fallback
-                            const imgPlaceholder = document.createElement('img');
-                            imgPlaceholder.onload = () => handleImageLoad(1);
-                            imgPlaceholder.onerror = () => {
-                              const imgFallback = document.createElement('img');
-                              imgFallback.onload = () => handleImageLoad(1);
-                              imgFallback.src = FALLBACK_IMAGES[1];
-                              setIphoneImages(prev => [
-                                prev[0],
-                                {src: FALLBACK_IMAGES[1], alt: "iPhone 16 Pro display"}
-                              ]);
-                            };
-                            imgPlaceholder.src = PLACEHOLDER_IMAGES[1];
                             setIphoneImages(prev => [
                               prev[0],
-                              {src: PLACEHOLDER_IMAGES[1], alt: "iPhone 16 Pro display"}
+                              {src: FALLBACK_IMAGES[1], alt: "iPhone 16 Pro display"}
                             ]);
+                            handleImageLoad(1);
                           }}
                         />
                       )}
@@ -229,7 +215,7 @@ const Results = () => {
               className="block w-full"
             >
               <Button 
-                className={`w-full bg-blue-600 hover:bg-blue-700 py-6 text-lg animate-pulse ${isMobile ? 'shadow-lg' : ''}`}
+                className={`w-full bg-blue-600 hover:bg-blue-700 py-6 text-lg ${isMobile ? 'shadow-lg' : ''}`}
               >
                 Continue to Claim Your Reward
               </Button>
