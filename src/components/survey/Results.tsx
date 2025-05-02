@@ -20,45 +20,38 @@ const Results = () => {
   const { answers } = useSurvey();
   const { toast } = useToast();
   const [showingOffer, setShowingOffer] = useState(false);
-  const [iphoneImages, setIphoneImages] = useState<Array<{src: string, alt: string}>>([]);
+  const [iphoneImages, setIphoneImages] = useState<Array<{src: string, alt: string}>>([
+    {src: FALLBACK_IMAGES[0], alt: "iPhone 16 Pro colors"},
+    {src: FALLBACK_IMAGES[1], alt: "iPhone 16 Pro display"}
+  ]); // Initialize with fallback images immediately
   const [imagesLoaded, setImagesLoaded] = useState(false);
   const [imageLoadStatus, setImageLoadStatus] = useState<boolean[]>([false, false]);
   const isMobile = useIsMobile();
 
-  // Pre-load the fallback images
+  // Pre-load the fallback images immediately when component mounts
   useEffect(() => {
-    const preloadImages = () => {
-      // Use the uploaded images directly - these are guaranteed to work
-      const fallbackSources = [
-        {src: "/lovable-uploads/b58d9fe6-a7c6-416a-9594-20451eb86002.png", alt: "iPhone 16 Pro colors"},
-        {src: "/lovable-uploads/b96a5830-12f3-497d-966a-b0930df4e6d0.png", alt: "iPhone 16 Pro display"}
-      ];
-      
-      setIphoneImages(fallbackSources);
-      
-      // Preload images
-      const imagePromises = fallbackSources.map((item, index) => {
-        return new Promise((resolve) => {
-          const img = new Image();
-          img.onload = () => {
-            setImageLoadStatus(prev => {
-              const newStatus = [...prev];
-              newStatus[index] = true;
-              return newStatus;
-            });
-            resolve(true);
-          };
-          img.onerror = () => resolve(false);
-          img.src = item.src;
-        });
-      });
-      
-      Promise.all(imagePromises).then(() => {
-        setImagesLoaded(true);
-      });
+    // Start loading both images in parallel
+    const img1 = new Image();
+    const img2 = new Image();
+    
+    img1.onload = () => {
+      setImageLoadStatus(prev => [true, prev[1]]);
     };
     
-    preloadImages();
+    img2.onload = () => {
+      setImageLoadStatus(prev => [prev[0], true]);
+    };
+    
+    // Set src after attaching onload handlers
+    img1.src = FALLBACK_IMAGES[0];
+    img2.src = FALLBACK_IMAGES[1];
+    
+    // Mark as loaded when both images are ready or after 2 seconds timeout
+    const timeout = setTimeout(() => {
+      setImagesLoaded(true);
+    }, 2000);
+    
+    return () => clearTimeout(timeout);
   }, []);
 
   const handleClaim = () => {
@@ -70,11 +63,13 @@ const Results = () => {
   };
   
   const handleImagesFetched = (images: Array<{src: string, alt: string}>) => {
-    // Only update if we received valid images
+    // Only update if we received valid images and they're different from what we have
     if (images && images.length >= 2 && images[0].src && images[1].src) {
-      // Get two random images for the display
-      const shuffled = [...images].sort(() => 0.5 - Math.random());
-      setIphoneImages(shuffled.slice(0, 2));
+      // Use two preselected images instead of random ones for more consistency
+      setIphoneImages([
+        {src: images[0].src, alt: "iPhone 16 Pro colors"},
+        {src: images[1].src, alt: "iPhone 16 Pro display"}
+      ]);
     }
   };
 
@@ -84,6 +79,11 @@ const Results = () => {
       newStatus[index] = true;
       return newStatus;
     });
+    
+    // If both images are loaded, set overall loaded state
+    if (index === 0 && imageLoadStatus[1] || index === 1 && imageLoadStatus[0]) {
+      setImagesLoaded(true);
+    }
   };
 
   return (
@@ -111,7 +111,7 @@ const Results = () => {
                       <Skeleton className="w-full h-full rounded-md" />
                     ) : (
                       <img 
-                        src={iphoneImages[0]?.src || FALLBACK_IMAGES[0]} 
+                        src={iphoneImages[0]?.src} 
                         alt="iPhone 16 Pro colors" 
                         className="rounded-md object-contain w-full h-full" 
                         loading="eager"
@@ -125,7 +125,7 @@ const Results = () => {
                           img.src = FALLBACK_IMAGES[0];
                           setIphoneImages(prev => [
                             {src: FALLBACK_IMAGES[0], alt: "iPhone 16 Pro colors"},
-                            prev[1] || {src: FALLBACK_IMAGES[1], alt: "iPhone 16 Pro display"}
+                            prev[1]
                           ]);
                         }}
                       />
@@ -140,7 +140,7 @@ const Results = () => {
                         <Skeleton className="w-full h-full rounded-md" />
                       ) : (
                         <img 
-                          src={iphoneImages[1]?.src || FALLBACK_IMAGES[1]} 
+                          src={iphoneImages[1]?.src} 
                           alt="iPhone 16 Pro display" 
                           className="rounded-md object-contain w-full h-full" 
                           loading="eager"
@@ -153,7 +153,7 @@ const Results = () => {
                             img.onload = () => handleImageLoad(1);
                             img.src = FALLBACK_IMAGES[1];
                             setIphoneImages(prev => [
-                              prev[0] || {src: FALLBACK_IMAGES[0], alt: "iPhone 16 Pro colors"},
+                              prev[0],
                               {src: FALLBACK_IMAGES[1], alt: "iPhone 16 Pro display"}
                             ]);
                           }}

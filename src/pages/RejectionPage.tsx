@@ -2,9 +2,18 @@
 import { Button } from "@/components/ui/button";
 import { RefreshCw } from "lucide-react";
 import { useNavigate, Link } from "react-router-dom";
+import { useEffect, useState } from "react";
 
 const RejectionPage = () => {
   const navigate = useNavigate();
+  const [logoLoaded, setLogoLoaded] = useState(false);
+  
+  // Preload the logo image
+  useEffect(() => {
+    const img = new Image();
+    img.onload = () => setLogoLoaded(true);
+    img.src = "/lovable-uploads/8c90f432-da05-45a1-81f7-cdbbce1ef2e2.png";
+  }, []);
   
   const handleTryAgain = () => {
     // Navigate back to the main page
@@ -18,7 +27,11 @@ const RejectionPage = () => {
           <img 
             src="/lovable-uploads/8c90f432-da05-45a1-81f7-cdbbce1ef2e2.png" 
             alt="Ultimate Phone Program Logo" 
-            className="h-20 md:h-24 mr-4"
+            className={`h-20 md:h-24 mr-4 ${logoLoaded ? 'opacity-100' : 'opacity-0'}`}
+            style={{ transition: 'opacity 0.3s' }}
+            loading="eager"
+            fetchPriority="high"
+            onLoad={() => setLogoLoaded(true)}
           />
           <h1 className="text-xl font-bold text-blue-600">Ultimate Phone Program</h1>
         </div>

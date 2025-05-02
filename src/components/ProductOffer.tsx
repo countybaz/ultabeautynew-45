@@ -1,4 +1,3 @@
-
 import { Button } from "@/components/ui/button";
 import Timer from "@/components/Timer";
 import { Check } from "lucide-react";
@@ -22,18 +21,45 @@ const ProductOffer = ({ onClaim }: ProductOfferProps) => {
   const [selectedImage, setSelectedImage] = useState<string>(FALLBACK_IMAGE);
   const [imageLoaded, setImageLoaded] = useState(false);
   
-  // Preload the fallback image
+  // Preload the fallback image immediately on component mount
   useEffect(() => {
     const img = new Image();
     img.onload = () => setImageLoaded(true);
     img.src = FALLBACK_IMAGE;
+    
+    // Also start loading the image displayed on screen
+    const displayImg = new Image();
+    displayImg.onload = () => setImageLoaded(true);
+    displayImg.src = selectedImage;
+    
+    // Set a reasonable timeout in case images take too long
+    const timeout = setTimeout(() => {
+      setImageLoaded(true);
+    }, 2000);
+    
+    return () => clearTimeout(timeout);
   }, []);
   
   const handleImagesFetched = (images: IPhoneImage[]) => {
     if (images.length > 0) {
-      // Randomly select one image
-      const randomIndex = Math.floor(Math.random() * images.length);
-      setSelectedImage(images[randomIndex].src);
+      // Choose a specific image - the first one - instead of random
+      // This improves consistency and perceived performance
+      const newSrc = images[0].src;
+      
+      // Only update if we have a different image to avoid re-render
+      if (newSrc !== selectedImage && newSrc) {
+        // Preload the new image before swapping
+        const img = new Image();
+        img.onload = () => {
+          setSelectedImage(newSrc);
+          setImageLoaded(true);
+        };
+        img.onerror = () => {
+          // If the new image fails, keep using the fallback
+          setImageLoaded(true);
+        };
+        img.src = newSrc;
+      }
     }
   };
   
@@ -50,22 +76,28 @@ const ProductOffer = ({ onClaim }: ProductOfferProps) => {
           <IPhoneImageFetcher onComplete={handleImagesFetched} />
         </div>
         
-        {/* Display the selected image */}
-        {!imageLoaded ? (
-          <Skeleton className="w-full h-48 rounded-md" />
-        ) : (
+        {/* Display the selected image with optimizations */}
+        <div className="w-full h-48 relative rounded-md overflow-hidden">
+          {!imageLoaded ? (
+            <Skeleton className="w-full h-full absolute inset-0 rounded-md" />
+          ) : null}
           <img 
             src={selectedImage} 
             alt="iPhone 16 Pro Max" 
-            className="w-full h-48 object-cover rounded-md" 
+            className={`w-full h-48 object-cover rounded-md ${imageLoaded ? 'opacity-100' : 'opacity-0'}`}
+            style={{ transition: 'opacity 0.3s' }}
             loading="eager"
             fetchPriority="high"
             crossOrigin="anonymous"
+            onLoad={() => setImageLoaded(true)}
             onError={() => {
+              const img = new Image();
+              img.onload = () => setImageLoaded(true);
+              img.src = FALLBACK_IMAGE;
               setSelectedImage(FALLBACK_IMAGE);
             }}
           />
-        )}
+        </div>
       </div>
 
       <div className="mb-6">
