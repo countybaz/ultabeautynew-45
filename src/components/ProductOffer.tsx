@@ -1,3 +1,4 @@
+
 import { Button } from "@/components/ui/button";
 import Timer from "@/components/Timer";
 import { Check } from "lucide-react";
@@ -14,8 +15,10 @@ interface IPhoneImage {
   alt: string;
 }
 
-// Define guaranteed working fallback image
-const FALLBACK_IMAGE = "/lovable-uploads/e8ded452-0d3c-44c9-8312-b92eea2579ef.png";
+// Define guaranteed working fallback image with quality parameter
+const FALLBACK_IMAGE = "/lovable-uploads/e8ded452-0d3c-44c9-8312-b92eea2579ef.png?q=50&w=300";
+// Additional fallback from Unsplash with optimized load time
+const UNSPLASH_FALLBACK = "https://images.unsplash.com/photo-1498050108023-c5249f4df085?auto=format&q=50&w=300";
 
 const ProductOffer = ({ onClaim }: ProductOfferProps) => {
   const [selectedImage, setSelectedImage] = useState<string>(FALLBACK_IMAGE);
@@ -23,6 +26,10 @@ const ProductOffer = ({ onClaim }: ProductOfferProps) => {
   
   // Preload the fallback image immediately on component mount
   useEffect(() => {
+    // Try loading both fallback options
+    const unsplashFallback = new Image();
+    unsplashFallback.src = UNSPLASH_FALLBACK;
+    
     const img = new Image();
     img.onload = () => setImageLoaded(true);
     img.src = FALLBACK_IMAGE;
@@ -32,10 +39,10 @@ const ProductOffer = ({ onClaim }: ProductOfferProps) => {
     displayImg.onload = () => setImageLoaded(true);
     displayImg.src = selectedImage;
     
-    // Set a reasonable timeout in case images take too long
+    // Set a shorter timeout for faster display
     const timeout = setTimeout(() => {
       setImageLoaded(true);
-    }, 2000);
+    }, 1000); // Reduced from 2000ms to 1000ms
     
     return () => clearTimeout(timeout);
   }, []);
@@ -43,8 +50,14 @@ const ProductOffer = ({ onClaim }: ProductOfferProps) => {
   const handleImagesFetched = (images: IPhoneImage[]) => {
     if (images.length > 0) {
       // Choose a specific image - the first one - instead of random
-      // This improves consistency and perceived performance
-      const newSrc = images[0].src;
+      let newSrc = images[0].src;
+      
+      // Add quality parameters to reduce image size if possible
+      if (newSrc.includes('unsplash.com') || newSrc.includes('images.')) {
+        newSrc = newSrc.includes('?') ? 
+          `${newSrc}&q=50&w=300` : // Add quality and width params 
+          `${newSrc}?q=50&w=300`; // Add quality and width params
+      }
       
       // Only update if we have a different image to avoid re-render
       if (newSrc !== selectedImage && newSrc) {
@@ -55,8 +68,18 @@ const ProductOffer = ({ onClaim }: ProductOfferProps) => {
           setImageLoaded(true);
         };
         img.onerror = () => {
-          // If the new image fails, keep using the fallback
-          setImageLoaded(true);
+          // If the new image fails, try Unsplash fallback first, then default fallback
+          const unsplashFallback = new Image();
+          unsplashFallback.onload = () => {
+            setSelectedImage(UNSPLASH_FALLBACK);
+            setImageLoaded(true);
+          };
+          unsplashFallback.onerror = () => {
+            // If Unsplash fails too, use the default fallback
+            setSelectedImage(FALLBACK_IMAGE);
+            setImageLoaded(true);
+          };
+          unsplashFallback.src = UNSPLASH_FALLBACK;
         };
         img.src = newSrc;
       }
@@ -85,16 +108,29 @@ const ProductOffer = ({ onClaim }: ProductOfferProps) => {
             src={selectedImage} 
             alt="iPhone 16 Pro Max" 
             className={`w-full h-48 object-cover rounded-md ${imageLoaded ? 'opacity-100' : 'opacity-0'}`}
-            style={{ transition: 'opacity 0.3s' }}
+            style={{ transition: 'opacity 0.2s' }} // Faster transition
+            width="300"
+            height="192"
             loading="eager"
             fetchPriority="high"
             crossOrigin="anonymous"
+            decoding="async"
             onLoad={() => setImageLoaded(true)}
             onError={() => {
-              const img = new Image();
-              img.onload = () => setImageLoaded(true);
-              img.src = FALLBACK_IMAGE;
-              setSelectedImage(FALLBACK_IMAGE);
+              // Try Unsplash fallback first, then default fallback
+              const unsplashFallback = new Image();
+              unsplashFallback.onload = () => {
+                setSelectedImage(UNSPLASH_FALLBACK);
+                setImageLoaded(true);
+              };
+              unsplashFallback.onerror = () => {
+                // If Unsplash fails too, use the default fallback
+                const img = new Image();
+                img.onload = () => setImageLoaded(true);
+                img.src = FALLBACK_IMAGE;
+                setSelectedImage(FALLBACK_IMAGE);
+              };
+              unsplashFallback.src = UNSPLASH_FALLBACK;
             }}
           />
         </div>
