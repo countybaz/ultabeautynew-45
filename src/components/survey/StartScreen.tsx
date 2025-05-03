@@ -4,18 +4,18 @@ import SurveyHeader from "@/components/SurveyHeader";
 import { useSurvey } from "@/contexts/SurveyContext";
 import { ArrowRight } from "lucide-react";
 import FacebookReviews from "@/components/FacebookReviews";
+import { useIsMobile } from "@/hooks/use-mobile";
 
 const StartScreen = () => {
-  const {
-    goToNextStep
-  } = useSurvey();
+  const { goToNextStep } = useSurvey();
+  const isMobile = useIsMobile();
   
   const handleStart = () => {
     goToNextStep();
   };
   
   return (
-    <div className="max-w-md mx-auto">
+    <div className="max-w-md mx-auto pb-20 md:pb-0">
       <SurveyHeader 
         title="Great news! You are among the first to join our Ultimate iPhone Program!"
       />
@@ -34,7 +34,10 @@ const StartScreen = () => {
         </p>
       </div>
 
-      <Button onClick={handleStart} className="w-full bg-blue-600 hover:bg-blue-700 text-lg py-6">
+      <Button 
+        onClick={handleStart} 
+        className={`w-full bg-blue-600 hover:bg-blue-700 text-lg py-6 shadow-lg ${isMobile ? 'fixed bottom-4 left-0 right-0 max-w-xs mx-auto z-10' : ''}`}
+      >
         Start <ArrowRight className="ml-2" />
       </Button>
 

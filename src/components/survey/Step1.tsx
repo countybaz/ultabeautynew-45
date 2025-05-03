@@ -5,11 +5,13 @@ import SurveyHeader from "@/components/SurveyHeader";
 import SurveyOption from "@/components/SurveyOption";
 import { useSurvey } from "@/contexts/SurveyContext";
 import { useNavigate } from "react-router-dom";
+import { useIsMobile } from "@/hooks/use-mobile";
 
 const Step1 = () => {
   const { goToNextStep, setAnswer } = useSurvey();
   const [selected, setSelected] = useState<string | null>(null);
   const navigate = useNavigate();
+  const isMobile = useIsMobile();
 
   const handleNext = () => {
     if (selected) {
@@ -25,7 +27,7 @@ const Step1 = () => {
   };
 
   return (
-    <div className="max-w-md mx-auto">
+    <div className="max-w-md mx-auto pb-20 md:pb-0">
       <SurveyHeader 
         title=""
         subtitle="We need some information to get started."
@@ -51,7 +53,7 @@ const Step1 = () => {
       <Button 
         onClick={handleNext} 
         disabled={!selected}
-        className="w-full bg-blue-600 hover:bg-blue-700"
+        className={`w-full py-5 text-lg bg-blue-600 hover:bg-blue-700 shadow-lg ${isMobile ? 'fixed bottom-4 left-0 right-0 max-w-xs mx-auto z-10' : ''}`}
       >
         Continue
       </Button>

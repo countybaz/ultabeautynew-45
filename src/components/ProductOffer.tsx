@@ -5,6 +5,7 @@ import { Check } from "lucide-react";
 import { useEffect, useState } from "react";
 import IPhoneImageFetcher from "@/components/IPhoneImageFetcher";
 import { Skeleton } from "@/components/ui/skeleton";
+import { useIsMobile } from "@/hooks/use-mobile";
 
 interface ProductOfferProps {
   onClaim: () => void;
@@ -23,6 +24,7 @@ const UNSPLASH_FALLBACK = "https://images.unsplash.com/photo-1498050108023-c5249
 const ProductOffer = ({ onClaim }: ProductOfferProps) => {
   const [selectedImage, setSelectedImage] = useState<string>(FALLBACK_IMAGE);
   const [imageLoaded, setImageLoaded] = useState(false);
+  const isMobile = useIsMobile();
   
   // Preload fallback images immediately
   useEffect(() => {
@@ -71,7 +73,7 @@ const ProductOffer = ({ onClaim }: ProductOfferProps) => {
   };
   
   return (
-    <div className="border border-gray-200 rounded-lg shadow-lg p-6 max-w-md mx-auto bg-white">
+    <div className="border border-gray-200 rounded-lg shadow-lg p-6 max-w-md mx-auto bg-white pb-20 md:pb-6">
       <div className="text-center mb-4">
         <h3 className="text-xl font-bold text-gray-900">Congratulations!</h3>
         <p className="text-green-600 font-medium">You've qualified for our special offer!</p>
@@ -135,7 +137,7 @@ const ProductOffer = ({ onClaim }: ProductOfferProps) => {
 
       <Button 
         onClick={onClaim} 
-        className="w-full py-6 text-lg bg-green-600 hover:bg-green-700"
+        className={`w-full py-6 text-lg bg-green-600 hover:bg-green-700 shadow-lg ${isMobile ? 'fixed bottom-4 left-0 right-0 max-w-xs mx-auto z-10' : 'mt-6'}`}
       >
         CLAIM NOW
       </Button>
