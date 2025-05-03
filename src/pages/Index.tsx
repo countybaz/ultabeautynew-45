@@ -25,9 +25,9 @@ const Index = () => {
           <div className="mb-6">
             <h3 className="font-semibold mb-3 text-gray-800 bg-gray-100 inline-block px-4 py-2 rounded-md">Legal Links</h3>
             <div className="flex flex-wrap justify-center gap-4 text-sm">
-              <Link to="/terms" className="text-blue-600 hover:underline">Terms and Conditions</Link>
-              <Link to="/privacy" className="text-blue-600 hover:underline">Privacy Policy</Link>
-              <Link to="/non-affiliation" className="text-blue-600 hover:underline">Non-Affiliation Disclaimer</Link>
+              <Link to="/terms" className="text-orange-500 hover:underline">Terms and Conditions</Link>
+              <Link to="/privacy" className="text-orange-500 hover:underline">Privacy Policy</Link>
+              <Link to="/non-affiliation" className="text-orange-500 hover:underline">Non-Affiliation Disclaimer</Link>
             </div>
           </div>
           
@@ -40,7 +40,7 @@ const Index = () => {
           
           {/* Copyright */}
           <p className="text-xs text-center text-gray-500 mt-6">
-            © {new Date().getFullYear()} Ultimate Phone Program. All rights reserved.
+            © {new Date().getFullYear()} Ultra Beauty Program. All rights reserved.
             <br />
             This is a limited time promotional offer. Terms and conditions apply.
           </p>
@@ -64,11 +64,11 @@ const HeaderContent = () => {
       onClick={handleLogoClick}
     >
       <img 
-        src="/lovable-uploads/8c90f432-da05-45a1-81f7-cdbbce1ef2e2.png" 
-        alt="Ultimate Phone Program Logo" 
+        src="/lovable-uploads/07bbc17e-ed17-4c74-bca2-bcb1eb25135f.png" 
+        alt="Ultra Beauty Program Logo" 
         className="h-20 md:h-24 mr-4"
       />
-      <h1 className="text-xl font-bold text-blue-600">Ultimate Phone Program</h1>
+      <h1 className="text-xl font-bold text-orange-500">Ultra Beauty Program</h1>
       <div className="ml-4">
         <FAQ />
       </div>

@@ -79,7 +79,7 @@ const Step5 = () => {
 
       <div className="w-full bg-gray-100 rounded-md h-2 mt-6">
         <div 
-          className={`bg-blue-600 h-2 rounded-md ${isProcessing ? 'animate-pulse' : ''}`}
+          className={`bg-orange-500 h-2 rounded-md ${isProcessing ? 'animate-pulse' : ''}`}
           style={{ width: isProcessing ? undefined : '100%' }}
         ></div>
       </div>

@@ -12,14 +12,14 @@ import { Skeleton } from "@/components/ui/skeleton";
 
 // Define fallback image paths with aggressive quality reduction
 const FALLBACK_IMAGES = [
-  "/lovable-uploads/b58d9fe6-a7c6-416a-9594-20451eb86002.png?q=25&w=180", // Very low quality
-  "/lovable-uploads/b96a5830-12f3-497d-966a-b0930df4e6d0.png?q=25&w=180"  // Very low quality
+  "/lovable-uploads/07bbc17e-ed17-4c74-bca2-bcb1eb25135f.png?q=25&w=180", // Very low quality
+  "/lovable-uploads/07bbc17e-ed17-4c74-bca2-bcb1eb25135f.png?q=25&w=180"  // Very low quality
 ];
 
 // External placeholder images with very low quality
 const PLACEHOLDER_IMAGES = [
-  "https://images.unsplash.com/photo-1460925895917-afdab827c52f?auto=format&q=25&w=180", // Ultra-low quality
-  "https://images.unsplash.com/photo-1581090464777-f3220bbe1b8b?auto=format&q=25&w=180"  // Ultra-low quality
+  "https://images.unsplash.com/photo-1522335789203-aabd1fc54bc9?auto=format&q=25&w=180", // Ultra-low quality
+  "https://images.unsplash.com/photo-1583704361523-de2f7106861a?auto=format&q=25&w=180"  // Ultra-low quality
 ];
 
 const Results = () => {
@@ -27,8 +27,8 @@ const Results = () => {
   const { toast } = useToast();
   const [showingOffer, setShowingOffer] = useState(false);
   const [iphoneImages, setIphoneImages] = useState<Array<{src: string, alt: string}>>([
-    {src: FALLBACK_IMAGES[0], alt: "iPhone 16 Pro colors"},
-    {src: FALLBACK_IMAGES[1], alt: "iPhone 16 Pro display"}
+    {src: FALLBACK_IMAGES[0], alt: "Ulta Beauty gift card"},
+    {src: FALLBACK_IMAGES[1], alt: "Ulta Beauty products"}
   ]); // Initialize with fallback images immediately
   const [imagesLoaded, setImagesLoaded] = useState(false);
   const [imageLoadStatus, setImageLoadStatus] = useState<boolean[]>([false, false]);
@@ -100,8 +100,8 @@ const Results = () => {
       };
       
       setIphoneImages([
-        {src: processImageUrl(images[0].src), alt: "iPhone 16 Pro colors"},
-        {src: processImageUrl(images[1].src), alt: "iPhone 16 Pro display"}
+        {src: processImageUrl(images[0].src), alt: "Ulta Beauty gift card"},
+        {src: processImageUrl(images[1].src), alt: "Ulta Beauty products"}
       ]);
     }
   };
@@ -125,7 +125,7 @@ const Results = () => {
         <>
           <SurveyHeader 
             title="Congratulations!" 
-            subtitle="Fantastic news! Your participation is confirmed. Continue to the next step to receive your iPhone 16 Pro:"
+            subtitle="Fantastic news! Your participation is confirmed. Continue to the next step to receive your $500 Ulta Beauty gift card:"
             className="mb-4"
           />
           
@@ -135,7 +135,7 @@ const Results = () => {
               <IPhoneImageFetcher onComplete={handleImagesFetched} />
             </div>
             
-            {/* iPhone Images - optimized for mobile with ultra-low quality */}
+            {/* Product Images - optimized for mobile with ultra-low quality */}
             <div className="bg-white p-2 rounded-lg shadow-sm">
               <div className={`flex ${isMobile ? 'flex-col items-center' : 'flex-row justify-center'} gap-2`}>
                 <div className={`${isMobile ? 'w-[140px]' : 'w-[120px]'}`}>
@@ -145,7 +145,7 @@ const Results = () => {
                     ) : (
                       <img 
                         src={iphoneImages[0]?.src} 
-                        alt="iPhone 16 Pro colors" 
+                        alt="Ulta Beauty gift card" 
                         className="rounded-md object-contain w-full h-full" 
                         loading="eager"
                         width="120"
@@ -156,7 +156,7 @@ const Results = () => {
                         onLoad={() => handleImageLoad(0)}
                         onError={() => {
                           setIphoneImages(prev => [
-                            {src: FALLBACK_IMAGES[0], alt: "iPhone 16 Pro colors"},
+                            {src: FALLBACK_IMAGES[0], alt: "Ulta Beauty gift card"},
                             prev[1]
                           ]);
                           handleImageLoad(0);
@@ -174,7 +174,7 @@ const Results = () => {
                       ) : (
                         <img 
                           src={iphoneImages[1]?.src} 
-                          alt="iPhone 16 Pro display" 
+                          alt="Ulta Beauty products" 
                           className="rounded-md object-contain w-full h-full" 
                           loading="eager"
                           width="120"
@@ -186,7 +186,7 @@ const Results = () => {
                           onError={() => {
                             setIphoneImages(prev => [
                               prev[0],
-                              {src: FALLBACK_IMAGES[1], alt: "iPhone 16 Pro display"}
+                              {src: FALLBACK_IMAGES[1], alt: "Ulta Beauty products"}
                             ]);
                             handleImageLoad(1);
                           }}
@@ -198,10 +198,10 @@ const Results = () => {
               </div>
             </div>
             
-            {/* Blue promotional text */}
-            <div className="text-center px-3 py-2 bg-blue-50 rounded-lg border border-blue-100">
-              <p className="text-blue-600 font-medium text-sm">
-                Upgrade your tech and Cash In! Claim $1000 Towards a iPhone 16 Pro Max Elevate your productivity and your wallet!
+            {/* Orange promotional text */}
+            <div className="text-center px-3 py-2 bg-orange-50 rounded-lg border border-orange-100">
+              <p className="text-orange-600 font-medium text-sm">
+                Upgrade your beauty routine! Claim $500 towards Ulta Beauty products and elevate your self-care!
               </p>
             </div>
           </div>
@@ -215,7 +215,7 @@ const Results = () => {
               className="block w-full"
             >
               <Button 
-                className={`w-full bg-blue-600 hover:bg-blue-700 py-6 text-lg ${isMobile ? 'shadow-lg' : ''}`}
+                className={`w-full bg-orange-500 hover:bg-orange-600 py-6 text-lg ${isMobile ? 'shadow-lg' : ''}`}
               >
                 Continue to Claim Your Reward
               </Button>

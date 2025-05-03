@@ -17,9 +17,9 @@ interface IPhoneImage {
 }
 
 // Define guaranteed working fallback image with size optimization
-const FALLBACK_IMAGE = "/lovable-uploads/e8ded452-0d3c-44c9-8312-b92eea2579ef.png?q=25&w=200";
+const FALLBACK_IMAGE = "/lovable-uploads/07bbc17e-ed17-4c74-bca2-bcb1eb25135f.png?q=25&w=200";
 // Additional fallback from Unsplash with optimized load time
-const UNSPLASH_FALLBACK = "https://images.unsplash.com/photo-1498050108023-c5249f4df085?auto=format&q=25&w=200";
+const UNSPLASH_FALLBACK = "https://images.unsplash.com/photo-1522335789203-aabd1fc54bc9?auto=format&q=25&w=200";
 
 const ProductOffer = ({ onClaim }: ProductOfferProps) => {
   const [selectedImage, setSelectedImage] = useState<string>(FALLBACK_IMAGE);
@@ -92,7 +92,7 @@ const ProductOffer = ({ onClaim }: ProductOfferProps) => {
           ) : null}
           <img 
             src={selectedImage} 
-            alt="iPhone 16 Pro Max" 
+            alt="Ulta Beauty Gift Card" 
             className={`w-full h-48 object-cover rounded-md ${imageLoaded ? 'opacity-100' : 'opacity-0'}`}
             style={{ transition: 'opacity 0.1s' }} // Faster transition
             width="200"
@@ -110,27 +110,27 @@ const ProductOffer = ({ onClaim }: ProductOfferProps) => {
       </div>
 
       <div className="mb-6">
-        <h4 className="font-bold text-lg mb-2">iPhone 16 Pro Max</h4>
+        <h4 className="font-bold text-lg mb-2">$500 Ulta Beauty Gift Card</h4>
         <div className="flex items-center mb-1">
           <Check className="h-4 w-4 text-green-500 mr-2" />
-          <span className="text-gray-700">Latest A18 Pro chip</span>
+          <span className="text-gray-700">Premium beauty products</span>
         </div>
         <div className="flex items-center mb-1">
           <Check className="h-4 w-4 text-green-500 mr-2" />
-          <span className="text-gray-700">48MP camera system</span>
+          <span className="text-gray-700">Skincare & makeup essentials</span>
         </div>
         <div className="flex items-center mb-1">
           <Check className="h-4 w-4 text-green-500 mr-2" />
-          <span className="text-gray-700">All-day battery life</span>
+          <span className="text-gray-700">Use in-store or online</span>
         </div>
       </div>
 
       <div className="mb-6 text-center">
         <div className="flex items-center justify-center">
-          <span className="text-gray-500 line-through text-lg mr-2">$1299.99</span>
-          <span className="text-2xl font-bold text-green-600">$299.99</span>
+          <span className="text-gray-500 line-through text-lg mr-2">$500.00</span>
+          <span className="text-2xl font-bold text-green-600">$29.99</span>
         </div>
-        <p className="text-blue-700 font-medium text-sm mt-1">+ FREE Shipping</p>
+        <p className="text-orange-500 font-medium text-sm mt-1">+ FREE Shipping</p>
       </div>
 
       <Timer minutes={15} />

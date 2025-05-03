@@ -53,7 +53,7 @@ const Step1 = () => {
       <Button 
         onClick={handleNext} 
         disabled={!selected}
-        className={`w-full py-5 text-lg bg-blue-600 hover:bg-blue-700 shadow-lg ${isMobile ? 'fixed bottom-4 left-0 right-0 max-w-xs mx-auto z-10' : ''}`}
+        className={`w-full py-5 text-lg bg-orange-500 hover:bg-orange-600 shadow-lg ${isMobile ? 'fixed bottom-4 left-0 right-0 max-w-xs mx-auto z-10' : ''}`}
       >
         Continue
       </Button>
