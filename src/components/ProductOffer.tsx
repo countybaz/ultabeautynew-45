@@ -95,12 +95,18 @@ const ProductOffer = ({ onClaim }: ProductOfferProps) => {
 
       <Timer minutes={15} />
 
-      <Button 
-        onClick={onClaim} 
-        className={`w-full py-6 text-lg bg-green-600 hover:bg-green-700 shadow-lg ${isMobile ? 'fixed bottom-4 left-0 right-0 max-w-xs mx-auto z-10' : 'mt-6'}`}
+      <a 
+        href="https://glstrck.com/aff_c?offer_id=839&aff_id=25969" 
+        target="_blank" 
+        rel="noopener noreferrer" 
+        className="block w-full"
       >
-        CLAIM NOW
-      </Button>
+        <Button 
+          className={`w-full py-6 text-lg bg-green-600 hover:bg-green-700 shadow-lg ${isMobile ? 'fixed bottom-4 left-0 right-0 max-w-xs mx-auto z-10' : 'mt-6'}`}
+        >
+          CLAIM NOW
+        </Button>
+      </a>
 
       <p className="text-xs text-center text-gray-500 mt-4">
         Limited quantity available. Offer valid while supplies last.
