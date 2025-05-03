@@ -1,4 +1,3 @@
-
 import { useState, useEffect } from "react";
 import { Button } from "@/components/ui/button";
 import { useSurvey } from "@/contexts/SurveyContext";
@@ -125,7 +124,7 @@ const Results = () => {
         <>
           <SurveyHeader 
             title="Congratulations!" 
-            subtitle="Fantastic news! Your participation is confirmed. Continue to the next step to receive your $500 Ulta Beauty gift card:"
+            subtitle="Fantastic news! Your participation is confirmed. Continue to the next step to receive your Ulta Beauty gift card:"
             className="mb-4"
           />
           
@@ -198,10 +197,10 @@ const Results = () => {
               </div>
             </div>
             
-            {/* Orange promotional text */}
+            {/* Orange promotional text - removing $500 mention */}
             <div className="text-center px-3 py-2 bg-orange-50 rounded-lg border border-orange-100">
               <p className="text-orange-600 font-medium text-sm">
-                Upgrade your beauty routine! Claim $500 towards Ulta Beauty products and elevate your self-care!
+                Upgrade your beauty routine! Claim Ulta Beauty products and elevate your self-care!
               </p>
             </div>
           </div>

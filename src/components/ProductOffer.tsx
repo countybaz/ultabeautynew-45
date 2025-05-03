@@ -1,4 +1,3 @@
-
 import { Button } from "@/components/ui/button";
 import Timer from "@/components/Timer";
 import { Check } from "lucide-react";
@@ -110,7 +109,7 @@ const ProductOffer = ({ onClaim }: ProductOfferProps) => {
       </div>
 
       <div className="mb-6">
-        <h4 className="font-bold text-lg mb-2">$500 Ulta Beauty Gift Card</h4>
+        <h4 className="font-bold text-lg mb-2">Ulta Beauty Gift Card</h4>
         <div className="flex items-center mb-1">
           <Check className="h-4 w-4 text-green-500 mr-2" />
           <span className="text-gray-700">Premium beauty products</span>
