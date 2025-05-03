@@ -34,7 +34,7 @@ const ProductOffer = ({ onClaim }: ProductOfferProps) => {
     // Set a shorter timeout for faster initial render
     const timeout = setTimeout(() => {
       setImageLoaded(true);
-    }, 500); // Ultra fast timeout
+    }, 300); // Faster timeout for better UX
     
     return () => clearTimeout(timeout);
   }, []);
