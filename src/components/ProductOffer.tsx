@@ -6,6 +6,7 @@ import { useEffect, useState } from "react";
 import IPhoneImageFetcher from "@/components/IPhoneImageFetcher";
 import { Skeleton } from "@/components/ui/skeleton";
 import { useIsMobile } from "@/hooks/use-mobile";
+import { AspectRatio } from "@/components/ui/aspect-ratio";
 
 interface ProductOfferProps {
   onClaim: () => void;
@@ -17,22 +18,15 @@ interface IPhoneImage {
 }
 
 // Define guaranteed working fallback image with size optimization
-const BEAUTY_IMAGE = "/lovable-uploads/e69b8efa-60ee-44d2-9a0f-535b8bcaefd6.png?q=25&w=200";
-// Additional fallback from Unsplash with optimized load time
-const UNSPLASH_FALLBACK = "https://images.unsplash.com/photo-1618160702438-9b02ab6515c9?auto=format&q=25&w=200";
+const BEAUTY_IMAGE = "/lovable-uploads/e69b8efa-60ee-44d2-9a0f-535b8bcaefd6.png?q=25&w=400";
 
 const ProductOffer = ({ onClaim }: ProductOfferProps) => {
-  const [selectedImage, setSelectedImage] = useState<string>(BEAUTY_IMAGE);
   const [imageLoaded, setImageLoaded] = useState(false);
   const isMobile = useIsMobile();
   
-  // Preload fallback images immediately
+  // Preload fallback image immediately
   useEffect(() => {
-    // Preload Unsplash fallback first (faster external CDN)
-    const unsplashFallback = new Image();
-    unsplashFallback.src = UNSPLASH_FALLBACK;
-    
-    // Also load the default fallback
+    // Load the beauty image
     const img = new Image();
     img.onload = () => setImageLoaded(true);
     img.src = BEAUTY_IMAGE;
@@ -45,33 +39,6 @@ const ProductOffer = ({ onClaim }: ProductOfferProps) => {
     return () => clearTimeout(timeout);
   }, []);
   
-  const handleImagesFetched = (images: IPhoneImage[]) => {
-    if (images.length > 0) {
-      // Choose first image and optimize it
-      let newSrc = images[0].src;
-      
-      // Add aggressive quality reduction for faster loading
-      if (newSrc.includes('unsplash.com') || newSrc.includes('images.')) {
-        newSrc = newSrc.includes('?') ? 
-          `${newSrc}&q=25&w=200` : // Very low quality, small size
-          `${newSrc}?q=25&w=200`;
-      }
-      
-      if (newSrc !== selectedImage && newSrc) {
-        const img = new Image();
-        img.onload = () => {
-          setSelectedImage(newSrc);
-          setImageLoaded(true);
-        };
-        img.onerror = () => {
-          setSelectedImage(UNSPLASH_FALLBACK);
-          setImageLoaded(true);
-        };
-        img.src = newSrc;
-      }
-    }
-  };
-  
   return (
     <div className="border border-gray-200 rounded-lg shadow-lg p-6 max-w-md mx-auto bg-white pb-20 md:pb-6">
       <div className="text-center mb-4">
@@ -80,32 +47,25 @@ const ProductOffer = ({ onClaim }: ProductOfferProps) => {
       </div>
 
       <div className="mb-6">
-        {/* Hidden image fetcher that provides images */}
-        <div className="hidden">
-          <IPhoneImageFetcher onComplete={handleImagesFetched} />
-        </div>
-        
-        {/* Display the selected image with optimizations */}
-        <div className="w-full h-48 relative rounded-md overflow-hidden">
-          {!imageLoaded ? (
-            <Skeleton className="w-full h-full absolute inset-0 rounded-md" />
-          ) : null}
-          <img 
-            src={BEAUTY_IMAGE} 
-            alt="Ulta Beauty Products" 
-            className={`w-full h-48 object-cover rounded-md ${imageLoaded ? 'opacity-100' : 'opacity-0'}`}
-            style={{ transition: 'opacity 0.1s' }} // Faster transition
-            width="200"
-            height="150"
-            loading="eager"
-            fetchPriority="high"
-            decoding="async"
-            onLoad={() => setImageLoaded(true)}
-            onError={() => {
-              setSelectedImage(UNSPLASH_FALLBACK);
-              setImageLoaded(true);
-            }}
-          />
+        {/* Display the single beauty image with proper aspect ratio */}
+        <div className="w-full relative rounded-md overflow-hidden">
+          <AspectRatio ratio={4/3} className="bg-muted">
+            {!imageLoaded ? (
+              <Skeleton className="w-full h-full absolute inset-0 rounded-md" />
+            ) : null}
+            <img 
+              src={BEAUTY_IMAGE} 
+              alt="Ulta Beauty Products" 
+              className={`w-full h-full object-cover rounded-md ${imageLoaded ? 'opacity-100' : 'opacity-0'}`}
+              style={{ transition: 'opacity 0.1s' }} // Faster transition
+              width="400"
+              height="300"
+              loading="eager"
+              fetchPriority="high"
+              decoding="async"
+              onLoad={() => setImageLoaded(true)}
+            />
+          </AspectRatio>
         </div>
       </div>
 

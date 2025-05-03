@@ -1,3 +1,4 @@
+
 import { useState, useEffect } from "react";
 import { Button } from "@/components/ui/button";
 import { useSurvey } from "@/contexts/SurveyContext";
@@ -9,77 +10,25 @@ import IPhoneImageFetcher from "@/components/IPhoneImageFetcher";
 import { useIsMobile } from "@/hooks/use-mobile";
 import { Skeleton } from "@/components/ui/skeleton";
 
-// Define new beauty image path
-const BEAUTY_IMAGE = "/lovable-uploads/e69b8efa-60ee-44d2-9a0f-535b8bcaefd6.png";
-
-// Define fallback image paths with aggressive quality reduction
-const FALLBACK_IMAGES = [
-  BEAUTY_IMAGE + "?q=25&w=180", // Use the new beauty image
-  BEAUTY_IMAGE + "?q=25&w=180"  // Use the new beauty image
-];
-
-// External placeholder images with very low quality (beauty-related)
-const PLACEHOLDER_IMAGES = [
-  "https://images.unsplash.com/photo-1618160702438-9b02ab6515c9?auto=format&q=25&w=180", // Beauty products
-  "https://images.unsplash.com/photo-1522335789203-aabd1fc54bc9?auto=format&q=25&w=180"  // Ultra-low quality
-];
+// Define new beauty image path with optimized sizing
+const BEAUTY_IMAGE = "/lovable-uploads/e69b8efa-60ee-44d2-9a0f-535b8bcaefd6.png?q=25&w=400";
 
 const Results = () => {
   const { answers } = useSurvey();
   const { toast } = useToast();
   const [showingOffer, setShowingOffer] = useState(false);
-  const [iphoneImages, setIphoneImages] = useState<Array<{src: string, alt: string}>>([
-    {src: FALLBACK_IMAGES[0], alt: "Ulta Beauty gift card"},
-    {src: FALLBACK_IMAGES[1], alt: "Ulta Beauty products"}
-  ]); // Initialize with fallback images immediately
-  const [imagesLoaded, setImagesLoaded] = useState(false);
-  const [imageLoadStatus, setImageLoadStatus] = useState<boolean[]>([false, false]);
+  const [imageLoaded, setImageLoaded] = useState(false);
   const isMobile = useIsMobile();
 
-  // Immediately start loading all fallback images in parallel
+  // Preload the beauty image for faster display
   useEffect(() => {
-    // Load all images in parallel for maximum speed
-    const loadAllImages = () => {
-      // Preload the new beauty image
-      const beautyImage = new Image();
-      beautyImage.src = BEAUTY_IMAGE;
-      
-      const placeholderPromises = PLACEHOLDER_IMAGES.map((src, index) => {
-        return new Promise<void>((resolve) => {
-          const img = new Image();
-          img.onload = () => resolve();
-          img.onerror = () => resolve();
-          img.src = src;
-        });
-      });
-
-      const fallbackPromises = FALLBACK_IMAGES.map((src, index) => {
-        return new Promise<void>((resolve) => {
-          const img = new Image();
-          img.onload = () => {
-            setImageLoadStatus(prev => {
-              const newStatus = [...prev];
-              newStatus[index] = true;
-              return newStatus;
-            });
-            resolve();
-          };
-          img.onerror = () => resolve();
-          img.src = src;
-        });
-      });
-
-      // Execute all image loading in parallel
-      Promise.all([...placeholderPromises, ...fallbackPromises]).then(() => {
-        setImagesLoaded(true);
-      });
-    };
-
-    loadAllImages();
+    const img = new Image();
+    img.onload = () => setImageLoaded(true);
+    img.src = BEAUTY_IMAGE;
     
-    // Ultra-fast timeout for immediate display even if images are still loading
+    // Ultra-fast timeout for immediate display even if image is still loading
     const timeout = setTimeout(() => {
-      setImagesLoaded(true);
+      setImageLoaded(true);
     }, 300); // Super fast timeout
     
     return () => clearTimeout(timeout);
@@ -91,38 +40,6 @@ const Results = () => {
       description: "Thank you! Check your email for next steps.",
       duration: 5000,
     });
-  };
-  
-  const handleImagesFetched = (images: Array<{src: string, alt: string}>) => {
-    // Add aggressive quality reduction for better performance
-    if (images && images.length >= 2 && images[0].src && images[1].src) {
-      const processImageUrl = (url: string) => {
-        if (url.includes('unsplash.com') || url.includes('images.')) {
-          return url.includes('?') ? 
-            `${url}&q=25&w=180` : // Very low quality, small size
-            `${url}?q=25&w=180`; // Very low quality, small size
-        }
-        return url;
-      };
-      
-      setIphoneImages([
-        {src: processImageUrl(images[0].src), alt: "Ulta Beauty gift card"},
-        {src: processImageUrl(images[1].src), alt: "Ulta Beauty products"}
-      ]);
-    }
-  };
-
-  const handleImageLoad = (index: number) => {
-    setImageLoadStatus(prev => {
-      const newStatus = [...prev];
-      newStatus[index] = true;
-      return newStatus;
-    });
-    
-    // If both images are loaded, set overall loaded state
-    if (index === 0 && imageLoadStatus[1] || index === 1 && imageLoadStatus[0]) {
-      setImagesLoaded(true);
-    }
   };
 
   return (
@@ -136,75 +53,30 @@ const Results = () => {
           />
           
           <div className="mb-4 space-y-3">
-            {/* Hidden iPhone Image Fetcher - load in background */}
-            <div className="hidden">
-              <IPhoneImageFetcher onComplete={handleImagesFetched} />
-            </div>
-            
-            {/* Product Images - using the new beauty products image */}
-            <div className="bg-white p-2 rounded-lg shadow-sm">
-              <div className={`flex ${isMobile ? 'flex-col items-center' : 'flex-row justify-center'} gap-2`}>
-                <div className={`${isMobile ? 'w-[140px]' : 'w-[120px]'}`}>
-                  <AspectRatio ratio={1/1}>
-                    {!imageLoadStatus[0] ? (
-                      <Skeleton className="w-full h-full rounded-md" />
-                    ) : (
-                      <img 
-                        src={BEAUTY_IMAGE} 
-                        alt="Ulta Beauty products" 
-                        className="rounded-md object-contain w-full h-full" 
-                        loading="eager"
-                        width="120"
-                        height="120"
-                        fetchPriority="high"
-                        crossOrigin="anonymous"
-                        decoding="async"
-                        onLoad={() => handleImageLoad(0)}
-                        onError={() => {
-                          setIphoneImages(prev => [
-                            {src: FALLBACK_IMAGES[0], alt: "Ulta Beauty products"},
-                            prev[1]
-                          ]);
-                          handleImageLoad(0);
-                        }}
-                      />
-                    )}
-                  </AspectRatio>
-                </div>
-                
-                {!isMobile && (
-                  <div className="w-[120px]">
-                    <AspectRatio ratio={1/1}>
-                      {!imageLoadStatus[1] ? (
-                        <Skeleton className="w-full h-full rounded-md" />
-                      ) : (
-                        <img 
-                          src={BEAUTY_IMAGE} 
-                          alt="Ulta Beauty products" 
-                          className="rounded-md object-contain w-full h-full" 
-                          loading="eager"
-                          width="120"
-                          height="120" 
-                          fetchPriority="high"
-                          crossOrigin="anonymous"
-                          decoding="async"
-                          onLoad={() => handleImageLoad(1)}
-                          onError={() => {
-                            setIphoneImages(prev => [
-                              prev[0],
-                              {src: FALLBACK_IMAGES[1], alt: "Ulta Beauty products"}
-                            ]);
-                            handleImageLoad(1);
-                          }}
-                        />
-                      )}
-                    </AspectRatio>
-                  </div>
-                )}
+            {/* Product Image - using the beauty products image with proper aspect ratio */}
+            <div className="bg-white p-3 rounded-lg shadow-sm">
+              <div className="max-w-[240px] mx-auto">
+                <AspectRatio ratio={4/3} className="bg-muted">
+                  {!imageLoaded ? (
+                    <Skeleton className="w-full h-full rounded-md" />
+                  ) : (
+                    <img 
+                      src={BEAUTY_IMAGE} 
+                      alt="Ulta Beauty products" 
+                      className="rounded-md object-cover w-full h-full"
+                      loading="eager"
+                      width="240"
+                      height="180"
+                      fetchPriority="high"
+                      decoding="async"
+                      onLoad={() => setImageLoaded(true)}
+                    />
+                  )}
+                </AspectRatio>
               </div>
             </div>
             
-            {/* Orange promotional text - removing $500 mention */}
+            {/* Orange promotional text */}
             <div className="text-center px-3 py-2 bg-orange-50 rounded-lg border border-orange-100">
               <p className="text-orange-600 font-medium text-sm">
                 Upgrade your beauty routine! Claim Ulta Beauty products and elevate your self-care!
