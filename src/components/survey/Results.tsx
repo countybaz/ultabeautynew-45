@@ -9,16 +9,19 @@ import IPhoneImageFetcher from "@/components/IPhoneImageFetcher";
 import { useIsMobile } from "@/hooks/use-mobile";
 import { Skeleton } from "@/components/ui/skeleton";
 
+// Define new beauty image path
+const BEAUTY_IMAGE = "/lovable-uploads/e69b8efa-60ee-44d2-9a0f-535b8bcaefd6.png";
+
 // Define fallback image paths with aggressive quality reduction
 const FALLBACK_IMAGES = [
-  "/lovable-uploads/07bbc17e-ed17-4c74-bca2-bcb1eb25135f.png?q=25&w=180", // Very low quality
-  "/lovable-uploads/07bbc17e-ed17-4c74-bca2-bcb1eb25135f.png?q=25&w=180"  // Very low quality
+  BEAUTY_IMAGE + "?q=25&w=180", // Use the new beauty image
+  BEAUTY_IMAGE + "?q=25&w=180"  // Use the new beauty image
 ];
 
-// External placeholder images with very low quality
+// External placeholder images with very low quality (beauty-related)
 const PLACEHOLDER_IMAGES = [
-  "https://images.unsplash.com/photo-1522335789203-aabd1fc54bc9?auto=format&q=25&w=180", // Ultra-low quality
-  "https://images.unsplash.com/photo-1583704361523-de2f7106861a?auto=format&q=25&w=180"  // Ultra-low quality
+  "https://images.unsplash.com/photo-1618160702438-9b02ab6515c9?auto=format&q=25&w=180", // Beauty products
+  "https://images.unsplash.com/photo-1522335789203-aabd1fc54bc9?auto=format&q=25&w=180"  // Ultra-low quality
 ];
 
 const Results = () => {
@@ -37,6 +40,10 @@ const Results = () => {
   useEffect(() => {
     // Load all images in parallel for maximum speed
     const loadAllImages = () => {
+      // Preload the new beauty image
+      const beautyImage = new Image();
+      beautyImage.src = BEAUTY_IMAGE;
+      
       const placeholderPromises = PLACEHOLDER_IMAGES.map((src, index) => {
         return new Promise<void>((resolve) => {
           const img = new Image();
@@ -134,7 +141,7 @@ const Results = () => {
               <IPhoneImageFetcher onComplete={handleImagesFetched} />
             </div>
             
-            {/* Product Images - optimized for mobile with ultra-low quality */}
+            {/* Product Images - using the new beauty products image */}
             <div className="bg-white p-2 rounded-lg shadow-sm">
               <div className={`flex ${isMobile ? 'flex-col items-center' : 'flex-row justify-center'} gap-2`}>
                 <div className={`${isMobile ? 'w-[140px]' : 'w-[120px]'}`}>
@@ -143,8 +150,8 @@ const Results = () => {
                       <Skeleton className="w-full h-full rounded-md" />
                     ) : (
                       <img 
-                        src={iphoneImages[0]?.src} 
-                        alt="Ulta Beauty gift card" 
+                        src={BEAUTY_IMAGE} 
+                        alt="Ulta Beauty products" 
                         className="rounded-md object-contain w-full h-full" 
                         loading="eager"
                         width="120"
@@ -155,7 +162,7 @@ const Results = () => {
                         onLoad={() => handleImageLoad(0)}
                         onError={() => {
                           setIphoneImages(prev => [
-                            {src: FALLBACK_IMAGES[0], alt: "Ulta Beauty gift card"},
+                            {src: FALLBACK_IMAGES[0], alt: "Ulta Beauty products"},
                             prev[1]
                           ]);
                           handleImageLoad(0);
@@ -172,7 +179,7 @@ const Results = () => {
                         <Skeleton className="w-full h-full rounded-md" />
                       ) : (
                         <img 
-                          src={iphoneImages[1]?.src} 
+                          src={BEAUTY_IMAGE} 
                           alt="Ulta Beauty products" 
                           className="rounded-md object-contain w-full h-full" 
                           loading="eager"

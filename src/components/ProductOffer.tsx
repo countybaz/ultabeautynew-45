@@ -1,3 +1,4 @@
+
 import { Button } from "@/components/ui/button";
 import Timer from "@/components/Timer";
 import { Check } from "lucide-react";
@@ -16,12 +17,12 @@ interface IPhoneImage {
 }
 
 // Define guaranteed working fallback image with size optimization
-const FALLBACK_IMAGE = "/lovable-uploads/07bbc17e-ed17-4c74-bca2-bcb1eb25135f.png?q=25&w=200";
+const BEAUTY_IMAGE = "/lovable-uploads/e69b8efa-60ee-44d2-9a0f-535b8bcaefd6.png?q=25&w=200";
 // Additional fallback from Unsplash with optimized load time
-const UNSPLASH_FALLBACK = "https://images.unsplash.com/photo-1522335789203-aabd1fc54bc9?auto=format&q=25&w=200";
+const UNSPLASH_FALLBACK = "https://images.unsplash.com/photo-1618160702438-9b02ab6515c9?auto=format&q=25&w=200";
 
 const ProductOffer = ({ onClaim }: ProductOfferProps) => {
-  const [selectedImage, setSelectedImage] = useState<string>(FALLBACK_IMAGE);
+  const [selectedImage, setSelectedImage] = useState<string>(BEAUTY_IMAGE);
   const [imageLoaded, setImageLoaded] = useState(false);
   const isMobile = useIsMobile();
   
@@ -34,7 +35,7 @@ const ProductOffer = ({ onClaim }: ProductOfferProps) => {
     // Also load the default fallback
     const img = new Image();
     img.onload = () => setImageLoaded(true);
-    img.src = FALLBACK_IMAGE;
+    img.src = BEAUTY_IMAGE;
     
     // Set a shorter timeout for faster initial render
     const timeout = setTimeout(() => {
@@ -90,8 +91,8 @@ const ProductOffer = ({ onClaim }: ProductOfferProps) => {
             <Skeleton className="w-full h-full absolute inset-0 rounded-md" />
           ) : null}
           <img 
-            src={selectedImage} 
-            alt="Ulta Beauty Gift Card" 
+            src={BEAUTY_IMAGE} 
+            alt="Ulta Beauty Products" 
             className={`w-full h-48 object-cover rounded-md ${imageLoaded ? 'opacity-100' : 'opacity-0'}`}
             style={{ transition: 'opacity 0.1s' }} // Faster transition
             width="200"
@@ -101,7 +102,7 @@ const ProductOffer = ({ onClaim }: ProductOfferProps) => {
             decoding="async"
             onLoad={() => setImageLoaded(true)}
             onError={() => {
-              setSelectedImage(FALLBACK_IMAGE);
+              setSelectedImage(UNSPLASH_FALLBACK);
               setImageLoaded(true);
             }}
           />
