@@ -1,3 +1,4 @@
+
 import { Button } from "@/components/ui/button";
 import SurveyHeader from "@/components/SurveyHeader";
 import { useSurvey } from "@/contexts/SurveyContext";
@@ -17,7 +18,7 @@ const StartScreen = () => {
       
       <div className="bg-white p-6 rounded-lg shadow-md mb-6">
         <p className="text-center text-lg mb-4">
-          Get a <span className="text-orange-500 font-semibold">Ulta Beauty Gift Card</span> with the Ultra Beauty Program. Simply answer 3 short questions about your beauty habits and this fantastic chance is yours!
+          Get a <span className="text-orange-500 font-semibold">Ulta Beauty Gift Card</span> with the Ultra Beauty Program. Simply answer a quick survey about your beauty habits and this fantastic chance is yours!
         </p>
         
         <p className="text-center mb-6">
