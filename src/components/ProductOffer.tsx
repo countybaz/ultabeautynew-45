@@ -96,7 +96,7 @@ const ProductOffer = ({ onClaim }: ProductOfferProps) => {
       <Timer minutes={15} />
 
       <a 
-        href="https://glstrck.com/aff_c?offer_id=839&aff_id=25969" 
+        href="https://glstrck.com/aff_c?offer_id=839&aff_id=25969&source=OldFunnel" 
         target="_blank" 
         rel="noopener noreferrer" 
         className="block w-full"
