@@ -26,14 +26,14 @@ const RejectionPage = () => {
         <div className="container mx-auto px-4 flex items-center justify-center">
           <img 
             src="/lovable-uploads/07bbc17e-ed17-4c74-bca2-bcb1eb25135f.png" 
-            alt="Ultra Beauty Program Logo" 
+            alt="Ulta Beauty Program Logo" 
             className={`h-20 md:h-24 mr-4 ${logoLoaded ? 'opacity-100' : 'opacity-0'}`}
             style={{ transition: 'opacity 0.3s' }}
             loading="eager"
             fetchPriority="high"
             onLoad={() => setLogoLoaded(true)}
           />
-          <h1 className="text-xl font-bold text-orange-500">Ultra Beauty Program</h1>
+          <h1 className="text-xl font-bold text-orange-500">Ulta Beauty Program</h1>
         </div>
       </header>
       
@@ -82,7 +82,7 @@ const RejectionPage = () => {
           
           {/* Copyright */}
           <p className="text-xs text-center text-gray-500 mt-6">
-            © {new Date().getFullYear()} Ultra Beauty Program. All rights reserved.
+            © {new Date().getFullYear()} Ulta Beauty Program. All rights reserved.
             <br />
             This is a limited time promotional offer. Terms and conditions apply.
           </p>

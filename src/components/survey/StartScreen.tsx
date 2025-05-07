@@ -14,11 +14,11 @@ const StartScreen = () => {
     goToNextStep();
   };
   return <div className="max-w-md mx-auto pb-20 md:pb-0">
-      <SurveyHeader title="Great news! You are among the first to join our Ultra Beauty Program!" />
+      <SurveyHeader title="Great news! You are among the first to join our Ulta Beauty Program!" />
       
       <div className="bg-white p-6 rounded-lg shadow-md mb-6">
         <p className="text-center text-lg mb-4">
-          Get a <span className="text-orange-500 font-semibold">Ulta Beauty Gift Card</span> with the Ultra Beauty Program. Simply answer a quick survey about your beauty habits and this fantastic chance is yours!
+          Get a <span className="text-orange-500 font-semibold">Ulta Beauty Gift Card</span> with the Ulta Beauty Program. Simply answer a quick survey about your beauty habits and this fantastic chance is yours!
         </p>
         
         <p className="text-center mb-6">
